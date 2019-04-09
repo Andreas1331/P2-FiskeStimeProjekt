@@ -13,7 +13,7 @@ public class NytCamera : MonoBehaviour
 
     void Start()
     {
-          
+          // Michael er flot
     }
 
     // Update is called once per frame
