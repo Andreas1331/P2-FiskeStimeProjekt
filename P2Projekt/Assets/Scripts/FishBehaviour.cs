@@ -5,6 +5,7 @@ using UnityEngine;
 public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
+    public Fish Fish { set { if (value != null) _fish = value; } }
 
     public Vector3 sumVector;
     private void Start()
@@ -20,10 +21,5 @@ public class FishBehaviour : MonoBehaviour
             Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
             transform.rotation = Quaternion.LookRotation(newdir);
         }
-    }
-
-    public void SetFish(Fish fish)
-    {
-        _fish = fish;
     }
 }
