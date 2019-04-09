@@ -7,13 +7,19 @@ public enum FishType { Salmon = 1, RainbowTrout}
 public abstract class Fish
 {
     public int Id { get; set; }
+    public bool IsDead { get; set; }
     public float Weight { get; set; }
     public float MovementSpeed { get; set; }
-    //public int EatTimer
     public float MaxSpeed { get; set; }
+    public float Stress { get; set; }
+    public float Hunger { get; set; }
+    public float Size { get; set; }
+    public Vector3 CurrentDirection { get; set; }
     public FishType TypeOfFish { get; set; }
     public GameObject FishObject { get; set; }
     private Rigidbody RbFish;
+    //public int EatTimer
+
     public Fish(int id, float weight, float movementSpeed, float maxSpeed, FishType typeOfFish, GameObject preFab)
     {
         Id = id;
