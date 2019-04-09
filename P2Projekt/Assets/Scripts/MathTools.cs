@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace MathTools
 {
+    //COPYRIGHT MICHAEL NIELSEN & ANDREAS ANDERSEN
     public class MathTools : MonoBehaviour
     {
         // Start is called before the first frame update
