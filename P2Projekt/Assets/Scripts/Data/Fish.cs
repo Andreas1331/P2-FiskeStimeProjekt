@@ -23,6 +23,7 @@ public abstract class Fish
         TypeOfFish = typeOfFish;
         FishObject = GameObject.Instantiate(preFab, new Vector3(), Quaternion.identity);
         RbFish = FishObject.GetComponent<Rigidbody>();
+        FishObject.GetComponent<FishBehaviour>().SetFish(this);
     }
 
     public virtual void MoveTowards(Vector3 direction)
@@ -30,6 +31,4 @@ public abstract class Fish
         RbFish.AddForce(direction * MaxSpeed, ForceMode.Force);
         RbFish.GetComponent<FishBehaviour>().sumVector += direction;
     }
-
-
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FishBehaviour : MonoBehaviour
 {
+    private Fish _fish;
+
     public Vector3 sumVector;
     private void Start()
     {
@@ -20,5 +22,8 @@ public class FishBehaviour : MonoBehaviour
         }
     }
 
-    
+    public void SetFish(Fish fish)
+    {
+        _fish = fish;
+    }
 }
