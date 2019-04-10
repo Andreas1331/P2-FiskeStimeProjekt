@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace MathTools
-{
     //COPYRIGHT MICHAEL NIELSEN & ANDREAS ANDERSEN
     public class MathTools : MonoBehaviour
     {
@@ -23,7 +21,7 @@ namespace MathTools
         // Update is called once per frame
         void Update()
         {
-
+            
         }
 
         public float GetDistanceBetweenVectors(Vector3 vec1, Vector3 vec2)
@@ -61,4 +59,3 @@ namespace MathTools
         }
 
     }
-}
