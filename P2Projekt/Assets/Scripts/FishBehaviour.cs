@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
 
+[RequireComponent(typeof(MathTools))]
 public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
@@ -33,40 +34,28 @@ public class FishBehaviour : MonoBehaviour
         //}
 
         UpdateStress();
-        Debug.LogWarning("Stress: " + Mathf.Round(_fish.Stress));
-        if (Input.GetKeyDown(KeyCode.W))
-            _fish.Hunger -= 100;
-        else if (Input.GetKeyDown(KeyCode.S))
-            Debug.Log("Hunger: " + _fish.Hunger);
     }
 
     private void UpdateStress()
     {
-        // If the stress level is higher than 0, deduct 1 every second.
-        if(_fish.Stress < 1000)
+        // Increase or lower the stress based on the fish hunger.
+        if (_fish.Hunger <= 500 && _fish.Hunger > 300)
+            _fish.Stress += 1 * _stressMultiplier * Time.deltaTime;
+        else if (_fish.Hunger <= 300)
+            _fish.Stress += 1 * (_stressMultiplier * 2) * Time.deltaTime;
+        else if (_fish.Stress > 0)
+            _fish.Stress -= 1 * Time.deltaTime;
+
+        // Start the timer if the fish is stressed.
+        if (_fish.Stress >= 900)
         {
-            _fish.Stress += 50 * Time.deltaTime;
-            return;
-
-            // Increase or lower the stress based on the fish hunger.
-            if (_fish.Hunger <= 500 && _fish.Hunger > 300)
-                _fish.Stress += 1 * _stressMultiplier * Time.deltaTime;
-            else if (_fish.Hunger <= 300)
-                _fish.Stress += 1 * (_stressMultiplier * 2) * Time.deltaTime;
-            else if(_fish.Stress > 0)
-                _fish.Stress -= 1 * Time.deltaTime;
-
-            // Start the timer if the fish is stressed.
-            if(_fish.Stress >= 900)
-            {
-                if(!IsStressTimerRunning())
-                    StartStressTimer();
-            }
-            // Stress is less than 900. Check if the timer is running.
-            else if (IsStressTimerRunning())
-            {
-                ResetStressTimer();
-            }
+            if (!IsStressTimerRunning())
+                StartStressTimer();
+        }
+        // Stress is less than 900. Check if the timer is running.
+        else if (IsStressTimerRunning())
+        {
+            ResetStressTimer();
         }
     }
 
@@ -98,6 +87,7 @@ public class FishBehaviour : MonoBehaviour
         // Check if stress is more than 900.
         if(_fish.Stress >= 900)
         {
+            // Should call proper Kill() method instead that handles this.
             _fish.IsDead = true;
         }
     }
