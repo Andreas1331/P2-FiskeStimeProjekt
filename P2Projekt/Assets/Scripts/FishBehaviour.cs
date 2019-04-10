@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 
+[RequireComponent(typeof(MathTools))]
 public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
@@ -9,26 +11,110 @@ public class FishBehaviour : MonoBehaviour
     private DataManager _dataManager;
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
     private MathTools _mathTools;
-    private bool isFishDeadAlready = false;
     public Vector3 sumVector;
     Vector3 newdir;
-    private void Start()
+
+    // Stress variables
+    private Timer _stressTimer;
+    private const float _stressMultiplier = 0.5f;
+    private const float _stressDuration = 30f; // In seconds
+
+
+    private void Awake()
     {
-        Debug.Log("Fish spawned");
         _mathTools = this.GetComponent<MathTools>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
+        Debug.Log("Fish spawned");
+    }
+
+    // Update is called once per frame
+    private void Update()
+    {
+
+
         //if(sumVector != null)
         //{
         //    Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
         //    transform.rotation = Quaternion.LookRotation(newdir);
         //}
+
         AnimateDeath();
 
+
+        UpdateStress();
+        UpdateHunger();
     }
+
+    private void UpdateHunger()
+    {
+        _fish.Hunger -= 1 * Time.deltaTime;
+        if(_fish.Hunger <= 0)
+        {
+            // Kill fish.
+            Debug.Log("Fish has died due to hunger..");
+        }
+    }
+
+    private void UpdateStress()
+    {
+        // Increase or lower the stress based on the fish hunger.
+        if (_fish.Hunger <= 500 && _fish.Hunger > 300)
+            _fish.Stress += 1 * _stressMultiplier * Time.deltaTime;
+        else if (_fish.Hunger <= 300)
+            _fish.Stress += 1 * (_stressMultiplier * 2) * Time.deltaTime;
+        else if (_fish.Stress > 0)
+            _fish.Stress -= 1 * Time.deltaTime;
+
+        // Start the timer if the fish is stressed.
+        if (_fish.Stress >= 900)
+        {
+            if (!IsStressTimerRunning())
+                StartStressTimer();
+        }
+        // Stress is less than 900. Check if the timer is running.
+        else if (IsStressTimerRunning())
+        {
+            ResetStressTimer();
+        }
+    }
+
+    #region Stress handler
+    private void StartStressTimer()
+    {
+        _stressTimer = new Timer();
+        _stressTimer.Interval = _stressDuration * 1000;
+        _stressTimer.Elapsed += StressTimerElapsed;
+        _stressTimer.AutoReset = false;
+        _stressTimer.Enabled = true;
+    }
+
+    private void ResetStressTimer()
+    {
+        if(_stressTimer != null)
+        {
+            _stressTimer.Enabled = false;
+        }
+    }
+
+    private bool IsStressTimerRunning()
+    {
+        return _stressTimer?.Enabled ?? false;
+    } 
+
+    private void StressTimerElapsed(object source, ElapsedEventArgs e)
+    {
+        // Check if stress is more than 900.
+        if(_fish.Stress >= 900)
+        {
+            // Should call proper Kill() method instead that handles this.
+            _fish.IsDead = true;
+        }
+    }
+    #endregion
+
     //DIE method ------------------------------------------------------------------START
     private void KillFish()
     {
@@ -93,5 +179,4 @@ public class FishBehaviour : MonoBehaviour
         return sumVecD3;
     }    
     //D_3,t (FOOD) methods --------------------------------------------------------END
-
 }
