@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Data;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,10 +7,13 @@ using UnityEngine;
 public class DataManager : MonoBehaviour
 {
     List<Fish> fishList = new List<Fish>();
-    
+    public GameObject RainbowPreFab;
+    // Start is called before the first frame update
+
     public void Start()
     {
-
+        Rainbowtrout rt = new Rainbowtrout(1, RainbowPreFab);
+        //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
     }
     public bool SaveStatistics(Statistic stats)
     {
@@ -30,6 +34,7 @@ public class DataManager : MonoBehaviour
 
     public void RemoveFish(Fish fishToRemove)
     {
-        fishList.Remove(fishToRemove);
+        if(fishList.Contains(fishToRemove))
+            fishList.Remove(fishToRemove);
     }
 }
