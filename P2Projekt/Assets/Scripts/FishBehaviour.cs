@@ -4,6 +4,7 @@ using System.Timers;
 using UnityEngine;
 
 [RequireComponent(typeof(MathTools))]
+[RequireComponent(typeof(Rigidbody))]
 public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
@@ -20,10 +21,10 @@ public class FishBehaviour : MonoBehaviour
     private const float _stressMultiplier = 0.5f;
     private const float _stressDuration = 30f; // In seconds
 
-
     private void Awake()
     {
         _mathTools = this.GetComponent<MathTools>();
+        DataManager = FindObjectOfType<DataManager>();
     }
 
     private void Start()
@@ -39,7 +40,6 @@ public class FishBehaviour : MonoBehaviour
         //    Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
         //    transform.rotation = Quaternion.LookRotation(newdir);
         //}
-
         AnimateDeath();
 
 
@@ -47,12 +47,40 @@ public class FishBehaviour : MonoBehaviour
         UpdateHunger();
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Collided with other object: " + other.name);
+        HandleSpottedObject(other);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        Debug.Log("Object is nearby .. ");
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log("Object left the vicinity.. ");
+    }
+
+    private void HandleSpottedObject(Collider other)
+    {
+        // Check if the object detected is another fish, or an obstacle.
+        if (other.tag.Equals("Fish"))
+        {
+
+        } else if (other.tag.Equals("Obstacle"))
+        {
+
+        }
+    }
+
     private void UpdateHunger()
     {
         _fish.Hunger -= 1 * Time.deltaTime;
         if(_fish.Hunger <= 0)
         {
-            // Kill fish.
+            // Kill fish.        
             Debug.Log("Fish has died due to hunger..");
         }
     }
