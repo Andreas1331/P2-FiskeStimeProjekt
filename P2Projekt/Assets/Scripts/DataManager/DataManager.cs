@@ -6,7 +6,7 @@ using UnityEngine;
 public class DataManager : MonoBehaviour
 {
     List<Fish> fishList = new List<Fish>();
-
+    
     public void Start()
     {
 
