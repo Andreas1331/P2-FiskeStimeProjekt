@@ -4,6 +4,7 @@ using System.Timers;
 using UnityEngine;
 
 [RequireComponent(typeof(MathTools))]
+[RequireComponent(typeof(Rigidbody))]
 public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
@@ -18,7 +19,6 @@ public class FishBehaviour : MonoBehaviour
     private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
     private const float _stressDuration = 30f; // In seconds
-
 
     private void Awake()
     {
@@ -38,12 +38,26 @@ public class FishBehaviour : MonoBehaviour
         //    Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
         //    transform.rotation = Quaternion.LookRotation(newdir);
         //}
-
         AnimateDeath();
 
 
         UpdateStress();
         UpdateHunger();
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Collided with other object: " + other.name);
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        Debug.Log("Object is nearby .. ");
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log("Object left the vicinity.. ");
     }
 
     private void UpdateHunger()
