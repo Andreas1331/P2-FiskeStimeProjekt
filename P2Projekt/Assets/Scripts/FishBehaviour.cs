@@ -13,6 +13,7 @@ public class FishBehaviour : MonoBehaviour
     private MathTools _mathTools;
     public Vector3 sumVector;
     Vector3 newdir;
+    public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
 
     // Stress variables
     private Timer _stressTimer;
@@ -33,8 +34,6 @@ public class FishBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
-
         //if(sumVector != null)
         //{
         //    Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
@@ -115,6 +114,7 @@ public class FishBehaviour : MonoBehaviour
     }
     #endregion
 
+    #region Die Methods
     //DIE method ------------------------------------------------------------------START
     private void KillFish()
     {
@@ -149,10 +149,13 @@ public class FishBehaviour : MonoBehaviour
         
     }
     //DIE method ------------------------------------------------------------------END
+    #endregion
 
-    //D_3,t (FOOD) methods --------------------------------------------------------START
+    #region Food Methods
+    //D_2,t (FOOD) methods --------------------------------------------------------START
     public Vector3 canSeeFood(Vector3 knownFoodPosition)
     {
+        //Iterate through list of food nearby, and choose the closest one. 
         float x = knownFoodPosition.x - this.transform.position.x;
         float y = knownFoodPosition.y - this.transform.position.y;
         float z = knownFoodPosition.z - this.transform.position.z;
@@ -177,6 +180,29 @@ public class FishBehaviour : MonoBehaviour
             sumVecD3 += factor * (vec - this.transform.position);
         }
         return sumVecD3;
-    }    
-    //D_3,t (FOOD) methods --------------------------------------------------------END
+    }
+    //D_2,t (FOOD) methods --------------------------------------------------------END
+    #endregion
+
+    #region Get new direction
+    private Vector3 GetNewDirection()
+    {
+        Vector3 foodVector =  new Vector3(0, 5000, 0); 
+
+        if (foodVector == new Vector3(0,5000,0))
+        {
+            foodVector = cantSeeFood(lastKnownFoodSpots);
+        }
+        else  
+            foodVector = canSeeFood(new Vector3(0, 0, 0));
+
+        Vector3 depthVector = canSeeFood(new Vector3(0,0,0));
+        Vector3 friendsVector = canSeeFood(new Vector3(0,0,0));
+        Vector3 earlierVector = canSeeFood(new Vector3(0,0,0));
+        Vector3 collisionVector = canSeeFood(new Vector3(0,0,0));
+        
+        return new Vector3(0,0,0);
+    }
+    #endregion
+
 }
