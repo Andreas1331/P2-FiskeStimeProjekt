@@ -30,9 +30,6 @@ public class FishBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (_fish.IsDead)
-            return;
-
         //if(sumVector != null)
         //{
         //    Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
@@ -48,7 +45,7 @@ public class FishBehaviour : MonoBehaviour
         _fish.Hunger -= 1 * Time.deltaTime;
         if(_fish.Hunger <= 0)
         {
-            // Kill fish.
+            // Kill fish.        
             Debug.Log("Fish has died due to hunger..");
         }
     }
