@@ -5,7 +5,8 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    List<Fish> fishList = new List<Fish>();
+    private List<Fish> fishList = new List<Fish>();
+    private List<Fish> fishPool = new List<Fish>();
 
     public void Start()
     {
@@ -30,6 +31,8 @@ public class DataManager : MonoBehaviour
 
     public void RemoveFish(Fish fishToRemove)
     {
+        fishPool.Add(fishToRemove);
         fishList.Remove(fishToRemove);
+        
     }
 }
