@@ -16,10 +16,15 @@ public class FishBehaviour : MonoBehaviour
     private const float _stressDuration = 30f; // In seconds
 
     public Vector3 sumVector;
+
+    private void Awake()
+    {
+        _mathTools = this.GetComponent<MathTools>();
+    }
+
     private void Start()
     {
         Debug.Log("Fish spawned");
-        _mathTools = this.GetComponent<MathTools>();
     }
 
     // Update is called once per frame
