@@ -24,6 +24,22 @@ public class FishBehaviour : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(newdir);
         }
     }
+    //DIE method ------------------------------------------------------------------START
+    public void Die()
+    {
+
+    }
+    //DIE method ------------------------------------------------------------------END
+
+    //D_3,t (FOOD) methods --------------------------------------------------------START
+    public Vector3 canSeeFood(Vector3 knownFoodPosition)
+    {
+        float x = knownFoodPosition.x - this.transform.position.x;
+        float y = knownFoodPosition.y - this.transform.position.y;
+        float z = knownFoodPosition.z - this.transform.position.z;
+
+        return new Vector3(x, y, z);
+    }
 
     public Vector3 cantSeeFood(List<Vector3> listOfLastKnownEatingSpots)
     {
@@ -42,5 +58,7 @@ public class FishBehaviour : MonoBehaviour
             sumVecD3 += factor * (vec - this.transform.position);
         }
         return sumVecD3;
-    }
+    }    
+    //D_3,t (FOOD) methods --------------------------------------------------------END
+
 }
