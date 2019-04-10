@@ -6,7 +6,8 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    List<Fish> fishList = new List<Fish>();
+    private List<Fish> fishList = new List<Fish>();
+    private List<Fish> fishPool = new List<Fish>();
     public GameObject RainbowPreFab;
     // Start is called before the first frame update
 
@@ -34,7 +35,10 @@ public class DataManager : MonoBehaviour
 
     public void RemoveFish(Fish fishToRemove)
     {
-        if(fishList.Contains(fishToRemove))
+
+        if (fishList.Contains(fishToRemove)) {
+            fishPool.Add(fishToRemove);
             fishList.Remove(fishToRemove);
+        }
     }
 }

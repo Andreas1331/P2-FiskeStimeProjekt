@@ -8,14 +8,17 @@ public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
     public Fish Fish { set { if (value != null) _fish = value; } }
+    private DataManager _dataManager;
+    public DataManager DataManager { set { if (value != null) _dataManager = value; } }
     private MathTools _mathTools;
+    public Vector3 sumVector;
+    Vector3 newdir;
 
     // Stress variables
     private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
     private const float _stressDuration = 30f; // In seconds
 
-    public Vector3 sumVector;
 
     private void Awake()
     {
@@ -35,6 +38,9 @@ public class FishBehaviour : MonoBehaviour
         //    Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
         //    transform.rotation = Quaternion.LookRotation(newdir);
         //}
+
+        AnimateDeath();
+
 
         UpdateStress();
         UpdateHunger();
@@ -108,9 +114,37 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     //DIE method ------------------------------------------------------------------START
-    public void Die()
+    private void KillFish()
     {
+        _dataManager.RemoveFish(_fish);
+    }
 
+    public void AnimateDeath()
+    {
+        if (!_fish.IsDead)
+            return;
+
+        //Rotation of fish around the z-axis
+
+        if (transform.rotation.x > -0.7f)
+        {
+            newdir = Vector3.RotateTowards(transform.forward, new Vector3(0.0f, 1.0f, 0.0f), Time.deltaTime, 2.5f);
+            transform.rotation = Quaternion.LookRotation(newdir);
+            Debug.Log(transform.rotation.x);
+            //transform.RotateAround(transform.position, Vector3.forward, 10 * Time.deltaTime);
+        }
+        else if (transform.rotation.x <= -0.7f && transform.position.y < 0)
+        {
+            //transform.RotateAround(transform.position, Vector3.forward, 0);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 5 * Time.deltaTime, transform.position.z);
+            Debug.Log("1");
+        }
+        else {
+            Debug.Log("Er dissabled nu");
+            transform.position = new Vector3(-5000.0f,-5000.0f, -5000.0f);
+            this.transform.gameObject.SetActive(false);
+        }
+        
     }
     //DIE method ------------------------------------------------------------------END
 
