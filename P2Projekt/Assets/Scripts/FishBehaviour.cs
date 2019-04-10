@@ -13,6 +13,7 @@ public class FishBehaviour : MonoBehaviour
     // Stress variables
     private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
+    private const float _stressDuration = 30f; // In seconds
 
     public Vector3 sumVector;
     private void Start()
@@ -63,7 +64,7 @@ public class FishBehaviour : MonoBehaviour
     private void StartStressTimer()
     {
         _stressTimer = new Timer();
-        _stressTimer.Interval = 30 * 1000;
+        _stressTimer.Interval = _stressDuration * 1000;
         _stressTimer.Elapsed += StressTimerElapsed;
         _stressTimer.AutoReset = false;
         _stressTimer.Enabled = true;
