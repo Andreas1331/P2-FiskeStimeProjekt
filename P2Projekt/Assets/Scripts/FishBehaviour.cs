@@ -23,6 +23,7 @@ public class FishBehaviour : MonoBehaviour
     private void Awake()
     {
         _mathTools = this.GetComponent<MathTools>();
+        DataManager = FindObjectOfType<DataManager>();
     }
 
     private void Start()
@@ -48,6 +49,7 @@ public class FishBehaviour : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Collided with other object: " + other.name);
+        HandleSpottedObject(other);
     }
 
     private void OnTriggerStay(Collider other)
@@ -58,6 +60,18 @@ public class FishBehaviour : MonoBehaviour
     private void OnTriggerExit(Collider other)
     {
         Debug.Log("Object left the vicinity.. ");
+    }
+
+    private void HandleSpottedObject(Collider other)
+    {
+        // Check if the object detected is another fish, or an obstacle.
+        if (other.tag.Equals("Fish"))
+        {
+
+        } else if (other.tag.Equals("Obstacle"))
+        {
+
+        }
     }
 
     private void UpdateHunger()
