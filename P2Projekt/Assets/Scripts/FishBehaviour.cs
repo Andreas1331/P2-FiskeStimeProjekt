@@ -35,6 +35,17 @@ public class FishBehaviour : MonoBehaviour
         //}
 
         UpdateStress();
+        UpdateHunger();
+    }
+
+    private void UpdateHunger()
+    {
+        _fish.Hunger -= 1 * Time.deltaTime;
+        if(_fish.Hunger <= 0)
+        {
+            // Kill fish.
+            Debug.Log("Fish has died due to hunger..");
+        }
     }
 
     private void UpdateStress()
