@@ -19,11 +19,12 @@ public class UIHandler : MonoBehaviour
     public void ApplicationQuit()
     {
         //Sættes sådan at vi kan teste i Unity editoren.
-        UnityEditor.EditorApplication.isPlaying = false;
+        //UnityEditor.EditorApplication.isPlaying = false;
 
         //Skal bruges til det endelige program
         Application.Quit();
     }
+
 
     public void LoadScene()
     {

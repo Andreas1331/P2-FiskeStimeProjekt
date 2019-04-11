@@ -20,8 +20,8 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
-        AddFishToNet(10);
-        AddFoodToNet(10);
+        AddFishToNet(200);
+        AddFoodToNet(1);
         Food firstFoodDrop = new Food(1,FoodPreFab);
 
     }
