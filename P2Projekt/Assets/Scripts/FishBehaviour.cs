@@ -15,7 +15,7 @@ public class FishBehaviour : MonoBehaviour
     public Vector3 sumVector;
     Vector3 newdir;
     public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
-
+    public float gotDistance = 0;
     // Stress variables
     private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
@@ -23,9 +23,10 @@ public class FishBehaviour : MonoBehaviour
 
     private void Awake()
     {
-        _fish.IsDead = false;
+        //_fish.IsDead = false;
         _mathTools = this.GetComponent<MathTools>();
         DataManager = FindObjectOfType<DataManager>();
+        transform.position = new Vector3(0, -50f, 0);
     }
 
     private void Start()
@@ -152,9 +153,8 @@ public class FishBehaviour : MonoBehaviour
 
     public void AnimateDeath()
     {
-        if (!_fish.IsDead)
-            return;
-
+        //if (!_fish.IsDead)
+        //    return;
         //Rotation of fish around the z-axis
 
         if (transform.rotation.x > -0.7f)
@@ -169,15 +169,30 @@ public class FishBehaviour : MonoBehaviour
             //transform.RotateAround(transform.position, Vector3.forward, 0);
             transform.position = new Vector3(transform.position.x, transform.position.y + 5 * Time.deltaTime, transform.position.z);
             Debug.Log("1");
+
+            if (gotDistance == 0)
+            {
+                gotDistance = -transform.position.y;
+            }
+
+            //MakeOpague;
         }
         else {
             Debug.Log("Er dissabled nu");
             transform.position = new Vector3(-5000.0f,-5000.0f, -5000.0f);
             this.transform.gameObject.SetActive(false);
         }
-        
     }
     //DIE method ------------------------------------------------------------------END
+
+    void MakeOpague()
+    {
+    }
+
+
+
+
+
     #endregion
 
     #region Food Methods
@@ -233,5 +248,4 @@ public class FishBehaviour : MonoBehaviour
         return new Vector3(0,0,0);
     }
     #endregion
-
 }

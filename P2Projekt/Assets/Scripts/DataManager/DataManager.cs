@@ -9,6 +9,8 @@ public class DataManager : MonoBehaviour
     private List<Fish> fishList = new List<Fish>();
     private List<Fish> fishPool = new List<Fish>();
     public GameObject RainbowPreFab;
+    public int deathCounter = 0;
+    public int timesAddedFood = 0;
     // Start is called before the first frame update
 
     public void Start()
@@ -40,6 +42,7 @@ public class DataManager : MonoBehaviour
         if (fishList.Contains(fishToRemove)) {
             fishPool.Add(fishToRemove);
             fishList.Remove(fishToRemove);
+            deathCounter++;
         }
     }
 }

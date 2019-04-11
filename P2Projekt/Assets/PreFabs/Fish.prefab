@@ -253,6 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sumVector: {x: 0, y: 0, z: 0}
+  lastKnownFoodSpots: []
 --- !u!135 &4186108171497005417
 SphereCollider:
   m_ObjectHideFlags: 0
