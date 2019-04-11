@@ -11,7 +11,7 @@ public class FoodBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        _dataManager.foodList.Add(_food);
     }
 
     // Update is called once per frame

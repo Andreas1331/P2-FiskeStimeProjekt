@@ -26,7 +26,8 @@ public class FishBehaviour : MonoBehaviour
         //_fish.IsDead = false;
         _mathTools = this.GetComponent<MathTools>();
         DataManager = FindObjectOfType<DataManager>();
-        transform.position = new Vector3(0, -50f, 0);
+        _dataManager.fishList.Add(_fish);
+        transform.position = new Vector3(Random.value*10, -50f, Random.value*10);
     }
 
     private void Start()
