@@ -15,7 +15,7 @@ public class FishBehaviour : MonoBehaviour
     public Vector3 sumVector;
     Vector3 newdir;
     public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
-
+    public float gotDistance = 0;
     // Stress variables
     private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
@@ -23,13 +23,16 @@ public class FishBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        //_fish.IsDead = false;
         _mathTools = this.GetComponent<MathTools>();
         DataManager = FindObjectOfType<DataManager>();
+        _dataManager.fishList.Add(_fish);
+        transform.position = new Vector3(Random.value*10, -50f, Random.value*10);
     }
 
     private void Start()
     {
-        Debug.Log("Fish spawned");
+        //Debug.Log("Fish spawned");
     }
 
     // Update is called once per frame
@@ -49,18 +52,18 @@ public class FishBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collided with other object: " + other.name);
+        //Debug.Log("Collided with other object: " + other.name);
         HandleSpottedObject(other);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("Object is nearby .. ");
+        //Debug.Log("Object is nearby .. ");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Object left the vicinity.. ");
+        //Debug.Log("Object left the vicinity.. ");
     }
 
     private void HandleSpottedObject(Collider other)
@@ -151,31 +154,45 @@ public class FishBehaviour : MonoBehaviour
 
     public void AnimateDeath()
     {
-        if (!_fish.IsDead)
-            return;
-
+        //if (!_fish.IsDead)
+        //    return;
         //Rotation of fish around the z-axis
         if (transform.rotation.x > -0.7f)
         {
             newdir = Vector3.RotateTowards(transform.forward, new Vector3(0.0f, 1.0f, 0.0f), Time.deltaTime, 2.5f);
             transform.rotation = Quaternion.LookRotation(newdir);
-            Debug.Log(transform.rotation.x);
+            //Debug.Log(transform.rotation.x);
             //transform.RotateAround(transform.position, Vector3.forward, 10 * Time.deltaTime);
         }
         else if (transform.rotation.x <= -0.7f && transform.position.y < 0)
         {
             //transform.RotateAround(transform.position, Vector3.forward, 0);
             transform.position = new Vector3(transform.position.x, transform.position.y + 5 * Time.deltaTime, transform.position.z);
-            Debug.Log("1");
+            //Debug.Log("1");
+
+            if (gotDistance == 0)
+            {
+                gotDistance = -transform.position.y;
+            }
+
+            //MakeOpague;
         }
         else {
-            Debug.Log("Er dissabled nu");
+            //Debug.Log("Er dissabled nu");
             transform.position = new Vector3(-5000.0f,-5000.0f, -5000.0f);
             this.transform.gameObject.SetActive(false);
         }
-        
     }
     //DIE method ------------------------------------------------------------------END
+
+    void MakeOpague()
+    {
+    }
+
+
+
+
+
     #endregion
 
     #region Food Methods
@@ -231,5 +248,4 @@ public class FishBehaviour : MonoBehaviour
         return new Vector3(0,0,0);
     }
     #endregion
-
 }
