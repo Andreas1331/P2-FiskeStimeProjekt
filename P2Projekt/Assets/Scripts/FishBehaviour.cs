@@ -155,7 +155,6 @@ public class FishBehaviour : MonoBehaviour
             return;
 
         //Rotation of fish around the z-axis
-
         if (transform.rotation.x > -0.7f)
         {
             newdir = Vector3.RotateTowards(transform.forward, new Vector3(0.0f, 1.0f, 0.0f), Time.deltaTime, 2.5f);
