@@ -23,6 +23,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void Awake()
     {
+        _fish.IsDead = false;
         _mathTools = this.GetComponent<MathTools>();
         DataManager = FindObjectOfType<DataManager>();
     }
