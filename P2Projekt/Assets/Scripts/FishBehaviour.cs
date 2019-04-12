@@ -20,14 +20,14 @@ public class FishBehaviour : MonoBehaviour
     private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
     private const float _stressDuration = 30f; // In seconds
-
+    private int innerColliderFoodCheck = 0;
     private void Awake()
     {
         //_fish.IsDead = false;
         _mathTools = this.GetComponent<MathTools>();
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.fishList.Add(_fish);
-        transform.position = new Vector3(Random.value*10, -50f, Random.value*10);
+        transform.position = new Vector3(0, -20f, 0);
     }
 
     private void Start()
@@ -56,6 +56,8 @@ public class FishBehaviour : MonoBehaviour
         HandleSpottedObject(other);
     }
 
+
+
     private void OnTriggerStay(Collider other)
     {
         //Debug.Log("Object is nearby .. ");
@@ -63,7 +65,11 @@ public class FishBehaviour : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        //Debug.Log("Object left the vicinity.. ");
+        if (other.tag.Equals("Fish"))
+        {
+            innerColliderFoodCheck--;
+        }
+            //Debug.Log("Object left the vicinity.. ");
     }
 
     private void HandleSpottedObject(Collider other)
@@ -79,6 +85,15 @@ public class FishBehaviour : MonoBehaviour
             float catheter = _mathTools.GetOpposingCatheter(angle, dist);
 
             Debug.Log("Angle: " + angle + " | Distance: " + dist + " | Catheter: " + catheter);
+        }
+        else if (other.tag.Equals("Food"))
+        {
+            if (innerColliderFoodCheck == 1){
+                innerColliderFoodCheck++;
+                _fish.Hunger = 1000;
+                Debug.Log("Fisken spiste");
+            }
+            innerColliderFoodCheck++;
         }
     }
 
@@ -168,7 +183,7 @@ public class FishBehaviour : MonoBehaviour
             //Debug.Log(transform.rotation.x);
             //transform.RotateAround(transform.position, Vector3.forward, 10 * Time.deltaTime);
         }
-        else if (transform.rotation.x <= -0.7f && transform.position.y < 0)
+        else if (transform.rotation.x <= -0.7f && transform.position.y < 10)
         {
             //transform.RotateAround(transform.position, Vector3.forward, 0);
             transform.position = new Vector3(transform.position.x, transform.position.y + 5 * Time.deltaTime, transform.position.z);
