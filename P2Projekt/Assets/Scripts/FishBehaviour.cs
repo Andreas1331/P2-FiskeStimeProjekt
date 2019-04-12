@@ -8,7 +8,7 @@ using UnityEngine;
 public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
-    public Fish Fish { set { if (value != null) _fish = value; } }
+    public Fish Fish { get {return _fish; } set { if (value != null) _fish = value; } }
     private DataManager _dataManager;
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
     private MathTools _mathTools;
@@ -24,6 +24,7 @@ public class FishBehaviour : MonoBehaviour
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     //grimt workaround dictionary
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
+    public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
     private void Awake()
     {
         //_fish.IsDead = false;
@@ -59,8 +60,6 @@ public class FishBehaviour : MonoBehaviour
         HandleSpottedObject(other);
     }
 
-
-
     private void OnTriggerStay(Collider other)
     {
 
@@ -88,7 +87,14 @@ public class FishBehaviour : MonoBehaviour
                 knownFoodSpots.Add(other.GetComponent<FoodBehavior>().Food.Id, other.transform.position);
             }
         }
-            //Debug.Log("Object left the vicinity.. ");
+        else if (other.tag.Equals("Fish"))
+        {
+            if (nearbyFish.ContainsKey(other.GetComponent<FishBehaviour>().Fish.Id))
+            {
+                nearbyFish.Remove(other.GetComponent<FishBehaviour>().Fish.Id);
+            }
+        }
+        //Debug.Log("Object left the vicinity.. ");
     }
 
     private void HandleSpottedObject(Collider other)
@@ -96,7 +102,9 @@ public class FishBehaviour : MonoBehaviour
         // Check if the object detected is another fish, or an obstacle.
         if (other.tag.Equals("Fish"))
         {
-
+            if (!nearbyFish.ContainsKey(other.GetComponent<FishBehaviour>().Fish.Id)){
+                nearbyFish.Add(other.GetComponent<FishBehaviour>().Fish.Id, other.GetComponent<FishBehaviour>());
+            }
         }
         else if (other.tag.Equals("Obstacle"))
         {
@@ -274,6 +282,48 @@ public class FishBehaviour : MonoBehaviour
         return sumVecD3;
     }
     //D_2,t (FOOD) methods --------------------------------------------------------END
+    #endregion
+
+    #region Swim with fish
+    private Vector3 SwimWithFriends() {
+        Vector3 D_3 = new Vector3(0,0,0);
+        foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
+            D_3.x += item.Value.Fish.CurrentDirection.x / nearbyFish.Count;
+            D_3.y += item.Value.Fish.CurrentDirection.y / nearbyFish.Count;
+            D_3.z += item.Value.Fish.CurrentDirection.z / nearbyFish.Count;
+        }
+        return D_3;
+    }
+    #endregion
+
+    #region Hold distance to fish
+    private Vector3 HoldDistanceToFish() {
+
+        Vector3 GV = new Vector3(0, 0, 0);
+        Vector3 GN = new Vector3(0, 0, 0);
+        foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish)
+        {
+            if (_mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position) < 0.2f)
+            {
+                GV.x += (-1) * ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                    (item.Value.transform.position.x - transform.position.x) / nearbyFish.Count;
+                GV.y += (-1) * ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                    (item.Value.transform.position.y - transform.position.y) / nearbyFish.Count;
+                GV.z += (-1) * ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                    (item.Value.transform.position.z - transform.position.z) / nearbyFish.Count;
+            }
+            else if (_mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position) < 0.35f) {
+                GN.x += ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                    (item.Value.transform.position.x - transform.position.x) / nearbyFish.Count;
+
+                GN.y += ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                                    (item.Value.transform.position.y - transform.position.y) / nearbyFish.Count;
+                GN.z += ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                                    (item.Value.transform.position.z - transform.position.z) / nearbyFish.Count;
+            }
+        }
+        return GN+GV;
+    }
     #endregion
 
     #region Get new direction
