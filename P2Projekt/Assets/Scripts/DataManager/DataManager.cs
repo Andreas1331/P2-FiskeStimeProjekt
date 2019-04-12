@@ -20,23 +20,20 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
-        AddFishToNet(50);
-        //AddFoodToNet(1);
+        AddFishToNet(5);
+        AddFoodToNet(1, 3);
     }
     public bool SaveStatistics(Statistic stats)
     {
         if (stats == null)
             return false;
-
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        
         if (System.IO.Directory.Exists(path))
         {
             string data = JsonUtility.ToJson(stats);
             System.IO.File.WriteAllText(path + @"\Noget_midlertidligt.json", data);
             return true;
         }
-
         return false;
     }
 
@@ -65,12 +62,12 @@ public class DataManager : MonoBehaviour
             fishList.Add(new Rainbowtrout(fishCounter, RainbowPreFab));
         }
     }
-    public void AddFoodToNet(int howManyToAdd)
+    public void AddFoodToNet(int howManyToAdd, int amountOfFood)
     {
         for (int i = 0; i < howManyToAdd; i++)
         {
             foodCounter++;
-            foodList.Add(new Food(foodCounter, FoodPreFab));
+            foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood));
         }
     }
 }
