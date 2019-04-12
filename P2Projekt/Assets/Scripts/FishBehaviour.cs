@@ -14,20 +14,23 @@ public class FishBehaviour : MonoBehaviour
     private MathTools _mathTools;
     public Vector3 sumVector;
     Vector3 newdir;
-    public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
     public float gotDistance = 0;
     // Stress variables
     private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
     private const float _stressDuration = 30f; // In seconds
     private int innerColliderFoodCheck = 0;
+    public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
+    public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
+    //grimt workaround dictionary
+    public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     private void Awake()
     {
         //_fish.IsDead = false;
         _mathTools = this.GetComponent<MathTools>();
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.fishList.Add(_fish);
-        transform.position = new Vector3(0, -20f, 0);
+        transform.position = new Vector3(0, Random.value *(-20f), 0);
     }
 
     private void Start()
@@ -44,7 +47,7 @@ public class FishBehaviour : MonoBehaviour
         //    transform.rotation = Quaternion.LookRotation(newdir);
         //}
         AnimateDeath();
-
+        
 
         UpdateStress();
         UpdateHunger();
@@ -60,14 +63,30 @@ public class FishBehaviour : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
+
+        //Dette kan genimplementeres hvis at maden skal bevæge sig
+        //if (other.tag.Equals("Food"))
+        //{
+        //    if (knownFoodSpots.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id)) {
+        //        knownFoodSpots[other.GetComponent<FoodBehavior>().Food.Id] = other.transform.position;
+        //        Debug.Log(knownFoodSpots[other.GetComponent<FoodBehavior>().Food.Id]);
+        //    }
+        //}
         //Debug.Log("Object is nearby .. ");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.tag.Equals("Fish"))
+        if (other.tag.Equals("Food"))
         {
-            innerColliderFoodCheck--;
+            if (knownFoodSpots.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id))
+                knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
+            //grimt workaround
+            if (inInnerCollider.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id))
+            {
+                inInnerCollider.Remove(other.GetComponent<FoodBehavior>().Food.Id);
+                knownFoodSpots.Add(other.GetComponent<FoodBehavior>().Food.Id, other.transform.position);
+            }
         }
             //Debug.Log("Object left the vicinity.. ");
     }
@@ -78,7 +97,8 @@ public class FishBehaviour : MonoBehaviour
         if (other.tag.Equals("Fish"))
         {
 
-        } else if (other.tag.Equals("Obstacle"))
+        }
+        else if (other.tag.Equals("Obstacle"))
         {
             float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, other.transform.position);
             float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, other.transform.position);
@@ -88,12 +108,18 @@ public class FishBehaviour : MonoBehaviour
         }
         else if (other.tag.Equals("Food"))
         {
-            if (innerColliderFoodCheck == 1){
-                innerColliderFoodCheck++;
-                _fish.Hunger = 1000;
-                Debug.Log("Fisken spiste");
+            if (!knownFoodSpots.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id)) { 
+                knownFoodSpots.Add(other.GetComponent<FoodBehavior>().Food.Id, other.transform.position);
+                lastKnownFoodSpots.Add(other.transform.position);
             }
-            innerColliderFoodCheck++;
+            else
+            {
+                _fish.Hunger = 1000;
+                other.GetComponent<FoodBehavior>().BeingEaten();
+                Debug.Log("Fisken spiste");
+                //grimt workaround
+                knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
+            }
         }
     }
 
@@ -216,14 +242,17 @@ public class FishBehaviour : MonoBehaviour
 
     #region Food Methods
     //D_2,t (FOOD) methods --------------------------------------------------------START
-    public Vector3 canSeeFood(Vector3 knownFoodPosition)
+    public Vector3 canSeeFood(Dictionary<int, Vector3> knownFoodPositions)
     {
+        Vector3 closestFood = new Vector3(100,100,100);
         //Iterate through list of food nearby, and choose the closest one. 
-        float x = knownFoodPosition.x - this.transform.position.x;
-        float y = knownFoodPosition.y - this.transform.position.y;
-        float z = knownFoodPosition.z - this.transform.position.z;
-
-        return new Vector3(x, y, z);
+        foreach (KeyValuePair<int, Vector3> item in knownFoodPositions) {
+            if (Mathf.Sqrt(Mathf.Pow(item.Value.x - this.transform.position.x, 2) + Mathf.Pow(item.Value.y - this.transform.position.y, 2) + Mathf.Pow(item.Value.z - this.transform.position.z, 2))
+                <Mathf.Sqrt(Mathf.Pow(closestFood.x, 2) + Mathf.Pow(closestFood.y, 2) + Mathf.Pow(closestFood.z, 2))) {
+                closestFood = item.Value;
+            }
+        }
+        return closestFood;
     }
 
     public Vector3 cantSeeFood(List<Vector3> listOfLastKnownEatingSpots)
@@ -233,7 +262,7 @@ public class FishBehaviour : MonoBehaviour
 
         if(listOfLastKnownEatingSpots.Count == 0)
         {
-            return new Vector3(0,0,0);
+            return transform.position;
         }
 
         foreach (Vector3 vec in listOfLastKnownEatingSpots)
@@ -252,18 +281,7 @@ public class FishBehaviour : MonoBehaviour
     {
         Vector3 foodVector =  new Vector3(0, 5000, 0); 
 
-        if (foodVector == new Vector3(0,5000,0))
-        {
-            foodVector = cantSeeFood(lastKnownFoodSpots);
-        }
-        else  
-            foodVector = canSeeFood(new Vector3(0, 0, 0));
 
-        Vector3 depthVector = canSeeFood(new Vector3(0,0,0));
-        Vector3 friendsVector = canSeeFood(new Vector3(0,0,0));
-        Vector3 earlierVector = canSeeFood(new Vector3(0,0,0));
-        Vector3 collisionVector = canSeeFood(new Vector3(0,0,0));
-        
         return new Vector3(0,0,0);
     }
     #endregion
