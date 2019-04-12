@@ -54,12 +54,12 @@ public class FishBehaviour : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("Object is nearby .. ");
+        //Debug.Log("Object is nearby .. ");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Object left the vicinity.. ");
+        //Debug.Log("Object left the vicinity.. ");
     }
 
     private void HandleSpottedObject(Collider other)
@@ -70,7 +70,11 @@ public class FishBehaviour : MonoBehaviour
 
         } else if (other.tag.Equals("Obstacle"))
         {
+            float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, other.transform.position);
+            float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, other.transform.position);
+            float catheter = _mathTools.GetOpposingCatheter(angle, dist);
 
+            Debug.Log("Angle: " + angle + " | Distance: " + dist + " | Catheter: " + catheter);
         }
     }
 
