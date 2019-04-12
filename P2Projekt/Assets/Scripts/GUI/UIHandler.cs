@@ -27,6 +27,6 @@ public class UIHandler : MonoBehaviour
     } 
     public void LoadScene()
     {
-        SceneManager.LoadScene("BeebsFishSCENEV1", LoadSceneMode.Single);
+        SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 }

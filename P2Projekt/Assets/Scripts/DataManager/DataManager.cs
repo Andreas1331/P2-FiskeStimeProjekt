@@ -20,8 +20,8 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
-        AddFishToNet(1);
-        AddFoodToNet(1);
+        AddFishToNet(50);
+        //AddFoodToNet(1);
     }
     public bool SaveStatistics(Statistic stats)
     {
