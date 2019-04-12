@@ -52,18 +52,18 @@ public class FishBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Collided with other object: " + other.name);
+        //Debug.Log("Collided with other object: " + other.name);
         HandleSpottedObject(other);
     }
 
     private void OnTriggerStay(Collider other)
     {
-        Debug.Log("Object is nearby .. ");
+        //Debug.Log("Object is nearby .. ");
     }
 
     private void OnTriggerExit(Collider other)
     {
-        Debug.Log("Object left the vicinity.. ");
+        //Debug.Log("Object left the vicinity.. ");
     }
 
     private void HandleSpottedObject(Collider other)
@@ -84,7 +84,7 @@ public class FishBehaviour : MonoBehaviour
         if(_fish.Hunger <= 0)
         {
             // Kill fish.        
-            Debug.Log("Fish has died due to hunger..");
+            //Debug.Log("Fish has died due to hunger..");
         }
     }
 
@@ -162,14 +162,14 @@ public class FishBehaviour : MonoBehaviour
         {
             newdir = Vector3.RotateTowards(transform.forward, new Vector3(0.0f, 1.0f, 0.0f), Time.deltaTime, 2.5f);
             transform.rotation = Quaternion.LookRotation(newdir);
-            Debug.Log(transform.rotation.x);
+            //Debug.Log(transform.rotation.x);
             //transform.RotateAround(transform.position, Vector3.forward, 10 * Time.deltaTime);
         }
         else if (transform.rotation.x <= -0.7f && transform.position.y < 0)
         {
             //transform.RotateAround(transform.position, Vector3.forward, 0);
             transform.position = new Vector3(transform.position.x, transform.position.y + 5 * Time.deltaTime, transform.position.z);
-            Debug.Log("1");
+            //Debug.Log("1");
 
             if (gotDistance == 0)
             {
@@ -179,7 +179,7 @@ public class FishBehaviour : MonoBehaviour
             //MakeOpague;
         }
         else {
-            Debug.Log("Er dissabled nu");
+            //Debug.Log("Er dissabled nu");
             transform.position = new Vector3(-5000.0f,-5000.0f, -5000.0f);
             this.transform.gameObject.SetActive(false);
         }
