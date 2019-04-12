@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class NytCamera : MonoBehaviour
 {
-    string Andreas_A_Rox_Andreas_C_Sox = "DetSandt";
 
     Vector3 cameraPosition = new Vector3(0.0f, 0.0f, 0.0f);
     float cameraSpeed = 0.4f;

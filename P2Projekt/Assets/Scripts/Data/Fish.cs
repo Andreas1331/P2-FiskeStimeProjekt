@@ -4,7 +4,7 @@ using UnityEngine;
 
 public enum FishType { Salmon = 1, RainbowTrout}
 
-public abstract class Fish
+public abstract class Fish 
 {
     public int Id { get; set; }
     public bool IsDead { get; set; }
@@ -63,4 +63,5 @@ public abstract class Fish
         //RbFish.AddForce(direction * MaxSpeed, ForceMode.Force);
         //RbFish.GetComponent<FishBehaviour>().sumVector += direction;
     }
+    
 }

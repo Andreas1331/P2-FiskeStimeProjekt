@@ -46,10 +46,12 @@ using UnityEngine;
         
         public float RadianToDegree(float angle)
         {
+            //Debug.Log("RadianToDegree: " + angle * (180 / Mathf.PI));
             return angle * (180 / Mathf.PI);
         }
         public float DegreeToRadian(float angle)
         {
+            //Debug.Log("DegreeToRadian: " + Mathf.PI * angle / 180);
             return Mathf.PI * angle / 180;
         }
 
