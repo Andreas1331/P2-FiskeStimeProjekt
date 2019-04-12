@@ -11,6 +11,7 @@ public class FoodBehavior : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        transform.position = new Vector3(0, 0, 0);
         //_dataManager.foodList.Add(_food);
     }
 

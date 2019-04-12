@@ -20,18 +20,8 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
-
-        AddFishToNet(10);
-
-        Rainbowtrout rt = new Rainbowtrout(1, RainbowPreFab);
-        //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
-        //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
-
-        AddFishToNet(200);
-
+        AddFishToNet(1);
         AddFoodToNet(1);
-        Food firstFoodDrop = new Food(1,FoodPreFab);
-
     }
     public bool SaveStatistics(Statistic stats)
     {
