@@ -20,7 +20,15 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
+
         AddFishToNet(10);
+
+        Rainbowtrout rt = new Rainbowtrout(1, RainbowPreFab);
+        //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
+        //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
+
+        AddFishToNet(200);
+
         AddFoodToNet(1);
         Food firstFoodDrop = new Food(1,FoodPreFab);
 
@@ -44,7 +52,6 @@ public class DataManager : MonoBehaviour
 
     public void RemoveFish(Fish fishToRemove)
     {
-
         if (fishList.Contains(fishToRemove)) {
             fishPool.Add(fishToRemove);
             fishList.Remove(fishToRemove);
@@ -53,7 +60,6 @@ public class DataManager : MonoBehaviour
     }
     public void RemoveFood(Food foodToRemove)
     {
-
         if (foodList.Contains(foodToRemove))
         {
             foodPool.Add(foodToRemove);
@@ -62,7 +68,8 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void AddFishToNet(int howManyToAdd) {
+    public void AddFishToNet(int howManyToAdd)
+    {
         for (int i = 0; i < howManyToAdd; i++) {
             fishCounter++;
             fishList.Add(new Rainbowtrout(fishCounter, RainbowPreFab));

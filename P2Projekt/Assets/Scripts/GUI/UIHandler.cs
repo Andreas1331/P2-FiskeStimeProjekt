@@ -18,13 +18,13 @@ public class UIHandler : MonoBehaviour
     }
     public void ApplicationQuit()
     {
+#if UNITY_EDITOR
         //Sættes sådan at vi kan teste i Unity editoren.
         UnityEditor.EditorApplication.isPlaying = false;
-
-        //Skal bruges til det endelige program
+#else
         Application.Quit();
-    }
-
+#endif
+    } 
     public void LoadScene()
     {
         SceneManager.LoadScene("BeebsFishSCENEV1", LoadSceneMode.Single);

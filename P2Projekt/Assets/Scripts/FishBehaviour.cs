@@ -32,7 +32,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Fish spawned");
+        //Debug.Log("Fish spawned");
     }
 
     // Update is called once per frame
@@ -74,7 +74,11 @@ public class FishBehaviour : MonoBehaviour
 
         } else if (other.tag.Equals("Obstacle"))
         {
+            float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, other.transform.position);
+            float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, other.transform.position);
+            float catheter = _mathTools.GetOpposingCatheter(angle, dist);
 
+            Debug.Log("Angle: " + angle + " | Distance: " + dist + " | Catheter: " + catheter);
         }
     }
 
@@ -157,7 +161,6 @@ public class FishBehaviour : MonoBehaviour
         //if (!_fish.IsDead)
         //    return;
         //Rotation of fish around the z-axis
-
         if (transform.rotation.x > -0.7f)
         {
             newdir = Vector3.RotateTowards(transform.forward, new Vector3(0.0f, 1.0f, 0.0f), Time.deltaTime, 2.5f);
