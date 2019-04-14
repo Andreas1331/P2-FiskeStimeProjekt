@@ -14,8 +14,10 @@ public class UIHandler : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        //Scans for escape key stroke
+        TogglePauseMenuInGame();
     }
+
     public void ApplicationQuit()
     {
 #if UNITY_EDITOR
@@ -29,4 +31,35 @@ public class UIHandler : MonoBehaviour
     {
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
+
+    [SerializeField] private GameObject PauseMenuUI;
+    [SerializeField] private bool isPaused;
+    public void TogglePauseMenuInGame()
+    {
+        //Toggles pause menu on esc key press
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            isPaused = !isPaused;
+        }
+
+        if (isPaused)
+        {
+            ActivatePauseMenu();
+        }
+        else
+        {
+            DeactivatePauseMenu();
+        }
+    }
+
+    void ActivatePauseMenu()
+    {
+        PauseMenuUI.SetActive(true);
+    }
+    void DeactivatePauseMenu()
+    {
+        PauseMenuUI.SetActive(false);
+    }
+
+
 }
