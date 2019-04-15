@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class UIHandler : MonoBehaviour
 {
+    public DataManager DM;
     // Start is called before the first frame update
     public Text FishHealth;
     public Text FishStress;
@@ -15,11 +15,8 @@ public class UIHandler : MonoBehaviour
     {
         
     }
-
-    // Update is called once per frame
     void Update()
     {
-        //Scans for escape key stroke
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePauseMenuInGame();
@@ -28,20 +25,15 @@ public class UIHandler : MonoBehaviour
 
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene("BeebMenu", LoadSceneMode.Single);
+        DM.LoadMainMenu();
     }
     public void LoadScene()
     {
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        DM.LoadScene();
     }
     public void ApplicationQuit()
     {
-    #if UNITY_EDITOR
-        //Sættes sådan at vi kan teste i Unity editoren.
-        UnityEditor.EditorApplication.isPlaying = false;
-    #else
-        Application.Quit();
-    #endif
+        DM.ApplicationQuit();
     }
 
     [SerializeField] private GameObject PauseMenuUI;
@@ -49,22 +41,11 @@ public class UIHandler : MonoBehaviour
     {   
         if(PauseMenuUI.activeSelf == true)
         {
-            DeactivatePauseMenu();
+            DM.DeactivatePauseMenu(PauseMenuUI);
         } else if (PauseMenuUI.activeSelf == false)
         {
-            ActivatePauseMenu();
+            DM.ActivatePauseMenu(PauseMenuUI);
         }
-    }
-
-    void ActivatePauseMenu()
-    {
-        PauseMenuUI.SetActive(true);
-        Time.timeScale = 0.0f;
-    }
-    void DeactivatePauseMenu()
-    {
-        PauseMenuUI.SetActive(false);
-        Time.timeScale = 1.0f;
     }
     
     public void ApplyButtonValues()
@@ -73,12 +54,6 @@ public class UIHandler : MonoBehaviour
         int.Parse(FishStress.text);
         int.Parse(FishDepth.text);
 
-        SetSimSpeed(float.Parse(SimSpeed.text));
-}
-
-    public void SetSimSpeed(float timeFactor)
-    {
-        Time.timeScale = timeFactor;
+        DM.SetSimSpeed(float.Parse(SimSpeed.text));
     }
-
 }

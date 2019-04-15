@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
@@ -81,4 +82,44 @@ public class DataManager : MonoBehaviour
             foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood));
         }
     }
+    //GUI TOOLS _______________________________________________________________START
+    #region GUI TOOLS
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("BeebMenu", LoadSceneMode.Single);
+    }
+    public void LoadScene()
+    {
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+    }
+    public void ApplicationQuit()
+    {
+#if UNITY_EDITOR
+        //Sættes sådan at vi kan teste i Unity editoren.
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+    }
+
+    //Method to set simulation time
+    public void SetSimSpeed(float timeFactor)
+    {
+        Time.timeScale = timeFactor;
+    }
+
+
+    public void ActivatePauseMenu(GameObject PauseMenuUI)
+    {
+        PauseMenuUI.SetActive(true);
+        Time.timeScale = 0.0f;
+    }
+    public void DeactivatePauseMenu(GameObject PauseMenuUI)
+    {
+        PauseMenuUI.SetActive(false);
+        Time.timeScale = 1.0f;
+    }
+    #endregion
+    //GUI TOOLS _______________________________________________________________END
+
 }
