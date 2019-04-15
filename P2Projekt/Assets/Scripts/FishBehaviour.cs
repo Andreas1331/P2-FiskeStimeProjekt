@@ -11,8 +11,9 @@ public class FishBehaviour : MonoBehaviour
     public Fish Fish { get {return _fish; } set { if (value != null) _fish = value; } }
     private DataManager _dataManager;
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
+    private GameObject _net;
+    public GameObject Net { set { if (value != null) _net = value; } }
     private MathTools _mathTools;
-    public Vector3 sumVector;
     Vector3 newdir;
     public float gotDistance = 0;
     // Stress variables
@@ -31,11 +32,13 @@ public class FishBehaviour : MonoBehaviour
         _mathTools = this.GetComponent<MathTools>();
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.fishList.Add(_fish);
-        transform.position = new Vector3(0, Random.value *(-20f), 0);
+        Net = GameObject.FindGameObjectWithTag("Net");
+        
     }
 
     private void Start()
     {
+        SearchForOptimalDepth();
         //Debug.Log("Fish spawned");
     }
 
@@ -108,9 +111,14 @@ public class FishBehaviour : MonoBehaviour
         }
         else if (other.tag.Equals("Obstacle"))
         {
-            float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, other.transform.position);
-            float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, other.transform.position);
+            _fish.CurrentDirection = new Vector3(0, 0, 1);
+            Vector3 pos = other.ClosestPoint(transform.position);
+            float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, pos);
+            float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, pos);
             float catheter = _mathTools.GetOpposingCatheter(angle, dist);
+
+            //Vector3 newDir = FindFreeDir(pos, 1);
+            //Debug.Log("NewDir: " + newDir);
 
             Debug.Log("Angle: " + angle + " | Distance: " + dist + " | Catheter: " + catheter);
         }
@@ -129,6 +137,32 @@ public class FishBehaviour : MonoBehaviour
                 knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
             }
         }
+    }
+
+    private Vector3 FindFreeDir(Vector3 pos, int offset)
+    {
+        Debug.Log("Offset: " + offset);
+        Vector3 posOne = new Vector3(pos.x + offset, pos.y, pos.z);
+        Vector3 posTwo = new Vector3(pos.x - offset, pos.y, pos.z);
+        Debug.Log("PosOne: " + posOne);
+        Debug.Log("PosTwo: " + posTwo);
+        if (offset >= 10)
+            return posOne;
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, posOne, out hit, 10))
+        {
+            Debug.DrawRay(transform.position, posOne, Color.yellow, hit.distance);
+            return FindFreeDir(pos, offset++);            
+        }
+        else if (Physics.Raycast(transform.position, posTwo, out hit, 10))
+        {
+            Debug.DrawRay(transform.position, posOne, Color.yellow, hit.distance);
+            return FindFreeDir(pos, offset++);
+        }
+
+        return posOne;
+        //return posOne;
     }
 
     private void UpdateHunger()
@@ -284,6 +318,21 @@ public class FishBehaviour : MonoBehaviour
     //D_2,t (FOOD) methods --------------------------------------------------------END
     #endregion
 
+    #region Swim towards other fish
+    private Vector3 SwimTowardsOtherFish() {
+        Vector3 D_3 = new Vector3(0,0,0);
+        float distanceBetweenFish;
+        foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
+            distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(transform.position,item.Value.transform.position)/nearbyFish.Count;
+            D_3.x += distanceBetweenFish *(item.Value.transform.position.x-transform.position.x);
+            D_3.y += distanceBetweenFish *(item.Value.transform.position.y-transform.position.y);
+            D_3.z += distanceBetweenFish *(item.Value.transform.position.z-transform.position.z);
+        }
+        return D_3;
+    }
+
+    #endregion
+
     #region Swim with fish
     private Vector3 SwimWithFriends() {
         Vector3 D_3 = new Vector3(0,0,0);
@@ -326,13 +375,19 @@ public class FishBehaviour : MonoBehaviour
     }
     #endregion
 
+    #region Search for optimal depth
+    private Vector3 SearchForOptimalDepth() {
+        Debug.Log(-_net.transform.lossyScale.y / 2);
+        return new Vector3(transform.position.x, -_net.transform.lossyScale.y/2, transform.position.z);
+    }
+    #endregion
+
     #region Get new direction
     private Vector3 GetNewDirection()
     {
-        Vector3 foodVector =  new Vector3(0, 5000, 0); 
+        
 
-
-        return new Vector3(0,0,0);
+        return newdir;
     }
     #endregion
 }

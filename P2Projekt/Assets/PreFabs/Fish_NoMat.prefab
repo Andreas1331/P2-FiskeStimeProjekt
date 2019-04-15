@@ -313,6 +313,7 @@ GameObject:
   - component: {fileID: 4126127599594628731}
   - component: {fileID: 5268433580362329747}
   - component: {fileID: 918188648642947118}
+  - component: {fileID: 3226268900752439726}
   m_Layer: 0
   m_Name: Fish_NoMat
   m_TagString: Fish
@@ -378,8 +379,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sumVector: {x: 0, y: 0, z: 0}
-  lastKnownFoodSpots: []
   gotDistance: 0
+  lastKnownFoodSpots: []
 --- !u!135 &5268433580362329747
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -409,6 +410,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!135 &3226268900752439726
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092163364157137716}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.27
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1092163364157137718
 GameObject:
   m_ObjectHideFlags: 0

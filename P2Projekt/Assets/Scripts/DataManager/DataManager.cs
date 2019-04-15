@@ -21,11 +21,18 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
+        //Rainbowtrout rt = new Rainbowtrout(1, RainbowPreFab);
+        //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
+        //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
+
+        //Food firstFoodDrop = new Food(1,FoodPreFab);
+
         AddFishToNet(5);
         AddFoodToNet(1, 3);
     }
     private void Update()
     {
+
     }
     public bool SaveStatistics(Statistic stats)
     {

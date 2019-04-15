@@ -20,5 +20,4 @@ public class Food
         FoodObject = GameObject.Instantiate(preFab, new Vector3(), Quaternion.identity);
         FoodObject.GetComponent<FoodBehavior>().Food = this;
     }
-    
 }
