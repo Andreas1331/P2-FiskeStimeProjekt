@@ -12,7 +12,6 @@ public class FishBehaviour : MonoBehaviour
     private DataManager _dataManager;
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
     private MathTools _mathTools;
-    public Vector3 sumVector;
     Vector3 newdir;
     public float gotDistance = 0;
     // Stress variables
@@ -31,7 +30,8 @@ public class FishBehaviour : MonoBehaviour
         _mathTools = this.GetComponent<MathTools>();
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.fishList.Add(_fish);
-        transform.position = new Vector3(0, Random.value *(-20f), 0);
+     
+        //transform.position = new Vector3(Random.value*10, -50f, Random.value*10);
     }
 
     private void Start()
@@ -108,9 +108,14 @@ public class FishBehaviour : MonoBehaviour
         }
         else if (other.tag.Equals("Obstacle"))
         {
-            float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, other.transform.position);
-            float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, other.transform.position);
+            _fish.CurrentDirection = new Vector3(0, 0, 1);
+            Vector3 pos = other.ClosestPoint(transform.position);
+            float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, pos);
+            float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, pos);
             float catheter = _mathTools.GetOpposingCatheter(angle, dist);
+
+            //Vector3 newDir = FindFreeDir(pos, 1);
+            //Debug.Log("NewDir: " + newDir);
 
             Debug.Log("Angle: " + angle + " | Distance: " + dist + " | Catheter: " + catheter);
         }
@@ -129,6 +134,32 @@ public class FishBehaviour : MonoBehaviour
                 knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
             }
         }
+    }
+
+    private Vector3 FindFreeDir(Vector3 pos, int offset)
+    {
+        Debug.Log("Offset: " + offset);
+        Vector3 posOne = new Vector3(pos.x + offset, pos.y, pos.z);
+        Vector3 posTwo = new Vector3(pos.x - offset, pos.y, pos.z);
+        Debug.Log("PosOne: " + posOne);
+        Debug.Log("PosTwo: " + posTwo);
+        if (offset >= 10)
+            return posOne;
+
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, posOne, out hit, 10))
+        {
+            Debug.DrawRay(transform.position, posOne, Color.yellow, hit.distance);
+            return FindFreeDir(pos, offset++);            
+        }
+        else if (Physics.Raycast(transform.position, posTwo, out hit, 10))
+        {
+            Debug.DrawRay(transform.position, posOne, Color.yellow, hit.distance);
+            return FindFreeDir(pos, offset++);
+        }
+
+        return posOne;
+        //return posOne;
     }
 
     private void UpdateHunger()
