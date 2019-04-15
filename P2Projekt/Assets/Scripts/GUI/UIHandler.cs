@@ -1,11 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class UIHandler : MonoBehaviour
 {
     // Start is called before the first frame update
+    public Text FishHealth;
+    public Text FishStress;
+    public Text FishDepth;
+    public Text SimSpeed;
     void Start()
     {
         
@@ -15,51 +20,65 @@ public class UIHandler : MonoBehaviour
     void Update()
     {
         //Scans for escape key stroke
-        TogglePauseMenuInGame();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePauseMenuInGame();
+        }
     }
 
-    public void ApplicationQuit()
+    public void LoadMainMenu()
     {
-#if UNITY_EDITOR
-        //Sættes sådan at vi kan teste i Unity editoren.
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    } 
+        SceneManager.LoadScene("BeebMenu", LoadSceneMode.Single);
+    }
     public void LoadScene()
     {
-        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+    }
+    public void ApplicationQuit()
+    {
+    #if UNITY_EDITOR
+        //Sættes sådan at vi kan teste i Unity editoren.
+        UnityEditor.EditorApplication.isPlaying = false;
+    #else
+        Application.Quit();
+    #endif
     }
 
     [SerializeField] private GameObject PauseMenuUI;
-    [SerializeField] private bool isPaused;
     public void TogglePauseMenuInGame()
-    {
-        //Toggles pause menu on esc key press
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            isPaused = !isPaused;
-        }
-
-        if (isPaused)
-        {
-            ActivatePauseMenu();
-        }
-        else
+    {   
+        if(PauseMenuUI.activeSelf == true)
         {
             DeactivatePauseMenu();
+        } else if (PauseMenuUI.activeSelf == false)
+        {
+            ActivatePauseMenu();
         }
     }
 
     void ActivatePauseMenu()
     {
         PauseMenuUI.SetActive(true);
+        Time.timeScale = 0.0f;
     }
     void DeactivatePauseMenu()
     {
         PauseMenuUI.SetActive(false);
+        Time.timeScale = 1.0f;
     }
+    
+    public void ApplyButtonValues()
+    {
+        int.Parse(FishHealth.text);
+        int.Parse(FishStress.text);
+        int.Parse(FishDepth.text);
 
+        SetSimSpeed(float.Parse(SimSpeed.text));
+}
+
+    public void SetSimSpeed(float timeFactor)
+    {
+        Time.timeScale = timeFactor;
+    }
 
 }
