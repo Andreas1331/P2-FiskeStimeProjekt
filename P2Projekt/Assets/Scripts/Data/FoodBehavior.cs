@@ -8,13 +8,16 @@ public class FoodBehavior : MonoBehaviour
     public Food Food { get {  return _food; } set { if (value != null) _food = value; } }
     private DataManager _dataManager;
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
+    float healthDivider;
+    float placeholder = 255;
     // Start is called before the first frame update
     void Start()
     {
         //transform.position = new Vector3(Random.value*(-20), Random.value*(-20), Random.value*(-20));
-        transform.position = new Vector3(0, -10, 0);
+        transform.position = new Vector3(0, -2, 0);
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.foodList.Add(_food);
+        healthDivider = 255 / _food.Health;
     }
 
     // Update is called once per frame
@@ -33,5 +36,4 @@ public class FoodBehavior : MonoBehaviour
             transform.gameObject.SetActive(false);
         }
     }
-
 }
