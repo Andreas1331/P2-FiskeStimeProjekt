@@ -16,12 +16,16 @@ public class DataManager : MonoBehaviour
     public int timesAddedFood = 0;
     private int fishCounter=0;
     private int foodCounter=0;
+    private UIHandler UI;
     // Start is called before the first frame update
 
     public void Start()
     {
         AddFishToNet(5);
         AddFoodToNet(1, 3);
+    }
+    private void Update()
+    {
     }
     public bool SaveStatistics(Statistic stats)
     {
