@@ -13,11 +13,11 @@ public class Food
     {
         
     }
-    public Food(int id, GameObject preFab)
+    public Food(int id, GameObject preFab, int amountOfFood)
     {
         Id = id;
-        //FoodObject = GameObject.Instantiate(preFab, new Vector3(), Quaternion.identity);
-        //FoodObject.GetComponent<FoodBehavior>().Food = this;
+        Health = amountOfFood;
+        FoodObject = GameObject.Instantiate(preFab, new Vector3(), Quaternion.identity);
+        FoodObject.GetComponent<FoodBehavior>().Food = this;
     }
-    
 }

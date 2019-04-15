@@ -16,37 +16,35 @@ public class DataManager : MonoBehaviour
     public int timesAddedFood = 0;
     private int fishCounter=0;
     private int foodCounter=0;
+    private UIHandler UI;
     // Start is called before the first frame update
 
     public void Start()
     {
-
-        //AddFishToNet(10);
-
         //Rainbowtrout rt = new Rainbowtrout(1, RainbowPreFab);
         //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
         //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
 
-        //AddFishToNet(200);
-
-        //AddFoodToNet(1);
         //Food firstFoodDrop = new Food(1,FoodPreFab);
+
+        AddFishToNet(5);
+        AddFoodToNet(1, 3);
+    }
+    private void Update()
+    {
 
     }
     public bool SaveStatistics(Statistic stats)
     {
         if (stats == null)
             return false;
-
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        
         if (System.IO.Directory.Exists(path))
         {
             string data = JsonUtility.ToJson(stats);
             System.IO.File.WriteAllText(path + @"\Noget_midlertidligt.json", data);
             return true;
         }
-
         return false;
     }
 
@@ -75,12 +73,12 @@ public class DataManager : MonoBehaviour
             fishList.Add(new Rainbowtrout(fishCounter, RainbowPreFab));
         }
     }
-    public void AddFoodToNet(int howManyToAdd)
+    public void AddFoodToNet(int howManyToAdd, int amountOfFood)
     {
         for (int i = 0; i < howManyToAdd; i++)
         {
             foodCounter++;
-            foodList.Add(new Food(foodCounter, FoodPreFab));
+            foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood));
         }
     }
 }
