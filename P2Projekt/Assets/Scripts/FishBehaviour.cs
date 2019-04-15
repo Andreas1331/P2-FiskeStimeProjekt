@@ -11,6 +11,8 @@ public class FishBehaviour : MonoBehaviour
     public Fish Fish { get {return _fish; } set { if (value != null) _fish = value; } }
     private DataManager _dataManager;
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
+    private GameObject _net;
+    public GameObject Net { set { if (value != null) _net = value; } }
     private MathTools _mathTools;
     Vector3 newdir;
     public float gotDistance = 0;
@@ -30,12 +32,13 @@ public class FishBehaviour : MonoBehaviour
         _mathTools = this.GetComponent<MathTools>();
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.fishList.Add(_fish);
-     
-        //transform.position = new Vector3(Random.value*10, -50f, Random.value*10);
+        Net = GameObject.FindGameObjectWithTag("Net");
+        
     }
 
     private void Start()
     {
+        SearchForOptimalDepth();
         //Debug.Log("Fish spawned");
     }
 
@@ -354,6 +357,13 @@ public class FishBehaviour : MonoBehaviour
             }
         }
         return GN+GV;
+    }
+    #endregion
+
+    #region Search for optimal depth
+    private Vector3 SearchForOptimalDepth() {
+        Debug.Log(-_net.transform.lossyScale.y / 2);
+        return new Vector3(transform.position.x, -_net.transform.lossyScale.y/2, transform.position.z);
     }
     #endregion
 
