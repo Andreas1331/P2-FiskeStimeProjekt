@@ -318,6 +318,21 @@ public class FishBehaviour : MonoBehaviour
     //D_2,t (FOOD) methods --------------------------------------------------------END
     #endregion
 
+    #region Swim towards other fish
+    private Vector3 SwimTowardsOtherFish() {
+        Vector3 D_3 = new Vector3(0,0,0);
+        float distanceBetweenFish;
+        foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
+            distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(transform.position,item.Value.transform.position)/nearbyFish.Count;
+            D_3.x += distanceBetweenFish *(item.Value.transform.position.x-transform.position.x);
+            D_3.y += distanceBetweenFish *(item.Value.transform.position.y-transform.position.y);
+            D_3.z += distanceBetweenFish *(item.Value.transform.position.z-transform.position.z);
+        }
+        return D_3;
+    }
+
+    #endregion
+
     #region Swim with fish
     private Vector3 SwimWithFriends() {
         Vector3 D_3 = new Vector3(0,0,0);
@@ -370,10 +385,9 @@ public class FishBehaviour : MonoBehaviour
     #region Get new direction
     private Vector3 GetNewDirection()
     {
-        Vector3 foodVector =  new Vector3(0, 5000, 0); 
+        
 
-
-        return new Vector3(0,0,0);
+        return newdir;
     }
     #endregion
 }
