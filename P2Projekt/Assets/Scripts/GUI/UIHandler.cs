@@ -5,12 +5,17 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
-    public DataManager DM;
-    // Start is called before the first frame update
+    private DataManager DM;
     public Text FishHealth;
     public Text FishStress;
     public Text FishDepth;
     public Text SimSpeed;
+    private void Awake()
+    //Når gameobjectet bliver aktiveret
+    {
+        DM = FindObjectOfType<DataManager>();
+        DontDestroyOnLoad(gameObject);
+    }
     void Start()
     {
         
@@ -22,7 +27,6 @@ public class UIHandler : MonoBehaviour
             TogglePauseMenuInGame();
         }
     }
-
     public void LoadMainMenu()
     {
         DM.LoadMainMenu();
@@ -41,13 +45,25 @@ public class UIHandler : MonoBehaviour
     {   
         if(PauseMenuUI.activeSelf == true)
         {
-            DM.DeactivatePauseMenu(PauseMenuUI);
+            //DM.DeactivatePauseMenu(PauseMenuUI);
+            DeactivatePauseMenu();
         } else if (PauseMenuUI.activeSelf == false)
         {
-            DM.ActivatePauseMenu(PauseMenuUI);
+            //DM.ActivatePauseMenu(PauseMenuUI);
+            ActivatePauseMenu();
         }
     }
-    
+    public void ActivatePauseMenu()
+    {
+        PauseMenuUI.SetActive(true);
+        Time.timeScale = 0.0f;
+    }
+    public void DeactivatePauseMenu()
+    {
+        PauseMenuUI.SetActive(false);
+        Time.timeScale = 1.0f;
+    }
+
     public void ApplyButtonValues()
     {
         int.Parse(FishHealth.text);
