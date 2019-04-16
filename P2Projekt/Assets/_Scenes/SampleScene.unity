@@ -687,6 +687,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 454220384}
+  - component: {fileID: 454220385}
   m_Layer: 0
   m_Name: CameraControlls
   m_TagString: Untagged
@@ -702,13 +703,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 454220383}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -16.420164, y: 5.127983, z: 5.9743342}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 534669905}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &454220385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 454220383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 062e3939e46981448b8a58824793b126, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -721,6 +734,7 @@ GameObject:
   - component: {fileID: 534669904}
   - component: {fileID: 534669903}
   - component: {fileID: 534669906}
+  - component: {fileID: 534669907}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -802,6 +816,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57d054720957e67428897ffd96372589, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &534669907
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 534669902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b3f591490f5d584b947beb38b1e267b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &573686102
@@ -3286,20 +3312,25 @@ PrefabInstance:
       propertyPath: m_Name
       value: MidlertidigtNet
       objectReference: {fileID: 0}
+    - target: {fileID: 8126611404918072606, guid: a52b1594c763357499950b9033e81c1e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Net
+      objectReference: {fileID: 0}
     - target: {fileID: 7982504939322657056, guid: a52b1594c763357499950b9033e81c1e,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.2345521
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7982504939322657056, guid: a52b1594c763357499950b9033e81c1e,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.281762
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7982504939322657056, guid: a52b1594c763357499950b9033e81c1e,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.574035
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7982504939322657056, guid: a52b1594c763357499950b9033e81c1e,
         type: 3}
