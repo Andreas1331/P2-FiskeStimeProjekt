@@ -492,7 +492,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &344890608
 GameObject:
@@ -664,7 +664,6 @@ GameObject:
   - component: {fileID: 370674782}
   - component: {fileID: 370674781}
   - component: {fileID: 370674780}
-  - component: {fileID: 370674783}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -732,7 +731,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 370674783}
+      - m_Target: {fileID: 414763660}
         m_MethodName: ApplicationQuit
         m_Mode: 1
         m_Arguments:
@@ -782,23 +781,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370674778}
   m_CullTransparentMesh: 0
---- !u!114 &370674783
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 370674778}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052a4b20fca406b4ebe9b4eab0105456, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FishHealth: {fileID: 0}
-  FishStress: {fileID: 0}
-  FishDepth: {fileID: 0}
-  SimSpeed: {fileID: 0}
-  PauseMenuUI: {fileID: 0}
 --- !u!1 &399711756
 GameObject:
   m_ObjectHideFlags: 0
@@ -1129,8 +1111,9 @@ GameObject:
   m_Component:
   - component: {fileID: 414763659}
   - component: {fileID: 414763660}
+  - component: {fileID: 414763661}
   m_Layer: 0
-  m_Name: UIHandler
+  m_Name: GameHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1148,7 +1131,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &414763660
 MonoBehaviour:
@@ -1162,11 +1145,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 052a4b20fca406b4ebe9b4eab0105456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FishHealth: {fileID: 0}
-  FishStress: {fileID: 0}
-  FishDepth: {fileID: 0}
-  SimSpeed: {fileID: 0}
+  FishHealth: {fileID: 2068270786}
+  FishStress: {fileID: 790815283}
+  FishDepth: {fileID: 88704470}
+  SimSpeed: {fileID: 1422246997}
   PauseMenuUI: {fileID: 0}
+--- !u!114 &414763661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 414763658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 550a3dc744eaa0745a2893dca4f43a00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RainbowPreFab: {fileID: 0}
+  FoodPreFab: {fileID: 0}
+  deathCounter: 0
+  timesAddedFood: 0
 --- !u!1 &571862027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1327,7 +1326,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &607427011
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1894,6 +1893,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 414763660}
+        m_MethodName: ApplyButtonValues
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &880160329
@@ -2317,7 +2327,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1094745357
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2543,7 +2553,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1272621325
 GameObject:
@@ -3535,7 +3545,6 @@ GameObject:
   - component: {fileID: 1850327700}
   - component: {fileID: 1850327699}
   - component: {fileID: 1850327698}
-  - component: {fileID: 1850327701}
   m_Layer: 5
   m_Name: StartButton
   m_TagString: Untagged
@@ -3603,7 +3612,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1850327701}
+      - m_Target: {fileID: 414763660}
         m_MethodName: LoadScene
         m_Mode: 1
         m_Arguments:
@@ -3653,23 +3662,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850327696}
   m_CullTransparentMesh: 0
---- !u!114 &1850327701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1850327696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 052a4b20fca406b4ebe9b4eab0105456, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  FishHealth: {fileID: 0}
-  FishStress: {fileID: 0}
-  FishDepth: {fileID: 0}
-  SimSpeed: {fileID: 0}
-  PauseMenuUI: {fileID: 0}
 --- !u!1 &1858240492
 GameObject:
   m_ObjectHideFlags: 0
@@ -3763,7 +3755,7 @@ RectTransform:
   - {fileID: 607427013}
   - {fileID: 1094745357}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

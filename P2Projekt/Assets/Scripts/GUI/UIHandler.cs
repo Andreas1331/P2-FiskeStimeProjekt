@@ -13,7 +13,7 @@ public class UIHandler : MonoBehaviour
     private void Awake()
     //Når gameobjectet bliver aktiveret
     {
-        DM = FindObjectOfType<DataManager>();
+        DM = GetComponent<DataManager>();
         DontDestroyOnLoad(gameObject);
     }
     void Start()

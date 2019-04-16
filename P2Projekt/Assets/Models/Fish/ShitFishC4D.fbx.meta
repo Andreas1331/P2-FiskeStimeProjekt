@@ -1,80 +1,26 @@
 fileFormatVersion: 2
-guid: 3bb02619ca7df3444b112785b66112fc
+guid: 023d24dd036f15644b68808535c7357c
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
-    100000: aiPhotometricLight1
-    100002: ambientLight1
-    100004: //RootNode
-    100006: group
-    100008: group1
-    100010: group2
-    100012: group3
-    100014: locator1
-    100016: locator10
-    100018: locator2
-    100020: locator3
-    100022: locator4
-    100024: locator5
-    100026: locator6
-    100028: locator7
-    100030: locator8
-    100032: locator9
-    100034: pasted__group
-    100036: pasted__group2
-    100038: pasted__pasted__group
-    100040: pasted__pasted__pasted__pCube1
-    100042: pasted__pasted__pCube1
-    100044: pasted__pSphere1
-    100046: pCube1
-    100048: pSphere1
-    100050: transform2
-    100052: transform3
-    100054: transform4
-    100056: transform5
-    100058: transform6
-    100060: transform7
-    400000: aiPhotometricLight1
-    400002: ambientLight1
-    400004: //RootNode
-    400006: group
-    400008: group1
-    400010: group2
-    400012: group3
-    400014: locator1
-    400016: locator10
-    400018: locator2
-    400020: locator3
-    400022: locator4
-    400024: locator5
-    400026: locator6
-    400028: locator7
-    400030: locator8
-    400032: locator9
-    400034: pasted__group
-    400036: pasted__group2
-    400038: pasted__pasted__group
-    400040: pasted__pasted__pasted__pCube1
-    400042: pasted__pasted__pCube1
-    400044: pasted__pSphere1
-    400046: pCube1
-    400048: pSphere1
-    400050: transform2
-    400052: transform3
-    400054: transform4
-    400056: transform5
-    400058: transform6
-    400060: transform7
-    2100000: Default_Material
-    2300000: group3
-    3300000: group3
+    100000: //RootNode
+    400000: //RootNode
+    2100000: Mat
+    2100002: No Name
+    2300000: //RootNode
+    3300000: //RootNode
     4300000: group3
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Mat
+    second: {fileID: 2100000, guid: e24f430eb2d272d4e99a557af8accafd, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
     materialSearch: 1
-    materialLocation: 1
+    materialLocation: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
@@ -106,7 +52,7 @@ ModelImporter:
     useSRGBMaterialColor: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 1
+    importCameras: 0
     importLights: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
