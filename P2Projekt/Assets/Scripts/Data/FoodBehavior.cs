@@ -15,7 +15,7 @@ public class FoodBehavior : MonoBehaviour
         transform.position = new Vector3(0, -2, 0);
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.foodList.Add(_food);
-        
+            
     }
 
     // Update is called once per frame
@@ -28,8 +28,6 @@ public class FoodBehavior : MonoBehaviour
     {
         _food.Health--;
         Debug.Log("Bliver spist");
-        if (_food.Health == 0)
-        {
             _dataManager.RemoveFood(_food);
             transform.gameObject.SetActive(false);
         }
