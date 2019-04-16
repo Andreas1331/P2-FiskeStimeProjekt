@@ -189,7 +189,7 @@ GameObject:
   - component: {fileID: 4186108171497005417}
   - component: {fileID: 911500043371982695}
   m_Layer: 0
-  m_Name: Fish
+  m_Name: FishOLD
   m_TagString: Fish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -254,6 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sumVector: {x: 0, y: 0, z: 0}
   lastKnownFoodSpots: []
+  gotDistance: 0
 --- !u!135 &4186108171497005417
 SphereCollider:
   m_ObjectHideFlags: 0
