@@ -101,7 +101,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5134096398311105192}
-  - component: {fileID: 4812201755700316490}
   - component: {fileID: 5621608990544343279}
   - component: {fileID: 4186108171497005417}
   - component: {fileID: 911500043371982695}
@@ -146,18 +145,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4812201755700316490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5134096398311341704}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cfc2d2eb39d66242addff6db6e92dbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &5621608990544343279
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -172,7 +159,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gotDistance: 0
   lastKnownFoodSpots: []
-  dir: 1
 --- !u!135 &4186108171497005417
 SphereCollider:
   m_ObjectHideFlags: 0

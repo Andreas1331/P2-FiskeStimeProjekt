@@ -309,7 +309,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1092163364157636372}
-  - component: {fileID: 2214540102209426236}
   - component: {fileID: 4126127599594628731}
   - component: {fileID: 5268433580362329747}
   - component: {fileID: 918188648642947118}
@@ -354,18 +353,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2214540102209426236
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1092163364157137716}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cfc2d2eb39d66242addff6db6e92dbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &4126127599594628731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,7 +365,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0dc96064ccad6040b5fca13d1a3aa5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sumVector: {x: 0, y: 0, z: 0}
   gotDistance: 0
   lastKnownFoodSpots: []
 --- !u!135 &5268433580362329747
