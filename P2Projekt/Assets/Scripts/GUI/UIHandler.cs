@@ -14,7 +14,7 @@ public class UIHandler : MonoBehaviour
     //Når gameobjectet bliver aktiveret
     {
         DM = FindObjectOfType<DataManager>();
-        DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(this.gameObject);
     }
     void Start()
     {

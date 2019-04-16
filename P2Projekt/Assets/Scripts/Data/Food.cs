@@ -13,6 +13,7 @@ public class Food
     {
         
     }
+
     public Food(int id, GameObject preFab, int amountOfFood)
     {
         Id = id;

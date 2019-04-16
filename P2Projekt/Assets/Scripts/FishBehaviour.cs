@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Timers;
 using UnityEngine;
 
-[RequireComponent(typeof(MathTools))]
 [RequireComponent(typeof(Rigidbody))]
 public class FishBehaviour : MonoBehaviour
 {
@@ -35,11 +34,10 @@ public class FishBehaviour : MonoBehaviour
     private void Awake()
     {
         //_fish.IsDead = false;
-        _mathTools = this.GetComponent<MathTools>();
+        _mathTools = new MathTools();
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.fishList.Add(_fish);
-        Net = GameObject.FindGameObjectWithTag("Net");
-        
+        Net = GameObject.FindGameObjectWithTag("Net");        
     }
 
     private void Start()
@@ -57,8 +55,6 @@ public class FishBehaviour : MonoBehaviour
         //    transform.rotation = Quaternion.LookRotation(newdir);
         //}
         //AnimateDeath();
-        _fish.CurrentDirection = new Vector3(0, 0, dir);
-        Debug.DrawRay(transform.position, _fish.CurrentDirection, Color.cyan);
 
         UpdateStress();
         UpdateHunger();
@@ -131,7 +127,7 @@ public class FishBehaviour : MonoBehaviour
                 Vector3 newDir = FindFreeDir(closestPos, ref offset);
                 D_tVectors[3] = newDir;
 
-                // Use the new direction..
+                // Use the new direction.. (D4t)
             }
             else
                 Debug.Log("Wont be hitting the obstacle..");
