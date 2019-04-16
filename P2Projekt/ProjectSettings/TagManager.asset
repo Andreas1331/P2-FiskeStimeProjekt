@@ -6,8 +6,6 @@ TagManager:
   tags:
   - Obstacle
   - Fish
-  - Net
-  - Food
   layers:
   - Default
   - TransparentFX
