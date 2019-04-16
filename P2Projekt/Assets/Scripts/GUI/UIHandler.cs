@@ -1,65 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
+    public DataManager DM;
     // Start is called before the first frame update
+    public Text FishHealth;
+    public Text FishStress;
+    public Text FishDepth;
+    public Text SimSpeed;
     void Start()
     {
         
     }
-
-    // Update is called once per frame
     void Update()
     {
-        //Scans for escape key stroke
-        TogglePauseMenuInGame();
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            TogglePauseMenuInGame();
+        }
     }
 
-    public void ApplicationQuit()
+    public void LoadMainMenu()
     {
-#if UNITY_EDITOR
-        //Sættes sådan at vi kan teste i Unity editoren.
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    } 
+        DM.LoadMainMenu();
+    }
     public void LoadScene()
     {
-        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        DM.LoadScene();
+    }
+    public void ApplicationQuit()
+    {
+        DM.ApplicationQuit();
     }
 
     [SerializeField] private GameObject PauseMenuUI;
-    [SerializeField] private bool isPaused;
     public void TogglePauseMenuInGame()
-    {
-        //Toggles pause menu on esc key press
-        if (Input.GetKeyDown(KeyCode.Escape))
+    {   
+        if(PauseMenuUI.activeSelf == true)
         {
-            isPaused = !isPaused;
-        }
-
-        if (isPaused)
+            DM.DeactivatePauseMenu(PauseMenuUI);
+        } else if (PauseMenuUI.activeSelf == false)
         {
-            ActivatePauseMenu();
-        }
-        else
-        {
-            DeactivatePauseMenu();
+            DM.ActivatePauseMenu(PauseMenuUI);
         }
     }
-
-    void ActivatePauseMenu()
+    
+    public void ApplyButtonValues()
     {
-        PauseMenuUI.SetActive(true);
-    }
-    void DeactivatePauseMenu()
-    {
-        PauseMenuUI.SetActive(false);
-    }
+        int.Parse(FishHealth.text);
+        int.Parse(FishStress.text);
+        int.Parse(FishDepth.text);
 
-
+        DM.SetSimSpeed(float.Parse(SimSpeed.text));
+    }
 }

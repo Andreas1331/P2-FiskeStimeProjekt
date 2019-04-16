@@ -11,6 +11,7 @@ public abstract class Fish
     public float Weight { get; set; }
     public float MovementSpeed { get; set; }
     public float MaxSpeed { get; set; }
+    public float Width { get; set; }
     private float _stress;
     public float Stress
     {
@@ -44,12 +45,13 @@ public abstract class Fish
     private Rigidbody RbFish;
     //public int EatTimer
 
-    public Fish(int id, float weight, float movementSpeed, float maxSpeed, FishType typeOfFish, GameObject preFab)
+    public Fish(int id, float weight, float movementSpeed, float maxSpeed, float width, FishType typeOfFish, GameObject preFab)
     {
         Id = id;
         Weight = weight;
         MovementSpeed = movementSpeed;
         MaxSpeed = maxSpeed;
+        Width = width;
         Stress = 0;
         Hunger = 1000;
         TypeOfFish = typeOfFish;

@@ -12,9 +12,10 @@ public class FoodBehavior : MonoBehaviour
     void Start()
     {
         //transform.position = new Vector3(Random.value*(-20), Random.value*(-20), Random.value*(-20));
-        transform.position = new Vector3(0, -10, 0);
+        transform.position = new Vector3(0, -2, 0);
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.foodList.Add(_food);
+        
     }
 
     // Update is called once per frame
@@ -33,5 +34,4 @@ public class FoodBehavior : MonoBehaviour
             transform.gameObject.SetActive(false);
         }
     }
-
 }
