@@ -22,14 +22,14 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
-        //Rainbowtrout rt = new Rainbowtrout(1, RainbowPreFab);
+        Rainbowtrout rt = new Rainbowtrout(1, 0.1f, RainbowPreFab);
         //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
         //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
 
         //Food firstFoodDrop = new Food(1,FoodPreFab);
 
-        AddFishToNet(5);
-        AddFoodToNet(1, 3);
+        //AddFishToNet(5);
+        //AddFoodToNet(1, 3);
     }
     private void Update()
     {
@@ -57,13 +57,13 @@ public class DataManager : MonoBehaviour
             deathCounter++;
         }
     }
+
     public void RemoveFood(Food foodToRemove)
     {
         if (foodList.Contains(foodToRemove))
         {
             foodPool.Add(foodToRemove);
-            foodList.Remove(foodToRemove);
-            
+            foodList.Remove(foodToRemove);         
         }
     }
 
@@ -71,7 +71,7 @@ public class DataManager : MonoBehaviour
     {
         for (int i = 0; i < howManyToAdd; i++) {
             fishCounter++;
-            fishList.Add(new Rainbowtrout(fishCounter, RainbowPreFab));
+            fishList.Add(new Rainbowtrout(fishCounter, 0.1f, RainbowPreFab));
         }
     }
     public void AddFoodToNet(int howManyToAdd, int amountOfFood)

@@ -9,7 +9,7 @@ namespace Assets.Scripts.Data
 {
     public class Rainbowtrout : Fish
     {
-        public Rainbowtrout(int id, GameObject preFab) : base(id, 2000, 3, 10, FishType.RainbowTrout, preFab)
+        public Rainbowtrout(int id, float width, GameObject preFab) : base(id, 2000, 3, 10, width, FishType.RainbowTrout, preFab)
         {
 
         } 

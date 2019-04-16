@@ -253,9 +253,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0dc96064ccad6040b5fca13d1a3aa5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sumVector: {x: 0, y: 0, z: 0}
-  lastKnownFoodSpots: []
   gotDistance: 0
+  lastKnownFoodSpots: []
+  dir: 1
 --- !u!135 &4186108171497005417
 SphereCollider:
   m_ObjectHideFlags: 0
