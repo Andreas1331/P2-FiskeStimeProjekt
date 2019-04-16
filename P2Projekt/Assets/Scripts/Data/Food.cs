@@ -8,11 +8,6 @@ public class Food
     public int Id { get; set; }
     public GameObject FoodObject { get; set; }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     public Food(int id, GameObject preFab, int amountOfFood)
     {

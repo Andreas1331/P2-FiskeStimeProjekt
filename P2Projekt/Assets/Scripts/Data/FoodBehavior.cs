@@ -15,21 +15,12 @@ public class FoodBehavior : MonoBehaviour
         transform.position = new Vector3(0, -2, 0);
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.foodList.Add(_food);
-            
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void BeingEaten()
     {
         _food.Health--;
-        Debug.Log("Bliver spist");
-            _dataManager.RemoveFood(_food);
-            transform.gameObject.SetActive(false);
-        }
+        _dataManager.RemoveFood(_food);
+        transform.gameObject.SetActive(false);
     }
 }

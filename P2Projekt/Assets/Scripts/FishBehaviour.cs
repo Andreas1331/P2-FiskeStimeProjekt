@@ -28,7 +28,7 @@ public class FishBehaviour : MonoBehaviour
     private float[] lambdaArrayAlone = new float [5];
     private float[] lambdaArrayStime = new float[6];
     private Vector3[] D_tVectors = new Vector3[6];
-    public float dir = 1;
+    
     
     
     private void Awake()
