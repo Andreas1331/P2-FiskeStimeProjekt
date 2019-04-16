@@ -167,7 +167,7 @@ public class FishBehaviour : MonoBehaviour
         offset++;
         return FindFreeDir(pos, ref offset);
     }
-
+    #region Lambda
     private void UpdateHunger()
     {
         _fish.Hunger -= 1 * Time.deltaTime;
@@ -209,6 +209,7 @@ public class FishBehaviour : MonoBehaviour
         _stressTimer.Elapsed += StressTimerElapsed;
         _stressTimer.AutoReset = false;
         _stressTimer.Enabled = true;
+        
     }
 
     private void ResetStressTimer()
@@ -230,11 +231,11 @@ public class FishBehaviour : MonoBehaviour
         if(_fish.Stress >= 900)
         {
             // Should call proper Kill() method instead that handles this.
-            _fish.IsDead = true;
+            KillFish();
         }
     }
     #endregion
-
+    #endregion
     #region Die Methods
     //DIE method ------------------------------------------------------------------START
     private void KillFish()
