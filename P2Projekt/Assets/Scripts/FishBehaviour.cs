@@ -54,7 +54,7 @@ public class FishBehaviour : MonoBehaviour
         //    Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
         //    transform.rotation = Quaternion.LookRotation(newdir);
         //}
-        //AnimateDeath();
+        AnimateDeath();
 
         UpdateStress();
         UpdateHunger();
@@ -239,13 +239,14 @@ public class FishBehaviour : MonoBehaviour
     //DIE method ------------------------------------------------------------------START
     private void KillFish()
     {
+        _fish.IsDead = true;
         _dataManager.RemoveFish(_fish);
     }
 
     public void AnimateDeath()
     {
-        //if (!_fish.IsDead)
-        //    return;
+        if (!_fish.IsDead)
+            return;
         //Rotation of fish around the z-axis
         if (transform.rotation.x > -0.7f)
         {
@@ -259,11 +260,6 @@ public class FishBehaviour : MonoBehaviour
             //transform.RotateAround(transform.position, Vector3.forward, 0);
             transform.position = new Vector3(transform.position.x, transform.position.y + 5 * Time.deltaTime, transform.position.z);
             //Debug.Log("1");
-
-            if (gotDistance == 0)
-            {
-                gotDistance = -transform.position.y;
-            }
 
             //MakeOpague;
         }
@@ -387,6 +383,8 @@ public class FishBehaviour : MonoBehaviour
     #region Get new direction
     private Vector3 GetNewDirection()
     {
+        if (_fish.IsDead)
+            return new Vector3(0, 0, 0);
         bool schooling = false;
         bool isThereNearbyFood = false;
         D_tVectors[0] = _fish.CurrentDirection;
