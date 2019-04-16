@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-    //COPYRIGHT MICHAEL NIELSEN & ANDREAS ANDERSEN
     public class MathTools : MonoBehaviour
     {
         // Start is called before the first frame update
@@ -31,7 +30,10 @@ using UnityEngine;
             float zDifference = (vec2.z - vec1.z);
             float distanceBetweenVectors = Mathf.Sqrt(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
 
-            Debug.Log(distanceBetweenVectors);
+
+            //Debug.Log(distanceBetweenVectors);
+
+
             return distanceBetweenVectors;
         }
 
@@ -41,7 +43,9 @@ using UnityEngine;
             float vec1Length = Mathf.Sqrt(Mathf.Pow(vec1.x, 2) + Mathf.Pow(vec1.y, 2) + Mathf.Pow(vec1.z, 2));
             float vec2Length = Mathf.Sqrt(Mathf.Pow(vec2.x, 2) + Mathf.Pow(vec2.y, 2) + Mathf.Pow(vec2.z, 2));
             
-            Debug.Log(RadianToDegree(Mathf.Acos(dotProduct / (vec1Length * vec2Length))));
+
+            //Debug.Log(RadianToDegree(Mathf.Acos(dotProduct / (vec1Length * vec2Length))));
+
             return RadianToDegree(Mathf.Acos(dotProduct / (vec1Length * vec2Length)));
         }
 
