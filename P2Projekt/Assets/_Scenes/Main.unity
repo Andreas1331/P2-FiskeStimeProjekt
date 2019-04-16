@@ -143,6 +143,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RainbowPreFab: {fileID: 5134096398311341704, guid: d389358a74795b2408b728ec31ac4c24,
     type: 3}
+  FoodPreFab: {fileID: 0}
+  deathCounter: 0
+  timesAddedFood: 0
 --- !u!4 &1026976190
 Transform:
   m_ObjectHideFlags: 0
@@ -320,8 +323,8 @@ GameObject:
   - component: {fileID: 1775702496}
   - component: {fileID: 1775702495}
   - component: {fileID: 1775702494}
-  m_Layer: 0
-  m_Name: Cube
+  m_Layer: 8
+  m_Name: Stone
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -392,10 +395,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1775702493}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 11.27}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 0.2557224, z: -0, w: 0.9667503}
+  m_LocalPosition: {x: 0, y: 0, z: 3.84}
+  m_LocalScale: {x: 7.4046, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 29.633001, z: 0}
