@@ -28,6 +28,10 @@ public class FishBehaviour : MonoBehaviour
     private float[] lambdaArrayAlone = new float [5];
     private float[] lambdaArrayStime = new float[6];
     private Vector3[] D_tVectors = new Vector3[6];
+
+    //Stress timere
+    private float timerToDie = 0;
+    private float timerToResetTimer = 0;
     
     
     
@@ -189,51 +193,61 @@ public class FishBehaviour : MonoBehaviour
             _fish.Stress -= 1 * Time.deltaTime;
 
         // Start the timer if the fish is stressed.
+// nye version af stress timeren (simplificeret)
         if (_fish.Stress >= 900)
         {
-            if (!IsStressTimerRunning())
-                StartStressTimer();
+            timerToDie += Time.deltaTime;
+            timerToResetTimer = 0;
+            if (timerToDie > 30)
+                KillFish();
         }
         // Stress is less than 900. Check if the timer is running.
-        else if (IsStressTimerRunning())
-        {
-            ResetStressTimer();
+        else if (_fish.Stress < 900 && timerToDie != 0) {
+            timerToResetTimer += Time.deltaTime;
+            if (timerToResetTimer > 30)
+                timerToDie = 0;
         }
     }
 
     #region Stress handler
-    private void StartStressTimer()
-    {
-        _stressTimer = new Timer();
-        _stressTimer.Interval = _stressDuration * 1000;
-        _stressTimer.Elapsed += StressTimerElapsed;
-        _stressTimer.AutoReset = false;
-        _stressTimer.Enabled = true;
-        
-    }
+    //    Gamle version
 
-    private void ResetStressTimer()
-    {
-        if(_stressTimer != null)
-        {
-            _stressTimer.Enabled = false;
-        }
-    }
+    //private void StartStressTimer()
+    //{
 
-    private bool IsStressTimerRunning()
-    {
-        return _stressTimer?.Enabled ?? false;
-    } 
 
-    private void StressTimerElapsed(object source, ElapsedEventArgs e)
-    {
-        // Check if stress is more than 900.
-        if(_fish.Stress >= 900)
-        {
-            // Should call proper Kill() method instead that handles this.
-            KillFish();
-        }
-    }
+    //    //_stressTimer = new Timer();
+    //    //_stressTimer.Interval = _stressDuration * 1000;
+    //    //_stressTimer.Elapsed += StressTimerElapsed;
+    //    //_stressTimer.AutoReset = false;
+    //    //_stressTimer.Enabled = true;
+
+    //    //Nye version:
+
+    //}
+
+    //private void ResetStressTimer()
+    //{
+    //    if(_stressTimer != null)
+    //    {
+    //        _stressTimer.Enabled = false;
+    //    }
+    //}
+
+    //private bool IsStressTimerRunning()
+    //{
+    //    return _stressTimer?.Enabled ?? false;
+    //} 
+
+    //private void StressTimerElapsed(object source, ElapsedEventArgs e)
+    //{
+    //    // Check if stress is more than 900.
+    //    if(_fish.Stress >= 900)
+    //    {
+    //        // Should call proper Kill() method instead that handles this.
+    //        KillFish();
+    //    }
+    //}
     #endregion
     #endregion
     #region Die Methods
