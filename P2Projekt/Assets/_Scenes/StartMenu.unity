@@ -1219,10 +1219,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 052a4b20fca406b4ebe9b4eab0105456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FishHealth: {fileID: 2068270786}
-  FishStress: {fileID: 790815283}
-  FishDepth: {fileID: 88704470}
-  SimSpeed: {fileID: 1422246997}
+  FishHealthtxt: {fileID: 0}
+  FishStresstxt: {fileID: 0}
+  FishDepthtxt: {fileID: 0}
+  SimSpeedtxt: {fileID: 0}
+  AmountOfFishtxt: {fileID: 0}
+  AmountOfFishFromInputtxt: {fileID: 0}
+  AmountOfFishSlider: {fileID: 0}
   PauseMenuUI: {fileID: 0}
 --- !u!114 &414763661
 MonoBehaviour:
@@ -3278,7 +3281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.4764151, b: 0.7947461, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
