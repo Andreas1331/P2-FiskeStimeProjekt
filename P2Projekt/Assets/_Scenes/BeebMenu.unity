@@ -1236,8 +1236,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550a3dc744eaa0745a2893dca4f43a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RainbowPreFab: {fileID: 0}
-  FoodPreFab: {fileID: 0}
+  RainbowPreFab: {fileID: 2851111430968988975, guid: 9f28b2c48ec0209419a30db0991dca4d,
+    type: 3}
+  FoodPreFab: {fileID: 792305209597686558, guid: 9a0909af304b73e4a9ea2acf3cec2bd3,
+    type: 3}
   deathCounter: 0
   timesAddedFood: 0
 --- !u!1 &571862027
