@@ -23,7 +23,7 @@ public class FishBehaviour : MonoBehaviour
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
     private float[] lambdaArrayAlone = new float [5];
-    private float[] lambdaArraySchooling = new float[6];
+    private float[] lambdaArrayStime = new float[6];
     private Vector3[] D_tVectors = new Vector3[6];
 
     //Stress timer
