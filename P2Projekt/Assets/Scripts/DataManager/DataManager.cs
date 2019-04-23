@@ -100,13 +100,10 @@ public class DataManager : MonoBehaviour
     {
         //If fish in fishpool, spawn those
 
-        Debug.Log("Before: " + fishList.Count);
-        Debug.Log("HowManyToAdd: " + howManyToAdd);
         for (int i = 0; i < howManyToAdd; i++) {
             fishCounter++;
             fishList.Add(new Rainbowtrout(fishCounter, 0.1f, RainbowPreFab));
         }
-        Debug.Log("Amount after adding: " + fishList.Count);
     }
 
     public void AddFoodToNet(int howManyToAdd, int amountOfFood)
@@ -129,10 +126,8 @@ public class DataManager : MonoBehaviour
     {
         for (int i = 0; i < amountToRemove; i++)
         {
-            //fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
+            fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
             fishList[i].FishObject.SetActive(false);
-
-            Debug.Log(i);
 
             fishPool.Add(fishList[i]);
             fishList.Remove(fishList[i]);
@@ -141,31 +136,18 @@ public class DataManager : MonoBehaviour
 
     public void GetAmountOfFishToAddOrRemove(int totalAmountOfFish)
     {
-        Debug.Log("Total: " + totalAmountOfFish);
-
         int currentAmountOfFish = fishList.Count;
-
-        Debug.Log("Current: " + currentAmountOfFish);
-
         int newAmountOfFish = totalAmountOfFish - currentAmountOfFish;
 
         if(newAmountOfFish > 0)
         {
             AddFishToNet(newAmountOfFish);
-            Debug.Log("Add fish: " + newAmountOfFish);
-        } else if (newAmountOfFish < 0)
-        {
-            RemoveFishFromNet(Math.Abs(newAmountOfFish));
-            Debug.Log("Remove fish: " + newAmountOfFish);
         } else
         {
-            //Do nothing
-            Debug.Log("Else: (Do nothing)" + newAmountOfFish);
-        }
-        
+            RemoveFishFromNet(Math.Abs(newAmountOfFish));
+        }   
     }
 
-    //GUI TOOLS _______________________________________________________________START
     #region GUI TOOLS
     public void LoadMainMenu()
     {
@@ -185,7 +167,6 @@ public class DataManager : MonoBehaviour
 #endif
     }
 
-    //Method to set simulation time
     public void SetSimSpeed(float timeFactor)
     {
         Time.timeScale = timeFactor;
