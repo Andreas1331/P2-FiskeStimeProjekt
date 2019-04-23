@@ -108,7 +108,6 @@ public class DataManager : MonoBehaviour
         Time.timeScale = timeFactor;
     }
 
-
     public void ActivatePauseMenu(GameObject PauseMenuUI)
     {
         PauseMenuUI.SetActive(true);
@@ -121,5 +120,4 @@ public class DataManager : MonoBehaviour
     }
     #endregion
     //GUI TOOLS _______________________________________________________________END
-
 }
