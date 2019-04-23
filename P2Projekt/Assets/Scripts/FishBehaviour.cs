@@ -16,10 +16,10 @@ public class FishBehaviour : MonoBehaviour
     Vector3 newdir;
     public float gotDistance = 0;
     // Stress variables
-    private Timer _stressTimer;
+    //private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
-    private const float _stressDuration = 30f; // In seconds
-    private int innerColliderFoodCheck = 0;
+    //private const float _stressDuration = 30f; // In seconds
+    //private int innerColliderFoodCheck = 0;
     public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     //grimt workaround dictionary
@@ -147,6 +147,7 @@ public class FishBehaviour : MonoBehaviour
             {
                 _fish.Hunger = 1000;
                 other.GetComponent<FoodBehavior>().BeingEaten();
+
                 Debug.Log("Fisken spiste");
                 //grimt workaround
                 knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
