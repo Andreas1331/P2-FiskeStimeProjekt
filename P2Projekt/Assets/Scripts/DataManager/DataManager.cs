@@ -100,10 +100,13 @@ public class DataManager : MonoBehaviour
     {
         //If fish in fishpool, spawn those
 
+        Debug.Log("Before: " + fishList.Count);
+        Debug.Log("HowManyToAdd: " + howManyToAdd);
         for (int i = 0; i < howManyToAdd; i++) {
             fishCounter++;
             fishList.Add(new Rainbowtrout(fishCounter, 0.1f, RainbowPreFab));
         }
+        Debug.Log("Amount after adding: " + fishList.Count);
     }
 
     public void AddFoodToNet(int howManyToAdd, int amountOfFood)
@@ -138,8 +141,13 @@ public class DataManager : MonoBehaviour
 
     public void GetAmountOfFishToAddOrRemove(int totalAmountOfFish)
     {
+        Debug.Log("Total: " + totalAmountOfFish);
+
         int currentAmountOfFish = fishList.Count;
-        int newAmountOfFish =  totalAmountOfFish - currentAmountOfFish;
+
+        Debug.Log("Current: " + currentAmountOfFish);
+
+        int newAmountOfFish = totalAmountOfFish - currentAmountOfFish;
 
         if(newAmountOfFish > 0)
         {

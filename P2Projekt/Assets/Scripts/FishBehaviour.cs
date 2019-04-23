@@ -32,7 +32,6 @@ public class FishBehaviour : MonoBehaviour
     {
         _mathTools = new MathTools();
         DataManager = FindObjectOfType<DataManager>();
-        _dataManager.fishList.Add(_fish);
         Net = GameObject.FindGameObjectWithTag("Net");
 
         GetComponent<SphereCollider>().radius = 5f;
