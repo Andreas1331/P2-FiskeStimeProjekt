@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +19,7 @@ public class DataManager : MonoBehaviour
     private int fishCounter=0;
     private int foodCounter=0;
     private UIHandler UI;
+    private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
     // Start is called before the first frame update
 
     public void Start()
@@ -63,7 +65,13 @@ public class DataManager : MonoBehaviour
         if (System.IO.Directory.Exists(path))
         {
             string data = JsonUtility.ToJson(stats);
-            System.IO.File.WriteAllText(path + @"\Noget_midlertidligt.json", data);
+
+            // Generate the file name based on the current date and amount of files
+            string date =  DateTime.Now.ToString("d", culture);
+            int amount = System.IO.Directory.GetFiles(path).Length;
+            string fileName = String.Format(@"\FishStatistics_{0}_{1}.json", date, amount);
+
+            System.IO.File.WriteAllText(path + fileName, data);
             return true;
         }
         return false;
