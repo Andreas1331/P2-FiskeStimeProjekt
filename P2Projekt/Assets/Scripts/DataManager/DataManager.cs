@@ -22,7 +22,8 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
-        StartCoroutine(Test());
+        if(SceneManager.GetActiveScene().buildIndex != 0)
+            StartCoroutine(Test());
         //Rainbowtrout rt = new Rainbowtrout(1, 0.1f, RainbowPreFab);
         //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
         //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
