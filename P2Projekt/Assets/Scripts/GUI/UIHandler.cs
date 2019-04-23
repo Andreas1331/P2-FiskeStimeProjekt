@@ -67,7 +67,7 @@ public class UIHandler : MonoBehaviour
     public void DeactivatePauseMenu()
     {
         PauseMenuUI.SetActive(false);
-        Time.timeScale = 1.0f;
+        //Time.timeScale = 1.0f;
     }
 
     public void ApplyButtonValues()
@@ -79,7 +79,7 @@ public class UIHandler : MonoBehaviour
         DM.SetSimSpeed(float.Parse(SimSpeedtxt.text));
     }
 
-    public void SetAmountOfFishInSimulation()
+    public void SetAmountOfFishInSimulationFromSlider()
     {
         //Calls method in DM to update the amount of fish
         DM.GetAmountOfFishToAddOrRemove((int)AmountOfFishSlider.value);
@@ -91,7 +91,7 @@ public class UIHandler : MonoBehaviour
     {
         //Calls method in DM to update the amount of fish
         DM.GetAmountOfFishToAddOrRemove(int.Parse(AmountOfFishFromInputtxt.text));
-        AmountOfFishSlider.value = int.Parse(AmountOfFishFromInputtxt.text);
+        //AmountOfFishSlider.value = int.Parse(AmountOfFishFromInputtxt.text);
 
         //Change the text to display the current amount of fish
         AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishFromInputtxt.text;
