@@ -41,8 +41,8 @@ public class FishBehaviour : MonoBehaviour
 
     private void Start()
     {
-        SearchForOptimalDepth();
         //Debug.Log("Fish spawned");
+        
     }
 
     // Update is called once per frame
@@ -386,7 +386,7 @@ public class FishBehaviour : MonoBehaviour
 
     #region Search for optimal depth
     private Vector3 SearchForOptimalDepth() {
-        return new Vector3(transform.position.x, -_net.transform.lossyScale.y/2, transform.position.z);
+        return new Vector3(transform.position.x, -_net.transform.lossyScale.y/2- transform.position.y, transform.position.z);
     }
     #endregion
 
