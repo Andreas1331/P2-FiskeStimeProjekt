@@ -22,7 +22,6 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
-        StartCoroutine(Test());
         //Rainbowtrout rt = new Rainbowtrout(1, 0.1f, RainbowPreFab);
         //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
         //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
@@ -46,9 +45,14 @@ public class DataManager : MonoBehaviour
         }
     }
 
+    bool started = false;
     private void Update()
     {
-
+        if (SceneManager.GetActiveScene().buildIndex != 0 && !started)
+        {
+            StartCoroutine(Test());
+            started = true;
+        }
     }
 
     public bool SaveStatistics(Statistic stats)
@@ -85,6 +89,8 @@ public class DataManager : MonoBehaviour
 
     public void AddFishToNet(int howManyToAdd)
     {
+        //If fish in fishpool, spawn those
+
         for (int i = 0; i < howManyToAdd; i++) {
             fishCounter++;
             fishList.Add(new Rainbowtrout(fishCounter, 0.1f, RainbowPreFab));
@@ -99,7 +105,50 @@ public class DataManager : MonoBehaviour
             foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood));
         }
     }
+    public void KillFish(int amountToKill)
+    {
+        for (int i = 0; i < amountToKill; i++)
+        {
+            fishList[i].IsDead = true;
+        }
+    }
+    
+    public void RemoveFishFromNet(int amountToRemove)
+    {
+        for (int i = 0; i < amountToRemove; i++)
+        {
+            fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
+            fishList[i].FishObject.SetActive(false);
 
+            fishPool.Add(fishList[i]);
+            fishList.Remove(fishList[i]);
+        }
+    }
+
+    public void GetAmountOfFishToAddOrRemove(int totalAmountOfFish)
+    {
+        int currentAmountOfFish = fishList.Count;
+        int newAmountOfFish =  totalAmountOfFish - currentAmountOfFish;
+        Debug.Log(currentAmountOfFish);
+
+        if(newAmountOfFish > 0)
+        {
+            AddFishToNet(newAmountOfFish);
+            Debug.Log("Add fish: " + newAmountOfFish);
+        } else if (newAmountOfFish < 0)
+        {
+            RemoveFishFromNet(-newAmountOfFish);
+            Debug.Log("Remove fish: " + newAmountOfFish);
+        } else
+        {
+            //Do nothing
+            Debug.Log("Else: (Do nothing)" + newAmountOfFish);
+        }
+
+        Debug.Log("Amount of fish is: " + totalAmountOfFish);
+    }
+
+    //GUI TOOLS _______________________________________________________________START
     #region GUI TOOLS
     public void LoadMainMenu()
     {
