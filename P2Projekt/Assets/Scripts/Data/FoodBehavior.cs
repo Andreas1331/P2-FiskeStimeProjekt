@@ -12,7 +12,7 @@ public class FoodBehavior : MonoBehaviour
     void Start()
     {
         //transform.position = new Vector30(Random.value*(-20), Random.value*(-20), Random.value*(-20));
-        transform.position = new Vector3(0, -2, 0);
+        transform.position = new Vector3(Random.value*10, Random.value * (-5), Random.value * 10);
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.foodList.Add(_food);
     }

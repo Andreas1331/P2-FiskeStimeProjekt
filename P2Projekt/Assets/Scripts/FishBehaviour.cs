@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(SphereCollider))]
 public class FishBehaviour : MonoBehaviour
 {
@@ -19,8 +20,8 @@ public class FishBehaviour : MonoBehaviour
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
-    private float[] lambdaArrayAlone = new float[5] { 0.1f, 1, 1, 1, 1 };
-    private float[] lambdaArrayStime = new float[6] { 0.1f, 1, 1, 1, 1, 1 };
+    private float[] lambdaArrayAlone = new float[5] { 0.1f, 1, 1, 0.21f, 1 };
+    private float[] lambdaArrayStime = new float[6] { 0.1f, 1, 1, 0.21f, 0.21f, 0.21f };
     private Vector3[] D_tVectors = new Vector3[6];
 
     //Stress timer
@@ -31,7 +32,6 @@ public class FishBehaviour : MonoBehaviour
     {
         _mathTools = new MathTools();
         DataManager = FindObjectOfType<DataManager>();
-        _dataManager.fishList.Add(_fish);
         Net = GameObject.FindGameObjectWithTag("Net");
 
         GetComponent<SphereCollider>().radius = 5f;
@@ -45,11 +45,11 @@ public class FishBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        //if(sumVector != null)
-        //{
-        //    Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
-        //    transform.rotation = Quaternion.LookRotation(newdir);
-        //}
+        if(_fish.CurrentDirection != null)
+        {
+            Vector3 newdir = Vector3.RotateTowards(transform.forward, _fish.CurrentDirection, Time.deltaTime*5, 2.5f);
+            transform.rotation = Quaternion.LookRotation(newdir);
+        }
         AnimateDeath();
         _fish.MoveTowards(GetNewDirection());
         

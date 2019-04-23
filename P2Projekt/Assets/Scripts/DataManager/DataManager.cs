@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,6 +19,7 @@ public class DataManager : MonoBehaviour
     private int fishCounter=0;
     private int foodCounter=0;
     private UIHandler UI;
+    private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
     // Start is called before the first frame update
 
     public void Start()
@@ -30,6 +32,7 @@ public class DataManager : MonoBehaviour
 
         //AddFishToNet(5);
         //AddFoodToNet(1, 3);
+
     }
 
     int id = 1;
@@ -50,6 +53,9 @@ public class DataManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex != 0 && !started)
         {
+            StartCoroutine(Test());
+            AddFoodToNet(20, 5);
+
             //StartCoroutine(Test());
             started = true;
         }
@@ -59,11 +65,18 @@ public class DataManager : MonoBehaviour
     {
         if (stats == null)
             return false;
+
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         if (System.IO.Directory.Exists(path))
         {
             string data = JsonUtility.ToJson(stats);
-            System.IO.File.WriteAllText(path + @"\Noget_midlertidligt.json", data);
+
+            // Generate the file name based on the current date and amount of files
+            string date =  DateTime.Now.ToString("d", culture);
+            int amount = System.IO.Directory.GetFiles(path).Length;
+            string fileName = String.Format(@"\FishStatistics_{0}_{1}.json", date, amount);
+
+            System.IO.File.WriteAllText(path + fileName, data);
             return true;
         }
         return false;
@@ -117,11 +130,8 @@ public class DataManager : MonoBehaviour
     {
         for (int i = 0; i < amountToRemove; i++)
         {
-            //fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
-            //fishList[i].FishObject.SetActive(false);
+            fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
             fishList[i].FishObject.SetActive(false);
-
-            Debug.Log(i);
 
             fishPool.Add(fishList[i]);
             fishList.Remove(fishList[i]);
@@ -131,25 +141,17 @@ public class DataManager : MonoBehaviour
     public void GetAmountOfFishToAddOrRemove(int totalAmountOfFish)
     {
         int currentAmountOfFish = fishList.Count;
-        int newAmountOfFish =  totalAmountOfFish - currentAmountOfFish;
+        int newAmountOfFish = totalAmountOfFish - currentAmountOfFish;
 
         if(newAmountOfFish > 0)
         {
             AddFishToNet(newAmountOfFish);
-            Debug.Log("Add fish: " + newAmountOfFish);
-        } else if (newAmountOfFish < 0)
-        {
-            RemoveFishFromNet(Math.Abs(newAmountOfFish));
-            Debug.Log("Remove fish: " + newAmountOfFish);
         } else
         {
-            //Do nothing
-            Debug.Log("Else: (Do nothing)" + newAmountOfFish);
-        }
-        
+            RemoveFishFromNet(Math.Abs(newAmountOfFish));
+        }   
     }
 
-    //GUI TOOLS _______________________________________________________________START
     #region GUI TOOLS
     public void LoadMainMenu()
     {
@@ -169,7 +171,6 @@ public class DataManager : MonoBehaviour
 #endif
     }
 
-    //Method to set simulation time
     public void SetSimSpeed(float timeFactor)
     {
         Time.timeScale = timeFactor;
