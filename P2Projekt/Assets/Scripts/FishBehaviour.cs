@@ -53,7 +53,7 @@ public class FishBehaviour : MonoBehaviour
         //}
         //AnimateDeath();
         _fish.MoveTowards(GetNewDirection());
-        Debug.Log("Dead: " + _fish.IsDead);
+        //Debug.Log("Dead: " + _fish.IsDead);
 
         UpdateStress();
         UpdateHunger();
@@ -314,7 +314,7 @@ public class FishBehaviour : MonoBehaviour
         float factor;
         if(lastKnownFoodSpots.Count == 0)
         {
-            return transform.position;
+            return new Vector3();
         }
 
         foreach (Vector3 vec in lastKnownFoodSpots)
@@ -388,7 +388,7 @@ public class FishBehaviour : MonoBehaviour
     #region Search for optimal depth
     private Vector3 SearchForOptimalDepth() {
         var vec = new Vector3(transform.position.x, -_net.transform.lossyScale.y/2- transform.position.y, transform.position.z);
-        Debug.Log(vec);
+        
         return vec;
     }
     #endregion
@@ -415,7 +415,6 @@ public class FishBehaviour : MonoBehaviour
 
         if (schooling)
         {
-            Debug.Log("Schooling.. ");
             D_tVectors[2] = SwimWithFriends();
             D_tVectors[5] = HoldDistanceToFish();
             if (isThereNearbyFood) {
@@ -430,7 +429,6 @@ public class FishBehaviour : MonoBehaviour
             }
         }
         else {
-            Debug.Log("Not schooling .. ");
             D_tVectors[2] = SwimTowardsOtherFish();
             if (isThereNearbyFood)
             {
