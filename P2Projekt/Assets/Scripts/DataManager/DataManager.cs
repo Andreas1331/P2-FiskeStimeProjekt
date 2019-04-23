@@ -22,7 +22,7 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
-        //StartCoroutine(Test());
+        StartCoroutine(Test());
         //Rainbowtrout rt = new Rainbowtrout(1, 0.1f, RainbowPreFab);
         //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
         //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
@@ -39,7 +39,7 @@ public class DataManager : MonoBehaviour
     {
         while (amount < 5)
         {
-            yield return new WaitForSeconds(1.5f);
+            yield return new WaitForSeconds(1);
 
             new Rainbowtrout(id++, 0.1f, RainbowPreFab);
             amount++;

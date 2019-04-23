@@ -50,7 +50,7 @@ public class FishBehaviour : MonoBehaviour
         //    Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
         //    transform.rotation = Quaternion.LookRotation(newdir);
         //}
-        //AnimateDeath();
+        AnimateDeath();
         _fish.MoveTowards(GetNewDirection());
         //Debug.Log("Dead: " + _fish.IsDead);
 
@@ -346,6 +346,7 @@ public class FishBehaviour : MonoBehaviour
         foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
             D_3.x += item.Value.Fish.CurrentDirection.x / nearbyFish.Count;
             D_3.y += item.Value.Fish.CurrentDirection.y / nearbyFish.Count;
+            Debug.Log("Der er "+nearbyFish.Count);
             D_3.z += item.Value.Fish.CurrentDirection.z / nearbyFish.Count;
         }
         Debug.Log("D_3 er følgende "+D_3);
