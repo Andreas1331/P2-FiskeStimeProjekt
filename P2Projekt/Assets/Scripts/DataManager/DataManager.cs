@@ -118,6 +118,7 @@ public class DataManager : MonoBehaviour
         for (int i = 0; i < amountToRemove; i++)
         {
             //fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
+            //fishList[i].FishObject.SetActive(false);
             fishList[i].FishObject.SetActive(false);
 
             Debug.Log(i);
