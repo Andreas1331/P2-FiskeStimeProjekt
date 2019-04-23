@@ -512,7 +512,7 @@ GameObject:
   - component: {fileID: 331598233}
   - component: {fileID: 331598232}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -566,7 +566,7 @@ Canvas:
   m_GameObject: {fileID: 331598231}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 0
   m_Camera: {fileID: 534669904}
   m_PlaneDistance: 5
   m_PixelPerfect: 0
@@ -2019,7 +2019,7 @@ GameObject:
   - component: {fileID: 1243720308}
   - component: {fileID: 1243720307}
   m_Layer: 0
-  m_Name: Midlertidig_Datamanager
+  m_Name: WorldHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2037,7 +2037,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550a3dc744eaa0745a2893dca4f43a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RainbowPreFab: {fileID: 1092163364157137716, guid: 32ecfdedbe1ab804a9fa9d3873845319,
+  RainbowPreFab: {fileID: 2851111430968988975, guid: 9f28b2c48ec0209419a30db0991dca4d,
     type: 3}
   FoodPreFab: {fileID: 792305209597686558, guid: 9a0909af304b73e4a9ea2acf3cec2bd3,
     type: 3}
@@ -2051,7 +2051,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1243720306}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7453892, y: -6.2324347, z: -0.31119764}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

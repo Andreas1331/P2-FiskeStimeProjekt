@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Timers;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -15,7 +13,6 @@ public class FishBehaviour : MonoBehaviour
     private MathTools _mathTools;
     Vector3 newdir;
     public float gotDistance = 0;
-    // Stress variables
     //private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
     //private const float _stressDuration = 30f; // In seconds
@@ -29,11 +26,9 @@ public class FishBehaviour : MonoBehaviour
     private float[] lambdaArrayStime = new float[6];
     private Vector3[] D_tVectors = new Vector3[6];
 
-    //Stress timere
+    //Stress timer
     private float timerToDie = 0;
     private float timerToResetTimer = 0;
-    
-    
     
     private void Awake()
     {
@@ -391,7 +386,6 @@ public class FishBehaviour : MonoBehaviour
 
     #region Search for optimal depth
     private Vector3 SearchForOptimalDepth() {
-        Debug.Log(-_net.transform.lossyScale.y / 2);
         return new Vector3(transform.position.x, -_net.transform.lossyScale.y/2, transform.position.z);
     }
     #endregion
