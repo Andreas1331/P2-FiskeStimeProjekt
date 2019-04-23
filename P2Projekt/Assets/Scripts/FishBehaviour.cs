@@ -39,7 +39,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("Fish spawned");
+        //Debug.Log("Fish spawned");
     }
 
     // Update is called once per frame
@@ -100,7 +100,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void HandleSpottedObject(Collider other)
     {
-        Debug.Log("der er noget i nærheden" + other);
+        //Debug.Log("der er noget i nærheden" + other);
         // Check if the object detected is another fish, or an obstacle.
         if (other.tag.Equals("Fish"))
         {
@@ -346,7 +346,7 @@ public class FishBehaviour : MonoBehaviour
             D_3.x += item.Value.Fish.CurrentDirection.x / nearbyFish.Count;
             D_3.y += item.Value.Fish.CurrentDirection.y / nearbyFish.Count;
             D_3.z += item.Value.Fish.CurrentDirection.z / nearbyFish.Count;
-            Debug.Log("D_3 er følgende " + D_3);
+            //Debug.Log("D_3 er følgende " + D_3);
         }
         return D_3;
     }
@@ -411,11 +411,11 @@ public class FishBehaviour : MonoBehaviour
         }
         if (schooling)
         {
-            Debug.Log("schooling sker");
+            //Debug.Log("schooling sker");
             D_tVectors[2] = SwimWithFriends();
             D_tVectors[5] = HoldDistanceToFish();
             if (isThereNearbyFood) {
-                Debug.Log("Der er mad");
+                //Debug.Log("Der er mad");
                 D_tVectors[1] = canSeeFood();
                 _fish.CurrentDirection = D_tVectors[0] * lambdaArrayStime[0] + D_tVectors[1] * lambdaArrayStime[1]+D_tVectors[2]*lambdaArrayStime[2]
                     + D_tVectors[3] * lambdaArrayStime[3] + D_tVectors[4] * lambdaArrayStime[4] + D_tVectors[5] * lambdaArrayStime[5];
@@ -444,7 +444,7 @@ public class FishBehaviour : MonoBehaviour
         }
         D_tVectors[3] = new Vector3(0,0,0);
         schooling = false;
-        Debug.Log("Currect direction = "+_fish.CurrentDirection);
+        //Debug.Log("Currect direction = "+_fish.CurrentDirection);
         return _fish.CurrentDirection;
     }
     #endregion

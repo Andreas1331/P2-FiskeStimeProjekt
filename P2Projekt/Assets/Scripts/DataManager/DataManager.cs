@@ -29,7 +29,7 @@ public class DataManager : MonoBehaviour
         //Food firstFoodDrop = new Food(1,FoodPreFab);
 
         //AddFishToNet(5);
-        AddFoodToNet(1, 3);
+        //AddFoodToNet(1, 3);
     }
 
     int id = 1;
@@ -50,7 +50,7 @@ public class DataManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().buildIndex != 0 && !started)
         {
-            StartCoroutine(Test());
+            //StartCoroutine(Test());
             started = true;
         }
     }
@@ -117,8 +117,10 @@ public class DataManager : MonoBehaviour
     {
         for (int i = 0; i < amountToRemove; i++)
         {
-            fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
+            //fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
             fishList[i].FishObject.SetActive(false);
+
+            Debug.Log(i);
 
             fishPool.Add(fishList[i]);
             fishList.Remove(fishList[i]);
@@ -129,7 +131,6 @@ public class DataManager : MonoBehaviour
     {
         int currentAmountOfFish = fishList.Count;
         int newAmountOfFish =  totalAmountOfFish - currentAmountOfFish;
-        Debug.Log(currentAmountOfFish);
 
         if(newAmountOfFish > 0)
         {
@@ -137,15 +138,14 @@ public class DataManager : MonoBehaviour
             Debug.Log("Add fish: " + newAmountOfFish);
         } else if (newAmountOfFish < 0)
         {
-            RemoveFishFromNet(-newAmountOfFish);
+            RemoveFishFromNet(Math.Abs(newAmountOfFish));
             Debug.Log("Remove fish: " + newAmountOfFish);
         } else
         {
             //Do nothing
             Debug.Log("Else: (Do nothing)" + newAmountOfFish);
         }
-
-        Debug.Log("Amount of fish is: " + totalAmountOfFish);
+        
     }
 
     //GUI TOOLS _______________________________________________________________START
