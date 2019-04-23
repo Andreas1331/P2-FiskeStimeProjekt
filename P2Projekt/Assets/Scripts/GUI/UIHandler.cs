@@ -10,16 +10,13 @@ public class UIHandler : MonoBehaviour
     public Text FishStress;
     public Text FishDepth;
     public Text SimSpeed;
+
     private void Awake()
-    //Når gameobjectet bliver aktiveret
     {
         DM = FindObjectOfType<DataManager>();
         DontDestroyOnLoad(this.gameObject);
     }
-    void Start()
-    {
-        
-    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -27,10 +24,12 @@ public class UIHandler : MonoBehaviour
             TogglePauseMenuInGame();
         }
     }
+
     public void LoadMainMenu()
     {
         DM.LoadMainMenu();
     }
+
     public void LoadScene()
     {
         DM.LoadScene();
