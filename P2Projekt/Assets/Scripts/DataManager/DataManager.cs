@@ -37,9 +37,9 @@ public class DataManager : MonoBehaviour
     int amount = 0;
     private IEnumerator Test()
     {
-        while (amount < 1)
+        while (amount < 5)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
             new Rainbowtrout(id++, 0.1f, RainbowPreFab);
             amount++;
         }
@@ -100,11 +100,11 @@ public class DataManager : MonoBehaviour
     #region GUI TOOLS
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene("BeebMenu", LoadSceneMode.Single);
+        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
     public void LoadScene()
     {
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
     public void ApplicationQuit()
     {

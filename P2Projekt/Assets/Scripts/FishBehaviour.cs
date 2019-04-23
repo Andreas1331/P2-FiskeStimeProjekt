@@ -2,6 +2,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(SphereCollider))]
 public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
@@ -13,13 +14,10 @@ public class FishBehaviour : MonoBehaviour
     private MathTools _mathTools;
     Vector3 newdir;
     public float gotDistance = 0;
-    //private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
-    //private const float _stressDuration = 30f; // In seconds
     //private int innerColliderFoodCheck = 0;
     public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
-    //grimt workaround dictionary
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
     private float[] lambdaArrayAlone = new float[5] { 1, 1, 1, 1, 1 };
@@ -35,7 +33,9 @@ public class FishBehaviour : MonoBehaviour
         _mathTools = new MathTools();
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.fishList.Add(_fish);
-        Net = GameObject.FindGameObjectWithTag("Net");        
+        Net = GameObject.FindGameObjectWithTag("Net");
+
+        GetComponent<SphereCollider>().radius = 5f;
     }
 
     private void Start()
@@ -53,7 +53,7 @@ public class FishBehaviour : MonoBehaviour
         //}
         //AnimateDeath();
         _fish.MoveTowards(GetNewDirection());
-        Debug.Log("Dead: " + _fish.IsDead);
+        //Debug.Log("Dead: " + _fish.IsDead);
 
         UpdateStress();
         UpdateHunger();
@@ -294,7 +294,6 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region Food Methods
-    //D_2,t (FOOD) methods --------------------------------------------------------START
     public Vector3 canSeeFood()
     {
         Vector3 closestFood = new Vector3(100,100,100);
@@ -314,7 +313,7 @@ public class FishBehaviour : MonoBehaviour
         float factor;
         if(lastKnownFoodSpots.Count == 0)
         {
-            return transform.position;
+            return new Vector3();
         }
 
         foreach (Vector3 vec in lastKnownFoodSpots)
@@ -325,7 +324,6 @@ public class FishBehaviour : MonoBehaviour
         }
         return sumVecD3;
     }
-    //D_2,t (FOOD) methods --------------------------------------------------------END
     #endregion
 
     #region Swim towards other fish
@@ -356,8 +354,8 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region Hold distance to fish
-    private Vector3 HoldDistanceToFish() {
-
+    private Vector3 HoldDistanceToFish()
+    {
         Vector3 GV = new Vector3(0, 0, 0);
         Vector3 GN = new Vector3(0, 0, 0);
         foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish)
@@ -388,7 +386,7 @@ public class FishBehaviour : MonoBehaviour
     #region Search for optimal depth
     private Vector3 SearchForOptimalDepth() {
         var vec = new Vector3(transform.position.x, -_net.transform.lossyScale.y/2- transform.position.y, transform.position.z);
-        Debug.Log(vec);
+        
         return vec;
     }
     #endregion
@@ -415,7 +413,6 @@ public class FishBehaviour : MonoBehaviour
 
         if (schooling)
         {
-            Debug.Log("Schooling.. ");
             D_tVectors[2] = SwimWithFriends();
             D_tVectors[5] = HoldDistanceToFish();
             if (isThereNearbyFood) {
@@ -430,7 +427,6 @@ public class FishBehaviour : MonoBehaviour
             }
         }
         else {
-            Debug.Log("Not schooling .. ");
             D_tVectors[2] = SwimTowardsOtherFish();
             if (isThereNearbyFood)
             {
