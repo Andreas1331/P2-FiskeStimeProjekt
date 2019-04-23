@@ -6,12 +6,16 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
     private DataManager DM;
-    public Text FishHealth;
-    public Text FishStress;
-    public Text FishDepth;
-    public Text SimSpeed;
+    public Text FishHealthtxt;
+    public Text FishStresstxt;
+    public Text FishDepthtxt;
+    public Text SimSpeedtxt;
+    public Text AmountOfFishtxt;
+    public Text AmountOfFishFromInputtxt;
+    public Slider AmountOfFishSlider;
+
+    //Når gameobject bliver aktiveret
     private void Awake()
-    //Når gameobjectet bliver aktiveret
     {
         DM = FindObjectOfType<DataManager>();
         DontDestroyOnLoad(this.gameObject);
@@ -27,6 +31,7 @@ public class UIHandler : MonoBehaviour
             TogglePauseMenuInGame();
         }
     }
+
     public void LoadMainMenu()
     {
         DM.LoadMainMenu();
@@ -53,11 +58,13 @@ public class UIHandler : MonoBehaviour
             ActivatePauseMenu();
         }
     }
+
     public void ActivatePauseMenu()
     {
         PauseMenuUI.SetActive(true);
         Time.timeScale = 0.0f;
     }
+
     public void DeactivatePauseMenu()
     {
         PauseMenuUI.SetActive(false);
@@ -66,10 +73,28 @@ public class UIHandler : MonoBehaviour
 
     public void ApplyButtonValues()
     {
-        int.Parse(FishHealth.text);
-        int.Parse(FishStress.text);
-        int.Parse(FishDepth.text);
+        int.Parse(FishHealthtxt.text);
+        int.Parse(FishStresstxt.text);
+        int.Parse(FishDepthtxt.text);
 
-        DM.SetSimSpeed(float.Parse(SimSpeed.text));
+        DM.SetSimSpeed(float.Parse(SimSpeedtxt.text));
+    }
+
+    public void SetAmountOfFishInSimulation()
+    {
+        //Calls method in DM to update the amount of fish
+        DM.GetAmountOfFishToAddOrRemove((int)AmountOfFishSlider.value);
+
+        //Change the text to display the current amount of fish
+        AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishSlider.value.ToString("0");
+    }
+    public void SetAmountOfFishInSimulationFromInput()
+    {
+        //Calls method in DM to update the amount of fish
+        DM.GetAmountOfFishToAddOrRemove(int.Parse(AmountOfFishFromInputtxt.text));
+        AmountOfFishSlider.value = int.Parse(AmountOfFishFromInputtxt.text);
+
+        //Change the text to display the current amount of fish
+        AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishFromInputtxt.text;
     }
 }

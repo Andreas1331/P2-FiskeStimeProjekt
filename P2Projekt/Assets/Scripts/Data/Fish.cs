@@ -57,7 +57,7 @@ public abstract class Fish
         TypeOfFish = typeOfFish;
         FishObject = GameObject.Instantiate(preFab, new Vector3(), Quaternion.identity);
         //RbFish = FishObject.GetComponent<Rigidbody>();
-        FishObject.GetComponent<FishBehaviour>().Fish = this;
+        //FishObject.GetComponent<FishBehaviour>().Fish = this;
     }
 
     public virtual void MoveTowards(Vector3 direction)
