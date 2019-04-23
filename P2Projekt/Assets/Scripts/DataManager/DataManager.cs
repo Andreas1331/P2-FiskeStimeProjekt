@@ -37,9 +37,9 @@ public class DataManager : MonoBehaviour
     int amount = 0;
     private IEnumerator Test()
     {
-        while (amount < 1)
+        while (amount < 5)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(3);
             new Rainbowtrout(id++, 0.1f, RainbowPreFab);
             amount++;
         }

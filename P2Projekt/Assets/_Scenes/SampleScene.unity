@@ -689,7 +689,7 @@ GameObject:
   - component: {fileID: 454220384}
   - component: {fileID: 454220385}
   m_Layer: 0
-  m_Name: CameraControlls
+  m_Name: CameraHandler
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -722,6 +722,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 062e3939e46981448b8a58824793b126, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraPosition: {x: 0, y: 0, z: 0}
+  maxCameraSpeed: 0.6
+  cameraSpeed: 0.6
+  normalCameraSpeed: 0.3
+  _net: {fileID: 0}
+  lookAtCenter: {x: 0, y: 0, z: 0}
+  _inMenu: 0
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0

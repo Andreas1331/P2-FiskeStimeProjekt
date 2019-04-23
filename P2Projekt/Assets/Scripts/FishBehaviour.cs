@@ -354,8 +354,8 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region Hold distance to fish
-    private Vector3 HoldDistanceToFish() {
-
+    private Vector3 HoldDistanceToFish()
+    {
         Vector3 GV = new Vector3(0, 0, 0);
         Vector3 GN = new Vector3(0, 0, 0);
         foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish)
