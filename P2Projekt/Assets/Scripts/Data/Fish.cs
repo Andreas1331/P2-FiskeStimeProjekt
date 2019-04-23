@@ -42,12 +42,12 @@ public abstract class Fish
     public Vector3 CurrentDirection { get; set; }
     public FishType TypeOfFish { get; set; }
     public GameObject FishObject { get; set; }
-    private Rigidbody RbFish;
     //public int EatTimer
 
     public Fish(int id, float weight, float movementSpeed, float maxSpeed, float width, FishType typeOfFish, GameObject preFab)
     {
         Id = id;
+        IsDead = false;
         Weight = weight;
         MovementSpeed = movementSpeed;
         MaxSpeed = maxSpeed;
@@ -55,15 +55,16 @@ public abstract class Fish
         Stress = 0;
         Hunger = 1000;
         TypeOfFish = typeOfFish;
+        CurrentDirection = new Vector3(0, 0, 1);
         FishObject = GameObject.Instantiate(preFab, new Vector3(), Quaternion.identity);
-        //RbFish = FishObject.GetComponent<Rigidbody>();
-        //FishObject.GetComponent<FishBehaviour>().Fish = this;
+        FishObject.GetComponent<FishBehaviour>().Fish = this;
     }
 
     public virtual void MoveTowards(Vector3 direction)
     {
+        //Debug.Log(direction);
+        FishObject.transform.position = Vector3.MoveTowards(FishObject.transform.position, direction, MovementSpeed * Time.deltaTime);
         //RbFish.AddForce(direction * MaxSpeed, ForceMode.Force);
         //RbFish.GetComponent<FishBehaviour>().sumVector += direction;
     }
-    
 }

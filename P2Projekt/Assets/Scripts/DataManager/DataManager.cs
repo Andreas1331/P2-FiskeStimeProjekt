@@ -22,19 +22,39 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
-        Rainbowtrout rt = new Rainbowtrout(1, 0.1f, RainbowPreFab);
+        //Rainbowtrout rt = new Rainbowtrout(1, 0.1f, RainbowPreFab);
         //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
         //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
 
         //Food firstFoodDrop = new Food(1,FoodPreFab);
 
         //AddFishToNet(5);
-        //AddFoodToNet(1, 3);
+        AddFoodToNet(1, 3);
     }
+
+    int id = 1;
+    int amount = 0;
+    private IEnumerator Test()
+    {
+        while (amount < 5)
+        {
+            yield return new WaitForSeconds(1);
+
+            new Rainbowtrout(id++, 0.1f, RainbowPreFab);
+            amount++;
+        }
+    }
+
+    bool started = false;
     private void Update()
     {
-
+        if (SceneManager.GetActiveScene().buildIndex != 0 && !started)
+        {
+            StartCoroutine(Test());
+            started = true;
+        }
     }
+
     public bool SaveStatistics(Statistic stats)
     {
         if (stats == null)
@@ -76,6 +96,7 @@ public class DataManager : MonoBehaviour
             fishList.Add(new Rainbowtrout(fishCounter, 0.1f, RainbowPreFab));
         }
     }
+
     public void AddFoodToNet(int howManyToAdd, int amountOfFood)
     {
         for (int i = 0; i < howManyToAdd; i++)
@@ -131,11 +152,11 @@ public class DataManager : MonoBehaviour
     #region GUI TOOLS
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene("BeebMenu", LoadSceneMode.Single);
+        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
     public void LoadScene()
     {
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
     public void ApplicationQuit()
     {
@@ -164,5 +185,4 @@ public class DataManager : MonoBehaviour
         Time.timeScale = 1.0f;
     }
     #endregion
-    //GUI TOOLS _______________________________________________________________END
 }

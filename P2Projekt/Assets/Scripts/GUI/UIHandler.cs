@@ -20,10 +20,7 @@ public class UIHandler : MonoBehaviour
         DM = FindObjectOfType<DataManager>();
         DontDestroyOnLoad(this.gameObject);
     }
-    void Start()
-    {
-        
-    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -36,10 +33,12 @@ public class UIHandler : MonoBehaviour
     {
         DM.LoadMainMenu();
     }
+
     public void LoadScene()
     {
         DM.LoadScene();
     }
+
     public void ApplicationQuit()
     {
         DM.ApplicationQuit();
@@ -96,5 +95,10 @@ public class UIHandler : MonoBehaviour
 
         //Change the text to display the current amount of fish
         AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishFromInputtxt.text;
+    }
+    
+    public void SetSpeedButtens(float timefactor)
+    {
+        DM.SetSimSpeed(timefactor);
     }
 }

@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Timers;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(SphereCollider))]
 public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
@@ -15,39 +13,33 @@ public class FishBehaviour : MonoBehaviour
     private MathTools _mathTools;
     Vector3 newdir;
     public float gotDistance = 0;
-    // Stress variables
-    private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
-    private const float _stressDuration = 30f; // In seconds
-    private int innerColliderFoodCheck = 0;
+    //private int innerColliderFoodCheck = 0;
     public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
-    //grimt workaround dictionary
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
-    private float[] lambdaArrayAlone = new float [5];
-    private float[] lambdaArrayStime = new float[6];
+    private float[] lambdaArrayAlone = new float[5] { 1, 1, 1, 1, 1 };
+    private float[] lambdaArrayStime = new float[6] { 1, 1, 1, 1, 1, 1 };
     private Vector3[] D_tVectors = new Vector3[6];
 
-    //Stress timere
+    //Stress timer
     private float timerToDie = 0;
     private float timerToResetTimer = 0;
     
-    
-    
     private void Awake()
     {
-        //_fish.IsDead = false;
         _mathTools = new MathTools();
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.fishList.Add(_fish);
-        Net = GameObject.FindGameObjectWithTag("Net");        
+        Net = GameObject.FindGameObjectWithTag("Net");
+
+        GetComponent<SphereCollider>().radius = 5f;
     }
 
     private void Start()
     {
-        SearchForOptimalDepth();
-        //Debug.Log("Fish spawned");
+        Debug.Log("Fish spawned");
     }
 
     // Update is called once per frame
@@ -59,6 +51,8 @@ public class FishBehaviour : MonoBehaviour
         //    transform.rotation = Quaternion.LookRotation(newdir);
         //}
         AnimateDeath();
+        _fish.MoveTowards(GetNewDirection());
+        //Debug.Log("Dead: " + _fish.IsDead);
 
         UpdateStress();
         UpdateHunger();
@@ -66,7 +60,6 @@ public class FishBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Collided with other object: " + other.name);
         HandleSpottedObject(other);
     }
 
@@ -90,7 +83,6 @@ public class FishBehaviour : MonoBehaviour
         {
             if (knownFoodSpots.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id))
                 knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
-            //grimt workaround
             if (inInnerCollider.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id))
             {
                 inInnerCollider.Remove(other.GetComponent<FoodBehavior>().Food.Id);
@@ -104,7 +96,6 @@ public class FishBehaviour : MonoBehaviour
                 nearbyFish.Remove(other.GetComponent<FishBehaviour>().Fish.Id);
             }
         }
-        //Debug.Log("Object left the vicinity.. ");
     }
 
     private void HandleSpottedObject(Collider other)
@@ -112,9 +103,13 @@ public class FishBehaviour : MonoBehaviour
         // Check if the object detected is another fish, or an obstacle.
         if (other.tag.Equals("Fish"))
         {
-            if (!nearbyFish.ContainsKey(other.GetComponent<FishBehaviour>().Fish.Id))
+            FishBehaviour fishBehav = other.GetComponent<FishBehaviour>();
+            if (fishBehav == null)
+                return;
+
+            if (!nearbyFish.ContainsKey(fishBehav.Fish.Id))
             {
-                nearbyFish.Add(other.GetComponent<FishBehaviour>().Fish.Id, other.GetComponent<FishBehaviour>());
+                nearbyFish.Add(fishBehav.Fish.Id, fishBehav);
             }
         }
         else if (other.tag.Equals("Obstacle"))
@@ -125,7 +120,7 @@ public class FishBehaviour : MonoBehaviour
             float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, closestPos);
             float catheter = _mathTools.GetOpposingCatheter(angle, dist);
 
-            if (catheter >= _fish.Width / 2)
+            if (catheter <= _fish.Width / 2)
             {
                 int offset = 1;
                 Vector3 newDir = FindFreeDir(closestPos, ref offset);
@@ -147,6 +142,7 @@ public class FishBehaviour : MonoBehaviour
             {
                 _fish.Hunger = 1000;
                 other.GetComponent<FoodBehavior>().BeingEaten();
+
                 Debug.Log("Fisken spiste");
                 //grimt workaround
                 knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
@@ -297,7 +293,6 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region Food Methods
-    //D_2,t (FOOD) methods --------------------------------------------------------START
     public Vector3 canSeeFood()
     {
         Vector3 closestFood = new Vector3(100,100,100);
@@ -317,7 +312,7 @@ public class FishBehaviour : MonoBehaviour
         float factor;
         if(lastKnownFoodSpots.Count == 0)
         {
-            return transform.position;
+            return new Vector3();
         }
 
         foreach (Vector3 vec in lastKnownFoodSpots)
@@ -328,7 +323,6 @@ public class FishBehaviour : MonoBehaviour
         }
         return sumVecD3;
     }
-    //D_2,t (FOOD) methods --------------------------------------------------------END
     #endregion
 
     #region Swim towards other fish
@@ -352,15 +346,17 @@ public class FishBehaviour : MonoBehaviour
         foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
             D_3.x += item.Value.Fish.CurrentDirection.x / nearbyFish.Count;
             D_3.y += item.Value.Fish.CurrentDirection.y / nearbyFish.Count;
+            Debug.Log("Der er "+nearbyFish.Count);
             D_3.z += item.Value.Fish.CurrentDirection.z / nearbyFish.Count;
         }
+        Debug.Log("D_3 er følgende "+D_3);
         return D_3;
     }
     #endregion
 
     #region Hold distance to fish
-    private Vector3 HoldDistanceToFish() {
-
+    private Vector3 HoldDistanceToFish()
+    {
         Vector3 GV = new Vector3(0, 0, 0);
         Vector3 GN = new Vector3(0, 0, 0);
         foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish)
@@ -390,8 +386,9 @@ public class FishBehaviour : MonoBehaviour
 
     #region Search for optimal depth
     private Vector3 SearchForOptimalDepth() {
-        Debug.Log(-_net.transform.lossyScale.y / 2);
-        return new Vector3(transform.position.x, -_net.transform.lossyScale.y/2, transform.position.z);
+        var vec = new Vector3(transform.position.x, -_net.transform.lossyScale.y/2- transform.position.y, transform.position.z);
+        
+        return vec;
     }
     #endregion
 
