@@ -73,4 +73,9 @@ public class UIHandler : MonoBehaviour
 
         DM.SetSimSpeed(float.Parse(SimSpeed.text));
     }
+    
+    public void SetSpeedButtens(float timefactor)
+    {
+        DM.SetSimSpeed(timefactor);
+    }
 }
