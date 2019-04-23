@@ -29,7 +29,6 @@ public class DataManager : MonoBehaviour
         //Food firstFoodDrop = new Food(1,FoodPreFab);
 
         //AddFishToNet(5);
-        AddFoodToNet(1, 3);
     }
 
     int id = 1;
@@ -51,6 +50,8 @@ public class DataManager : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex != 0 && !started)
         {
             StartCoroutine(Test());
+            AddFoodToNet(20, 5);
+
             started = true;
         }
     }
