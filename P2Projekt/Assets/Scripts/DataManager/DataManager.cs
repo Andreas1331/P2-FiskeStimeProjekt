@@ -100,11 +100,11 @@ public class DataManager : MonoBehaviour
     #region GUI TOOLS
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene("BeebMenu", LoadSceneMode.Single);
+        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
     public void LoadScene()
     {
-        SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
+        SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
     public void ApplicationQuit()
     {
