@@ -48,7 +48,6 @@ public class CameraControls : MonoBehaviour
             {
                 transform.rotation = Quaternion.Euler(new Vector3(-_net.transform.lossyScale.x / 2, -_net.transform.lossyScale.y / 2, -_net.transform.lossyScale.z / 2));
             }
-
             if (Input.GetKey("left shift"))
             {
                 cameraSpeed = maxCameraSpeed;
