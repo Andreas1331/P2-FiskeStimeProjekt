@@ -30,7 +30,7 @@ public class DataManager : MonoBehaviour
         //Food firstFoodDrop = new Food(1,FoodPreFab);
 
         //AddFishToNet(5);
-        //AddFoodToNet(1, 3);
+        AddFoodToNet(1, 3);
     }
 
     int id = 1;
@@ -39,7 +39,7 @@ public class DataManager : MonoBehaviour
     {
         while (amount < 5)
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(2);
             new Rainbowtrout(id++, 0.1f, RainbowPreFab);
             amount++;
         }

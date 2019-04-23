@@ -349,6 +349,7 @@ public class FishBehaviour : MonoBehaviour
             D_3.y += item.Value.Fish.CurrentDirection.y / nearbyFish.Count;
             D_3.z += item.Value.Fish.CurrentDirection.z / nearbyFish.Count;
         }
+        Debug.Log("D_3 er følgende "+D_3);
         return D_3;
     }
     #endregion
