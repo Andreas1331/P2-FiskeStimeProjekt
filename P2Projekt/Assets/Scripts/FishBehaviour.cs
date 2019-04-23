@@ -387,7 +387,9 @@ public class FishBehaviour : MonoBehaviour
 
     #region Search for optimal depth
     private Vector3 SearchForOptimalDepth() {
-        return new Vector3(transform.position.x, -_net.transform.lossyScale.y/2- transform.position.y, transform.position.z);
+        var vec = new Vector3(transform.position.x, -_net.transform.lossyScale.y/2- transform.position.y, transform.position.z);
+        Debug.Log(vec);
+        return vec;
     }
     #endregion
 
