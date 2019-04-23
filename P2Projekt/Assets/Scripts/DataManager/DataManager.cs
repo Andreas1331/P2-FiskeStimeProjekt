@@ -38,7 +38,7 @@ public class DataManager : MonoBehaviour
     {
         while (amount < 5)
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(1.5f);
 
             new Rainbowtrout(id++, 0.1f, RainbowPreFab);
             amount++;
