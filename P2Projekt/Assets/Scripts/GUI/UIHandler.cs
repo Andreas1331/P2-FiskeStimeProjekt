@@ -91,7 +91,7 @@ public class UIHandler : MonoBehaviour
     {
         //Calls method in DM to update the amount of fish
         DM.GetAmountOfFishToAddOrRemove(int.Parse(AmountOfFishFromInputtxt.text));
-        AmountOfFishSlider.value = int.Parse(AmountOfFishFromInputtxt.text);
+        //AmountOfFishSlider.value = int.Parse(AmountOfFishFromInputtxt.text);
 
         //Change the text to display the current amount of fish
         AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishFromInputtxt.text;
