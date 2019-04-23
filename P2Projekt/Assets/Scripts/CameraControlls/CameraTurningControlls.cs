@@ -13,6 +13,7 @@ public class CameraTurningControlls : MonoBehaviour
     private GameObject _net;
     public GameObject Net { set { if (value != null) _net = value; } }
     private Vector3 lookAtCenter = new Vector3(0,0,0);
+    private bool _inMenu = false;
     void Start()
     {
         Net = GameObject.FindGameObjectWithTag("Net");
@@ -23,30 +24,42 @@ public class CameraTurningControlls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if (Input.GetKey("a")) {
-            transform.Rotate(0, cameraSpeed, 0);
-        }
-        if (Input.GetKey("d")) {
-            transform.Rotate(0, -cameraSpeed, 0);
-        }
-        if (Input.GetKey("w")) {
-            transform.Rotate(cameraSpeed, 0,0);
-        }
-        if (Input.GetKey("s")) {
-            transform.Rotate(-cameraSpeed, 0,0);
-        }
-        if (Input.GetKeyDown("r")) {
-            transform.rotation = Quaternion.Euler(new Vector3(-_net.transform.lossyScale.x / 2, -_net.transform.lossyScale.y / 2, -_net.transform.lossyScale.z / 2));
-        }
-
-        if (Input.GetKey("left shift"))
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
-            cameraSpeed = maxCameraSpeed;
+            if (_inMenu)
+                _inMenu = false;
+            else _inMenu = true;
         }
-        else {
-            cameraSpeed = normalCameraSpeed;
-        }
+        if (!_inMenu) {
+            if (Input.GetKey("a"))
+            {
+                transform.Rotate(0, cameraSpeed, 0);
+            }
+            if (Input.GetKey("d"))
+            {
+                transform.Rotate(0, -cameraSpeed, 0);
+            }
+            if (Input.GetKey("w"))
+            {
+                transform.Rotate(cameraSpeed, 0, 0);
+            }
+            if (Input.GetKey("s"))
+            {
+                transform.Rotate(-cameraSpeed, 0, 0);
+            }
+            if (Input.GetKeyDown("r"))
+            {
+                transform.rotation = Quaternion.Euler(new Vector3(-_net.transform.lossyScale.x / 2, -_net.transform.lossyScale.y / 2, -_net.transform.lossyScale.z / 2));
+            }
 
+            if (Input.GetKey("left shift"))
+            {
+                cameraSpeed = maxCameraSpeed;
+            }
+            else
+            {
+                cameraSpeed = normalCameraSpeed;
+            }
+        }
     }
 }

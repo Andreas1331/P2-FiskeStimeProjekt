@@ -13,10 +13,10 @@ public class FishBehaviour : MonoBehaviour
     private MathTools _mathTools;
     Vector3 newdir;
     public float gotDistance = 0;
-    // Stress variables
+    //private Timer _stressTimer;
     private const float _stressMultiplier = 0.5f;
-    private const float _stressDuration = 30f; // In seconds
-    private int innerColliderFoodCheck = 0;
+    //private const float _stressDuration = 30f; // In seconds
+    //private int innerColliderFoodCheck = 0;
     public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     //grimt workaround dictionary
@@ -143,6 +143,7 @@ public class FishBehaviour : MonoBehaviour
             {
                 _fish.Hunger = 1000;
                 other.GetComponent<FoodBehavior>().BeingEaten();
+
                 Debug.Log("Fisken spiste");
                 //grimt workaround
                 knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
@@ -386,10 +387,7 @@ public class FishBehaviour : MonoBehaviour
 
     #region Search for optimal depth
     private Vector3 SearchForOptimalDepth() {
-
-        var vec =  new Vector3(transform.position.x, -_net.transform.lossyScale.y/2, transform.position.z);
-        Debug.Log(vec);
-        return vec;
+        return new Vector3(transform.position.x, -_net.transform.lossyScale.y/2- transform.position.y, transform.position.z);
     }
     #endregion
 
