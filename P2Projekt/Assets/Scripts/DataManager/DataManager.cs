@@ -61,6 +61,7 @@ public class DataManager : MonoBehaviour
     {
         if (stats == null)
             return false;
+
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         if (System.IO.Directory.Exists(path))
         {
