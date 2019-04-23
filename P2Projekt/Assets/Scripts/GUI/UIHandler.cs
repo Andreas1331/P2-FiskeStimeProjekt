@@ -35,6 +35,7 @@ public class UIHandler : MonoBehaviour
     {
         DM.LoadScene();
     }
+
     public void ApplicationQuit()
     {
         DM.ApplicationQuit();

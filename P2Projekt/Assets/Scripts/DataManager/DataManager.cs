@@ -22,7 +22,7 @@ public class DataManager : MonoBehaviour
 
     public void Start()
     {
-        StartCoroutine(Test());
+        //StartCoroutine(Test());
         //Rainbowtrout rt = new Rainbowtrout(1, 0.1f, RainbowPreFab);
         //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
         //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
@@ -39,7 +39,7 @@ public class DataManager : MonoBehaviour
     {
         while (amount < 5)
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1.5f);
             new Rainbowtrout(id++, 0.1f, RainbowPreFab);
             amount++;
         }
@@ -49,6 +49,7 @@ public class DataManager : MonoBehaviour
     {
 
     }
+
     public bool SaveStatistics(Statistic stats)
     {
         if (stats == null)
@@ -88,6 +89,7 @@ public class DataManager : MonoBehaviour
             fishList.Add(new Rainbowtrout(fishCounter, 0.1f, RainbowPreFab));
         }
     }
+
     public void AddFoodToNet(int howManyToAdd, int amountOfFood)
     {
         for (int i = 0; i < howManyToAdd; i++)
@@ -96,7 +98,7 @@ public class DataManager : MonoBehaviour
             foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood));
         }
     }
-    //GUI TOOLS _______________________________________________________________START
+
     #region GUI TOOLS
     public void LoadMainMenu()
     {
@@ -133,5 +135,4 @@ public class DataManager : MonoBehaviour
         Time.timeScale = 1.0f;
     }
     #endregion
-    //GUI TOOLS _______________________________________________________________END
 }
