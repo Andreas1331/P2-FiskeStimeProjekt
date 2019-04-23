@@ -48,6 +48,7 @@ public abstract class Fish
     public Fish(int id, float weight, float movementSpeed, float maxSpeed, float width, FishType typeOfFish, GameObject preFab)
     {
         Id = id;
+        IsDead = false;
         Weight = weight;
         MovementSpeed = movementSpeed;
         MaxSpeed = maxSpeed;
@@ -56,14 +57,15 @@ public abstract class Fish
         Hunger = 1000;
         TypeOfFish = typeOfFish;
         FishObject = GameObject.Instantiate(preFab, new Vector3(), Quaternion.identity);
-        //RbFish = FishObject.GetComponent<Rigidbody>();
+        RbFish = FishObject.GetComponent<Rigidbody>();
         FishObject.GetComponent<FishBehaviour>().Fish = this;
     }
 
     public virtual void MoveTowards(Vector3 direction)
     {
+        //Debug.Log(direction);
+        FishObject.transform.position = Vector3.MoveTowards(FishObject.transform.position, direction, MovementSpeed * Time.deltaTime);
         //RbFish.AddForce(direction * MaxSpeed, ForceMode.Force);
         //RbFish.GetComponent<FishBehaviour>().sumVector += direction;
     }
-    
 }

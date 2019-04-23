@@ -36,9 +36,8 @@ public class CameraZoom : MonoBehaviour
         {
             transform.localPosition = new Vector3(0, 0, transform.localPosition.z - 0.3f);
         }
-
-        
     }
+
     void mouseScrolls() {
         
     }

@@ -22,8 +22,8 @@ public class FishBehaviour : MonoBehaviour
     //grimt workaround dictionary
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
-    private float[] lambdaArrayAlone = new float [5];
-    private float[] lambdaArrayStime = new float[6];
+    private float[] lambdaArrayAlone = new float[5] { 1, 1, 1, 1, 1 };
+    private float[] lambdaArrayStime = new float[6] { 1, 1, 1, 1, 1, 1 };
     private Vector3[] D_tVectors = new Vector3[6];
 
     //Stress timer
@@ -32,7 +32,6 @@ public class FishBehaviour : MonoBehaviour
     
     private void Awake()
     {
-        //_fish.IsDead = false;
         _mathTools = new MathTools();
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.fishList.Add(_fish);
@@ -41,8 +40,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void Start()
     {
-        SearchForOptimalDepth();
-        //Debug.Log("Fish spawned");
+        Debug.Log("Fish spawned");
     }
 
     // Update is called once per frame
@@ -53,7 +51,9 @@ public class FishBehaviour : MonoBehaviour
         //    Vector3 newdir = Vector3.RotateTowards(transform.forward, sumVector, Time.deltaTime, 2.5f);
         //    transform.rotation = Quaternion.LookRotation(newdir);
         //}
-        AnimateDeath();
+        //AnimateDeath();
+        _fish.MoveTowards(GetNewDirection());
+        Debug.Log("Dead: " + _fish.IsDead);
 
         UpdateStress();
         UpdateHunger();
@@ -61,7 +61,6 @@ public class FishBehaviour : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Collided with other object: " + other.name);
         HandleSpottedObject(other);
     }
 
@@ -85,7 +84,6 @@ public class FishBehaviour : MonoBehaviour
         {
             if (knownFoodSpots.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id))
                 knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
-            //grimt workaround
             if (inInnerCollider.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id))
             {
                 inInnerCollider.Remove(other.GetComponent<FoodBehavior>().Food.Id);
@@ -99,7 +97,6 @@ public class FishBehaviour : MonoBehaviour
                 nearbyFish.Remove(other.GetComponent<FishBehaviour>().Fish.Id);
             }
         }
-        //Debug.Log("Object left the vicinity.. ");
     }
 
     private void HandleSpottedObject(Collider other)
@@ -107,9 +104,13 @@ public class FishBehaviour : MonoBehaviour
         // Check if the object detected is another fish, or an obstacle.
         if (other.tag.Equals("Fish"))
         {
-            if (!nearbyFish.ContainsKey(other.GetComponent<FishBehaviour>().Fish.Id))
+            FishBehaviour fishBehav = other.GetComponent<FishBehaviour>();
+            if (fishBehav == null)
+                return;
+
+            if (!nearbyFish.ContainsKey(fishBehav.Fish.Id))
             {
-                nearbyFish.Add(other.GetComponent<FishBehaviour>().Fish.Id, other.GetComponent<FishBehaviour>());
+                nearbyFish.Add(fishBehav.Fish.Id, fishBehav);
             }
         }
         else if (other.tag.Equals("Obstacle"))
@@ -120,7 +121,7 @@ public class FishBehaviour : MonoBehaviour
             float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, closestPos);
             float catheter = _mathTools.GetOpposingCatheter(angle, dist);
 
-            if (catheter >= _fish.Width / 2)
+            if (catheter <= _fish.Width / 2)
             {
                 int offset = 1;
                 Vector3 newDir = FindFreeDir(closestPos, ref offset);
@@ -385,7 +386,10 @@ public class FishBehaviour : MonoBehaviour
 
     #region Search for optimal depth
     private Vector3 SearchForOptimalDepth() {
-        return new Vector3(transform.position.x, -_net.transform.lossyScale.y/2, transform.position.z);
+
+        var vec =  new Vector3(transform.position.x, -_net.transform.lossyScale.y/2, transform.position.z);
+        Debug.Log(vec);
+        return vec;
     }
     #endregion
 
@@ -411,6 +415,7 @@ public class FishBehaviour : MonoBehaviour
 
         if (schooling)
         {
+            Debug.Log("Schooling.. ");
             D_tVectors[2] = SwimWithFriends();
             D_tVectors[5] = HoldDistanceToFish();
             if (isThereNearbyFood) {
@@ -425,6 +430,7 @@ public class FishBehaviour : MonoBehaviour
             }
         }
         else {
+            Debug.Log("Not schooling .. ");
             D_tVectors[2] = SwimTowardsOtherFish();
             if (isThereNearbyFood)
             {
