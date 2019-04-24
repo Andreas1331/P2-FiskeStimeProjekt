@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Mathtools;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -50,7 +51,7 @@ public class FishBehaviour : MonoBehaviour
             Vector3 newdir = Vector3.RotateTowards(transform.forward, _fish.CurrentDirection, Time.deltaTime*5, 2.5f);
             transform.rotation = Quaternion.LookRotation(newdir);
         }
-        AnimateDeath();
+        //AnimateDeath();
         _fish.MoveTowards(GetNewDirection());
         
 
