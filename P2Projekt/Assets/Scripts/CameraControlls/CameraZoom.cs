@@ -6,8 +6,8 @@ public class CameraZoom : MonoBehaviour
 {
     private GameObject _net;
     public GameObject Net { set { if (value != null) _net = value; } }
-    private bool _inMenu = false;
-
+    float scale = 0.2f;
+    public bool _inMenu = false;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -17,12 +17,6 @@ public class CameraZoom : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
-        {
-            if (_inMenu)
-                _inMenu = false;
-            else _inMenu = true;
-        }
         if (!_inMenu)
         {
             var mousewheel = Input.GetAxis("Mouse ScrollWheel");
@@ -52,4 +46,5 @@ public class CameraZoom : MonoBehaviour
     void mouseScrolls() {
         
     }
+    
 }
