@@ -21,46 +21,7 @@ public class DataManager : MonoBehaviour
     private UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
     // Start is called before the first frame update
-
-    public void Start()
-    {
-        //Rainbowtrout rt = new Rainbowtrout(1, 0.1f, RainbowPreFab);
-        //Rainbowtrout rtt = new Rainbowtrout(1, RainbowPreFab);
-        //rt.MoveTowards(new Vector3(0.5f, 0.2f, 0.4f));
-
-        //Food firstFoodDrop = new Food(1,FoodPreFab);
-
-        //AddFishToNet(5);
-        //AddFoodToNet(1, 3);
-
-    }
-
-    int id = 1;
-    int amount = 0;
-    private IEnumerator Test()
-    {
-        while (amount < 0)
-        {
-            yield return new WaitForSeconds(1.5f);
-
-            new Rainbowtrout(id++, 0.1f, RainbowPreFab);
-            amount++;
-        }
-    }
-
-    bool started = false;
-    private void Update()
-    {
-        if (SceneManager.GetActiveScene().buildIndex != 0 && !started)
-        {
-            StartCoroutine(Test());
-            AddFoodToNet(20, 5);
-
-            //StartCoroutine(Test());
-            started = true;
-        }
-    }
-
+    
     public bool SaveStatistics(Statistic stats)
     {
         if (stats == null)
