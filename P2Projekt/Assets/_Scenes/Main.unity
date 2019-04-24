@@ -655,10 +655,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 1677578695}
   m_HandleRect: {fileID: 435307335}
   m_Direction: 0
-  m_MinValue: 4
+  m_MinValue: 0
   m_MaxValue: 50
   m_WholeNumbers: 1
-  m_Value: 8
+  m_Value: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -1871,7 +1871,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 180, y: 0}
-  m_SizeDelta: {x: 90, y: 45}
+  m_SizeDelta: {x: 100, y: 45}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &694660317
 MonoBehaviour:
@@ -2086,7 +2086,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: 'Cage Size: '
 --- !u!222 &760016694
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2991,7 +2991,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 052a4b20fca406b4ebe9b4eab0105456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GuiPanel: {fileID: 0}
+  GuiPanel: {fileID: 199933234}
+  Cage: {fileID: 8611854887276259046}
   FishHealthtxt: {fileID: 2068249025}
   FishStresstxt: {fileID: 781850321}
   FishDepthtxt: {fileID: 1813256654}
@@ -2999,6 +3000,7 @@ MonoBehaviour:
   AmountOfFishtxt: {fileID: 172988455}
   AmountOfFishFromInputtxt: {fileID: 981758856}
   AmountOfFishSlider: {fileID: 210476975}
+  SizeOfCageSlider: {fileID: 1832413021}
   PauseMenuUI: {fileID: 822023183}
 --- !u!4 &1009735442
 Transform:
@@ -4984,7 +4986,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 4-50
+  m_Text: 20-60
 --- !u!222 &1812288639
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5288,7 +5290,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1009735441}
-        m_MethodName: SetAmountOfFishInSimulationFromSlider
+        m_MethodName: ChangeCageSize
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6059,3 +6061,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a52b1594c763357499950b9033e81c1e, type: 3}
+--- !u!1 &8611854887276259046 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8126611404918072606, guid: a52b1594c763357499950b9033e81c1e,
+    type: 3}
+  m_PrefabInstance: {fileID: 8611854887276259045}
+  m_PrefabAsset: {fileID: 0}

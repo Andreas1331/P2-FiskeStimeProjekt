@@ -7,6 +7,7 @@ public class UIHandler : MonoBehaviour
 {
     private DataManager DM;
     public GameObject GuiPanel;
+    public GameObject Cage;
     public Text FishHealthtxt;
     public Text FishStresstxt;
     public Text FishDepthtxt;
@@ -14,6 +15,7 @@ public class UIHandler : MonoBehaviour
     public Text AmountOfFishtxt;
     public Text AmountOfFishFromInputtxt;
     public Slider AmountOfFishSlider;
+    public Slider SizeOfCageSlider;
 
     //Når gameobject bliver aktiveret
     private void Awake()
@@ -79,6 +81,10 @@ public class UIHandler : MonoBehaviour
 
         DM.SetSimSpeed(float.Parse(SimSpeedtxt.text));
     }
+    public void SetSpeedButtens(float timefactor)
+    {
+        DM.SetSimSpeed(timefactor);
+    }
     public void ToggleGuiVisibility(GameObject overlayPanel)
     {
         DM.HideGui(overlayPanel); //Toggles the overlay GUI 
@@ -102,8 +108,10 @@ public class UIHandler : MonoBehaviour
         AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishFromInputtxt.text;
     }
     
-    public void SetSpeedButtens(float timefactor)
+    public void ChangeCageSize()
     {
-        DM.SetSimSpeed(timefactor);
+        float sliderValue = SizeOfCageSlider.value;
+        Cage.transform.localScale = new Vector3(sliderValue, sliderValue, sliderValue);
+
     }
 }
