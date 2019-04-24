@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
-namespace MathtoolsName {
+
+namespace Mathtools
+{
     public class MathTools
     {
         public float GetDistanceBetweenVectors(Vector3 vec1, Vector3 vec2)
