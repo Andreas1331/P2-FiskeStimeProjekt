@@ -5,13 +5,13 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     Vector3 cameraPosition = new Vector3(0.0f, 0.0f, 0.0f);
-    float maxCameraSpeed = 0.6f;
+    float maxCameraSpeed = 1.2f;
     float cameraSpeed = 0.6f;
-    float normalCameraSpeed = 0.3f;
+    float normalCameraSpeed = 0.8f;
     // Start is called before the first frame update
     private GameObject _net;
     public GameObject Net { set { if (value != null) _net = value; } }
-    private bool _inMenu = false;
+    public bool inMenu = false;
     void Start()
     {
         Net = GameObject.FindGameObjectWithTag("Net");
@@ -23,11 +23,9 @@ public class CameraControls : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            if (_inMenu)
-                _inMenu = false;
-            else _inMenu = true;
+            InMenuChange();
         }
-        if (!_inMenu) {
+        if (!inMenu) {
             if (Input.GetKey("a"))
             {
                 transform.Rotate(0, cameraSpeed, 0);
@@ -57,5 +55,20 @@ public class CameraControls : MonoBehaviour
                 cameraSpeed = normalCameraSpeed;
             }
         }
+    }
+    public void InMenuChange()
+    {
+        if (inMenu)
+        {
+            inMenu = false;
+            GetComponentInChildren<CameraZoom>()._inMenu = false;
+        }
+        else
+        {
+            inMenu = true;
+            GetComponentInChildren<CameraZoom>()._inMenu = true;
+        }
+        
+
     }
 }
