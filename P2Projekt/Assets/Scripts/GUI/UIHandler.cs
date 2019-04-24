@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
     private DataManager DM;
-    public GameObject GuiPanel;
     public Text FishHealthtxt;
     public Text FishStresstxt;
     public Text FishDepthtxt;
@@ -78,10 +77,6 @@ public class UIHandler : MonoBehaviour
         int.Parse(FishDepthtxt.text);
 
         DM.SetSimSpeed(float.Parse(SimSpeedtxt.text));
-    }
-    public void ToggleGuiVisibility(GameObject overlayPanel)
-    {
-        DM.HideGui(overlayPanel); //Toggles the overlay GUI 
     }
 
     public void SetAmountOfFishInSimulationFromSlider()

@@ -177,16 +177,5 @@ public class DataManager : MonoBehaviour
         PauseMenuUI.SetActive(false);
         Time.timeScale = 1.0f;
     }
-
-    public void HideGui(GameObject GuiPanel)
-    {
-        if(GuiPanel.activeSelf == true)
-        {
-            GuiPanel.SetActive(false);
-        } else
-        {
-            GuiPanel.SetActive(true);
-        }
-    }
     #endregion
 }
