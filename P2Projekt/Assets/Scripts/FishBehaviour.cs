@@ -1,4 +1,5 @@
 ﻿using Mathtools;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -17,7 +18,7 @@ public class FishBehaviour : MonoBehaviour
     public float gotDistance = 0;
     private const float _stressMultiplier = 0.5f;
     //private int innerColliderFoodCheck = 0;
-    public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
+    public List<Vector3> lastKnownFoodSpots = new List<Vector3>() { new Vector3(50,20,10), new Vector3(10,10,10) };
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
@@ -38,11 +39,6 @@ public class FishBehaviour : MonoBehaviour
         GetComponent<SphereCollider>().radius = 5f;
     }
 
-    private void Start()
-    {
-        //Debug.Log("Fish spawned");
-    }
-
     // Update is called once per frame
     private void Update()
     {
@@ -52,8 +48,7 @@ public class FishBehaviour : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(newdir);
         }
         //AnimateDeath();
-        _fish.MoveTowards(GetNewDirection());
-        
+        _fish.MoveTowards(GetNewDirection());    
 
         UpdateStress();
         UpdateHunger();
@@ -311,7 +306,7 @@ public class FishBehaviour : MonoBehaviour
         float factor;
         if(lastKnownFoodSpots.Count == 0)
         {
-            return new Vector3();
+            return new Vector3(Random.Range(0, 10), Random.Range(0, 10), Random.Range(0,10));
         }
 
         foreach (Vector3 vec in lastKnownFoodSpots)
@@ -435,7 +430,7 @@ public class FishBehaviour : MonoBehaviour
                 _fish.CurrentDirection = D_tVectors[0] * lambdaArrayAlone[0] + D_tVectors[1] * lambdaArrayAlone[1]
                     + D_tVectors[2] * lambdaArrayAlone[2] + D_tVectors[3] * lambdaArrayAlone[3] + D_tVectors[4] * lambdaArrayAlone[4];
             }
-            else
+            else 
             {
                 D_tVectors[1] = cantSeeFood();
                 _fish.CurrentDirection = D_tVectors[0] * lambdaArrayAlone[0] + D_tVectors[1] * lambdaArrayAlone[1] 
@@ -444,8 +439,10 @@ public class FishBehaviour : MonoBehaviour
         }
         D_tVectors[3] = new Vector3(0,0,0);
         schooling = false;
-        //Debug.Log("Currect direction = "+_fish.CurrentDirection);
+        //Debug.Log("Currect direction = "+ Vector3.Normalize(_fish.CurrentDirection));
+        _fish.CurrentDirection = Vector3.Normalize(_fish.CurrentDirection);
         return _fish.CurrentDirection;
+        //return _fish.CurrentDirection;
     }
     #endregion
 }
