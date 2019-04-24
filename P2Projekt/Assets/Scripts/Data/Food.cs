@@ -8,12 +8,12 @@ public class Food
     public int Id { get; set; }
     public GameObject FoodObject { get; set; }
 
-
     public Food(int id, GameObject preFab, int amountOfFood)
     {
         Id = id;
         Health = amountOfFood;
-        FoodObject = GameObject.Instantiate(preFab, new Vector3(), Quaternion.identity);
+
+        FoodObject = GameObject.Instantiate(preFab, new Vector3(), Quaternion.identity, GameObject.FindGameObjectWithTag("FoodContainer").transform);
         FoodObject.GetComponent<FoodBehavior>().Food = this;
     }
 }

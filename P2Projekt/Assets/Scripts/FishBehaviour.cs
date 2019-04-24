@@ -101,7 +101,6 @@ public class FishBehaviour : MonoBehaviour
 
     private void HandleSpottedObject(Collider other)
     {
-        //Debug.Log("der er noget i nærheden" + other);
         // Check if the object detected is another fish, or an obstacle.
         if (other.tag.Equals("Fish"))
         {
@@ -118,6 +117,7 @@ public class FishBehaviour : MonoBehaviour
         {
             Vector3 closestPos = other.ClosestPoint(transform.position);
             Debug.DrawRay(transform.position, closestPos - transform.position, Color.blue, 15);
+
             float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, closestPos);
             float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, closestPos);
             float catheter = _mathTools.GetOpposingCatheter(angle, dist);
@@ -129,8 +129,6 @@ public class FishBehaviour : MonoBehaviour
                 D_tVectors[3] = newDir;
                 // Use the new direction.. (D4t)
             }
-            else
-                Debug.Log("Wont be hitting the obstacle..");
         }
         else if (other.tag.Equals("Food"))
         {
@@ -167,6 +165,7 @@ public class FishBehaviour : MonoBehaviour
         offset++;
         return FindFreeDir(pos, ref offset);
     }
+
     #region Lambda
     private void UpdateHunger()
     {
