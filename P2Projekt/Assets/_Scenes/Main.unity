@@ -3549,8 +3549,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 550a3dc744eaa0745a2893dca4f43a00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RainbowPreFab: {fileID: 0}
-  FoodPreFab: {fileID: 0}
+  RainbowPreFab: {fileID: 2851111430968988975, guid: 9f28b2c48ec0209419a30db0991dca4d,
+    type: 3}
+  FoodPreFab: {fileID: 792305209597686558, guid: 9a0909af304b73e4a9ea2acf3cec2bd3,
+    type: 3}
   deathCounter: 0
   timesAddedFood: 0
 --- !u!4 &1517171065
@@ -3565,7 +3567,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1571831661
 GameObject:
@@ -3757,7 +3759,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 277, y: -506}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 58.31, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1746372241
