@@ -39,7 +39,7 @@ public class DataManager : MonoBehaviour
     int amount = 0;
     private IEnumerator Test()
     {
-        while (amount < 5)
+        while (amount < 0)
         {
             yield return new WaitForSeconds(1.5f);
 
@@ -102,9 +102,28 @@ public class DataManager : MonoBehaviour
 
     public void AddFishToNet(int howManyToAdd)
     {
-        //If fish in fishpool, spawn those
+        int fishInFishPool = fishPool.Count;
+        int fishToGenerate = howManyToAdd - fishInFishPool;
 
-        for (int i = 0; i < howManyToAdd; i++) {
+        if (fishInFishPool == 0)
+        {
+            SpawnNewFish(howManyToAdd);
+        } else if (fishInFishPool - howManyToAdd >= 0)
+        {
+            ActivateFishFromPool(howManyToAdd);
+        } else
+        {
+            //Activate fish from pool(FishInFishPool)
+            ActivateFishFromPool(fishInFishPool);
+            //Generate new fish(FishToGenerate)
+            SpawnNewFish(fishToGenerate);
+        }
+    }
+
+    public void SpawnNewFish(int howManyToAdd)
+    {
+        for (int i = 0; i < howManyToAdd; i++)
+        {
             fishCounter++;
             fishList.Add(new Rainbowtrout(fishCounter, 0.1f, RainbowPreFab));
         }
@@ -135,6 +154,17 @@ public class DataManager : MonoBehaviour
 
             fishPool.Add(fishList[i]);
             fishList.Remove(fishList[i]);
+        }
+    }
+
+    public void ActivateFishFromPool(int amountToActivate)
+    {
+        for (int i = 0; i < amountToActivate; i++)
+        {
+            fishPool[i].FishObject.SetActive(true);
+            fishPool[i].FishObject.transform.position = new Vector3(0, 0, 0); //Default spawn position
+            fishList.Add(fishPool[i]);
+            fishPool.Remove(fishPool[i]);
         }
     }
 
