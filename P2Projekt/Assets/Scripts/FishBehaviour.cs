@@ -82,26 +82,27 @@ public class FishBehaviour : MonoBehaviour
     {
         if (other.tag.Equals("Food"))
         {
-            if (knownFoodSpots.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id))
-                knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
-            if (inInnerCollider.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id))
+            int othersId = other.GetComponent<FoodBehavior>().Food.Id;
+            if (knownFoodSpots.ContainsKey(othersId))
+                knownFoodSpots.Remove(othersId);
+            if (inInnerCollider.ContainsKey(othersId))
             {
-                inInnerCollider.Remove(other.GetComponent<FoodBehavior>().Food.Id);
-                knownFoodSpots.Add(other.GetComponent<FoodBehavior>().Food.Id, other.transform.position);
+                inInnerCollider.Remove(othersId);
+                knownFoodSpots.Add(othersId, other.transform.position);
             }
         }
         else if (other.tag.Equals("Fish"))
         {
-            if (nearbyFish.ContainsKey(other.GetComponent<FishBehaviour>().Fish.Id))
+            int othersId = other.GetComponent<FishBehaviour>().Fish.Id;
+            if (nearbyFish.ContainsKey(othersId))
             {
-                nearbyFish.Remove(other.GetComponent<FishBehaviour>().Fish.Id);
+                nearbyFish.Remove(othersId);
             }
         }
     }
 
     private void HandleSpottedObject(Collider other)
     {
-        //Debug.Log("der er noget i nærheden" + other);
         // Check if the object detected is another fish, or an obstacle.
         if (other.tag.Equals("Fish"))
         {
@@ -118,6 +119,7 @@ public class FishBehaviour : MonoBehaviour
         {
             Vector3 closestPos = other.ClosestPoint(transform.position);
             Debug.DrawRay(transform.position, closestPos - transform.position, Color.blue, 15);
+
             float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, closestPos);
             float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, closestPos);
             float catheter = _mathTools.GetOpposingCatheter(angle, dist);
@@ -129,23 +131,22 @@ public class FishBehaviour : MonoBehaviour
                 D_tVectors[3] = newDir;
                 // Use the new direction.. (D4t)
             }
-            else
-                Debug.Log("Wont be hitting the obstacle..");
         }
         else if (other.tag.Equals("Food"))
         {
-            if (!knownFoodSpots.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id))
+            FoodBehavior othersFoodBehavior = other.GetComponent<FoodBehavior>();
+            if (!knownFoodSpots.ContainsKey(othersFoodBehavior.Food.Id))
             {
-                knownFoodSpots.Add(other.GetComponent<FoodBehavior>().Food.Id, other.transform.position);
+                knownFoodSpots.Add(othersFoodBehavior.Food.Id, other.transform.position);
                 lastKnownFoodSpots.Add(other.transform.position);
             }
             else
             {
                 _fish.Hunger = 1000;
-                other.GetComponent<FoodBehavior>().BeingEaten();
+                othersFoodBehavior.BeingEaten();
                 Debug.Log("Fisken spiste");
                 //grimt workaround
-                knownFoodSpots.Remove(other.GetComponent<FoodBehavior>().Food.Id);
+                knownFoodSpots.Remove(othersFoodBehavior.Food.Id);
             }
         }
     }
@@ -167,6 +168,7 @@ public class FishBehaviour : MonoBehaviour
         offset++;
         return FindFreeDir(pos, ref offset);
     }
+
     #region Lambda
     private void UpdateHunger()
     {

@@ -9,13 +9,13 @@ public class CameraZoom : MonoBehaviour
     float scale = 0.2f;
     public bool _inMenu = false;
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         Net = GameObject.FindGameObjectWithTag("Net");
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (!_inMenu)
         {
