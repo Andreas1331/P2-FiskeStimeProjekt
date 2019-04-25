@@ -171,37 +171,35 @@ public class FishBehaviour : MonoBehaviour
         _fish.Hunger -= 1 * Time.deltaTime;
         if(_fish.Hunger <= 0)
         {
-            // Kill fish.        
-            //Debug.Log("Fish has died due to hunger..");
+            KillFish();
         }
     }
 
     private void UpdateStress()
     {
         // Increase or lower the stress based on the fish hunger.
-        if (_fish.Hunger <= 500 && _fish.Hunger > 300)
+        if (_fish.Hunger <= 0.5 * Fish.maxHunger && _fish.Hunger > 0.3 * Fish.maxHunger)
             _fish.Stress += 1 * _stressMultiplier * Time.deltaTime;
-        else if (_fish.Hunger <= 300)
+        else if (_fish.Hunger <= 0.3 * Fish.maxHunger)
             _fish.Stress += 1 * (_stressMultiplier * 2) * Time.deltaTime;
         else if (_fish.Stress > 0)
             _fish.Stress -= 1 * Time.deltaTime;
 
         // Start the timer if the fish is stressed.
-        if (_fish.Stress >= 900)
-        { 
-            SetColor(Color.red);
+        if (_fish.Stress >= 0.9 * Fish.maxStress)
+        {
+                SetColor(Color.red);
 
-            timerToDie += Time.deltaTime;
+                timerToDie += Time.deltaTime;
             timerToResetTimer = 0;
             if (timerToDie > 30)
                 KillFish();
         }
-        // Stress is less than 900. Check if the timer is running.
-        else if (_fish.Stress < 900 && timerToDie != 0) {
+        else if (_fish.Stress < 0.9 * Fish.maxStress && timerToDie != 0) {
+                    SetColor(_defaultColor);
 
-            SetColor(_defaultColor);
 
-            timerToResetTimer += Time.deltaTime;
+                    timerToResetTimer += Time.deltaTime;
             if (timerToResetTimer > 30)
                 timerToDie = 0;
         }
@@ -215,48 +213,8 @@ public class FishBehaviour : MonoBehaviour
         if (_mat.color != col)
             _mat.color = col;
     }
-
-    #region Stress handler
-    //    Gamle version
-
-    //private void StartStressTimer()
-    //{
-
-
-    //    //_stressTimer = new Timer();
-    //    //_stressTimer.Interval = _stressDuration * 1000;
-    //    //_stressTimer.Elapsed += StressTimerElapsed;
-    //    //_stressTimer.AutoReset = false;
-    //    //_stressTimer.Enabled = true;
-
-    //    //Nye version:
-
-    //}
-
-    //private void ResetStressTimer()
-    //{
-    //    if(_stressTimer != null)
-    //    {
-    //        _stressTimer.Enabled = false;
-    //    }
-    //}
-
-    //private bool IsStressTimerRunning()
-    //{
-    //    return _stressTimer?.Enabled ?? false;
-    //} 
-
-    //private void StressTimerElapsed(object source, ElapsedEventArgs e)
-    //{
-    //    // Check if stress is more than 900.
-    //    if(_fish.Stress >= 900)
-    //    {
-    //        // Should call proper Kill() method instead that handles this.
-    //        KillFish();
-    //    }
-    //}
     #endregion
-    #endregion
+
     #region Die Methods
     private void KillFish()
     {

@@ -12,10 +12,13 @@ public class CameraControls : MonoBehaviour
     private GameObject _net;
     public GameObject Net { set { if (value != null) _net = value; } }
     public bool inMenu = false;
+    private GameObject _seaBottom;
     void Start()
     {
         Net = GameObject.FindGameObjectWithTag("Net");
         //transform.position = new Vector3(-_net.transform.position.x / 2, -_net.transform.position.y / 2, -_net.transform.position.z / 2);
+        _seaBottom = GameObject.FindGameObjectWithTag("Terrain");
+
     }
 
     // Update is called once per frame
@@ -54,6 +57,7 @@ public class CameraControls : MonoBehaviour
             {
                 cameraSpeed = normalCameraSpeed;
             }
+            _seaBottom.transform.position = new Vector3(0, -_net.transform.lossyScale.y - 5, 0);
         }
     }
     public void InMenuChange()

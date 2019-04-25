@@ -20,6 +20,7 @@ public class DataManager : MonoBehaviour
     private int foodCounter=0;
     private UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
+    
     // Start is called before the first frame update
     
     public bool SaveStatistics(Statistic stats)
@@ -142,6 +143,17 @@ public class DataManager : MonoBehaviour
             RemoveFishFromNet(Math.Abs(newAmountOfFish));
         }   
     }
+
+    public void ChangeMaxHunger(float newMaxHunger)
+    {
+        Fish.maxHunger = newMaxHunger;
+    }
+    public void ChangeMaxStress(float newMaxStress)
+    {
+        Fish.maxStress = newMaxStress;
+    }
+
+
 
     #region GUI TOOLS
     public void LoadMainMenu()

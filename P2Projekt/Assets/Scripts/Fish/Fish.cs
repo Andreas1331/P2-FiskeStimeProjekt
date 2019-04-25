@@ -25,6 +25,9 @@ public abstract class Fish
                 _stress = 0;
         }
     }
+    public static float maxHunger;
+    public static float maxStress;
+
     private float _hunger;
     public float Hunger
     {
