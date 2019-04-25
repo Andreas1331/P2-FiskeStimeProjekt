@@ -8,6 +8,9 @@ TagManager:
   - Fish
   - Food
   - Net
+  - FoodContainer
+  - FishContainer
+  - Terrain
   layers:
   - Default
   - TransparentFX

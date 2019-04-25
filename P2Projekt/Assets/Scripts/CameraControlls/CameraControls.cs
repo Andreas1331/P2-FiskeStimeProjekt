@@ -5,17 +5,20 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     Vector3 cameraPosition = new Vector3(0.0f, 0.0f, 0.0f);
-    float maxCameraSpeed = 0.6f;
+    float maxCameraSpeed = 1.2f;
     float cameraSpeed = 0.6f;
-    float normalCameraSpeed = 0.3f;
+    float normalCameraSpeed = 0.8f;
     // Start is called before the first frame update
     private GameObject _net;
     public GameObject Net { set { if (value != null) _net = value; } }
-    private bool _inMenu = false;
+    public bool inMenu = false;
+    private GameObject _seaBottom;
     void Start()
     {
         Net = GameObject.FindGameObjectWithTag("Net");
         //transform.position = new Vector3(-_net.transform.position.x / 2, -_net.transform.position.y / 2, -_net.transform.position.z / 2);
+        _seaBottom = GameObject.FindGameObjectWithTag("Terrain");
+
     }
 
     // Update is called once per frame
@@ -23,11 +26,9 @@ public class CameraControls : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            if (_inMenu)
-                _inMenu = false;
-            else _inMenu = true;
+            InMenuChange();
         }
-        if (!_inMenu) {
+        if (!inMenu) {
             if (Input.GetKey("a"))
             {
                 transform.Rotate(0, cameraSpeed, 0);
@@ -56,6 +57,22 @@ public class CameraControls : MonoBehaviour
             {
                 cameraSpeed = normalCameraSpeed;
             }
+            _seaBottom.transform.position = new Vector3(0, -_net.transform.lossyScale.y - 5, 0);
         }
+    }
+    public void InMenuChange()
+    {
+        if (inMenu)
+        {
+            inMenu = false;
+            GetComponentInChildren<CameraZoom>()._inMenu = false;
+        }
+        else
+        {
+            inMenu = true;
+            GetComponentInChildren<CameraZoom>()._inMenu = true;
+        }
+        
+
     }
 }

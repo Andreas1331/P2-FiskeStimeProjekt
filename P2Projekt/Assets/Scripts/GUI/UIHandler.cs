@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class UIHandler : MonoBehaviour
 {
     private DataManager DM;
+    public GameObject GuiPanel;
+    public GameObject Cage;
     public Text FishHealthtxt;
     public Text FishStresstxt;
     public Text FishDepthtxt;
@@ -13,12 +15,24 @@ public class UIHandler : MonoBehaviour
     public Text AmountOfFishtxt;
     public Text AmountOfFishFromInputtxt;
     public Slider AmountOfFishSlider;
+    public Slider SizeOfCageSlider;
+    private float DefaultHunger = 999;
+    private float DefaultStress = 999;
 
-    //Når gameobject bliver aktiveret
     private void Awake()
     {
         DM = FindObjectOfType<DataManager>();
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Start()
+    {
+        GameObject.Find("OverlayMenu").SetActive(true);
+        GameObject.Find("PauseSettingPanel").SetActive(false);
+        GameObject.Find("PauseMenuItems").SetActive(true);
+        GameObject.Find("AdvancedSettings").SetActive(false);
+        DM.ChangeMaxStress(DefaultStress);
+        DM.ChangeMaxHunger(DefaultHunger);
     }
 
     void Update()
@@ -72,11 +86,37 @@ public class UIHandler : MonoBehaviour
 
     public void ApplyButtonValues()
     {
-        int.Parse(FishHealthtxt.text);
-        int.Parse(FishStresstxt.text);
-        int.Parse(FishDepthtxt.text);
+        if (FishHealthtxt.text != "")
+        {
+            DM.ChangeMaxHunger(float.Parse(FishHealthtxt.text));
+        }
 
-        DM.SetSimSpeed(float.Parse(SimSpeedtxt.text));
+        if (FishStresstxt.text != "")
+        {
+            DM.ChangeMaxStress(float.Parse(FishStresstxt.text));
+        }
+
+        if (FishDepthtxt.text != "")
+        {
+            int.Parse(FishDepthtxt.text);
+        }
+
+        if(SimSpeedtxt.text != "")
+        {
+            DM.SetSimSpeed(float.Parse(SimSpeedtxt.text));
+        } else
+        {
+            DM.SetSimSpeed(1);
+        }
+    }
+    public void SetSpeedButtens(float timefactor)
+    {
+        DM.SetSimSpeed(timefactor);
+    }
+
+    public void ToggleGuiVisibility(GameObject overlayPanel)
+    {
+        DM.HideGui(overlayPanel); //Toggles the overlay GUI 
     }
 
     public void SetAmountOfFishInSimulationFromSlider()
@@ -87,6 +127,7 @@ public class UIHandler : MonoBehaviour
         //Change the text to display the current amount of fish
         AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishSlider.value.ToString("0");
     }
+
     public void SetAmountOfFishInSimulationFromInput()
     {
         //Calls method in DM to update the amount of fish
@@ -97,8 +138,13 @@ public class UIHandler : MonoBehaviour
         AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishFromInputtxt.text;
     }
     
-    public void SetSpeedButtens(float timefactor)
+    public void ChangeCageSize()
     {
-        DM.SetSimSpeed(timefactor);
+        float sliderValue = SizeOfCageSlider.value;
+        Cage.transform.localScale = new Vector3(sliderValue, 1, sliderValue);
+    }
+    public void ChangeCageDepth()
+    {
+
     }
 }
