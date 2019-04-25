@@ -20,6 +20,7 @@ public class DataManager : MonoBehaviour
     private int foodCounter=0;
     private UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
+    
     // Start is called before the first frame update
     
     public bool SaveStatistics(Statistic stats)
