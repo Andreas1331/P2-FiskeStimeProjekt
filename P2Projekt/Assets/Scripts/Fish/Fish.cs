@@ -42,7 +42,6 @@ public abstract class Fish
     public Vector3 CurrentDirection { get; set; }
     public FishType TypeOfFish { get; set; }
     public GameObject FishObject { get; set; }
-    //public int EatTimer
 
     public Fish(int id, float weight, float movementSpeed, float maxSpeed, float width, FishType typeOfFish, GameObject preFab)
     {
@@ -65,7 +64,5 @@ public abstract class Fish
         //Debug.Log(direction);
         FishObject.transform.Translate(direction * MovementSpeed * Time.deltaTime, Space.Self);
         //FishObject.transform.position = Vector3.MoveTowards(FishObject.transform.position, direction, MovementSpeed * Time.deltaTime);
-        //RbFish.AddForce(direction * MaxSpeed, ForceMode.Force);
-        //RbFish.GetComponent<FishBehaviour>().sumVector += direction;
     }
 }
