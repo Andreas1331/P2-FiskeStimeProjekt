@@ -16,12 +16,21 @@ public class UIHandler : MonoBehaviour
     public Text AmountOfFishFromInputtxt;
     public Slider AmountOfFishSlider;
     public Slider SizeOfCageSlider;
+    private float DefaultHunger = 999;
+    private float DefaultStress = 999;
 
-    //Når gameobject bliver aktiveret
     private void Awake()
     {
         DM = FindObjectOfType<DataManager>();
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void Start()
+    {
+        GameObject.Find("OverlayMenu").SetActive(true);
+        GameObject.Find("PauseSettingPanel").SetActive(false);
+        GameObject.Find("PauseMenuItems").SetActive(true);
+        GameObject.Find("AdvancedSettings").SetActive(false);
     }
 
     void Update()
@@ -77,12 +86,12 @@ public class UIHandler : MonoBehaviour
     {
         if (FishHealthtxt.text != "")
         {
-            int.Parse(FishHealthtxt.text);
+            DM.ChangeMaxHunger(float.Parse(FishHealthtxt.text));
         }
 
         if (FishStresstxt.text != "")
         {
-            int.Parse(FishStresstxt.text);
+            DM.ChangeMaxStress(float.Parse(FishStresstxt.text));
         }
 
         if (FishDepthtxt.text != "")
@@ -130,7 +139,10 @@ public class UIHandler : MonoBehaviour
     public void ChangeCageSize()
     {
         float sliderValue = SizeOfCageSlider.value;
-        Cage.transform.localScale = new Vector3(sliderValue, sliderValue, sliderValue);
+        Cage.transform.localScale = new Vector3(sliderValue, 1, sliderValue);
+    }
+    public void ChangeCageDepth()
+    {
 
     }
 }
