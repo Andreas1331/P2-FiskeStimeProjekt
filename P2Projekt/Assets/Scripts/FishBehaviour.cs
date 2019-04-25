@@ -17,7 +17,6 @@ public class FishBehaviour : MonoBehaviour
     Vector3 newdir;
     public float gotDistance = 0;
     private const float _stressMultiplier = 0.5f;
-    //private int innerColliderFoodCheck = 0;
     public List<Vector3> lastKnownFoodSpots = new List<Vector3>() { new Vector3(50,20,10), new Vector3(10,10,10) };
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
@@ -170,24 +169,23 @@ public class FishBehaviour : MonoBehaviour
         _fish.Hunger -= 1 * Time.deltaTime;
         if(_fish.Hunger <= 0)
         {
-            // Kill fish.        
-            //Debug.Log("Fish has died due to hunger..");
+            KillFish();
         }
     }
 
     private void UpdateStress()
     {
         // Increase or lower the stress based on the fish hunger.
-        if (_fish.Hunger <= 500 && _fish.Hunger > 300)
+        if (_fish.Hunger <= 0.5 * Fish.maxHunger && _fish.Hunger > 0.3 * Fish.maxHunger)
             _fish.Stress += 1 * _stressMultiplier * Time.deltaTime;
-        else if (_fish.Hunger <= 300)
+        else if (_fish.Hunger <= 0.3 * Fish.maxHunger)
             _fish.Stress += 1 * (_stressMultiplier * 2) * Time.deltaTime;
         else if (_fish.Stress > 0)
             _fish.Stress -= 1 * Time.deltaTime;
 
         // Start the timer if the fish is stressed.
 // nye version af stress timeren (simplificeret)
-        if (_fish.Stress >= 900)
+        if (_fish.Stress >= 0.9 * Fish.maxStress)
         {
             timerToDie += Time.deltaTime;
             timerToResetTimer = 0;
@@ -195,14 +193,14 @@ public class FishBehaviour : MonoBehaviour
                 KillFish();
         }
         // Stress is less than 900. Check if the timer is running.
-        else if (_fish.Stress < 900 && timerToDie != 0) {
+        else if (_fish.Stress < 0.9 * Fish.maxStress && timerToDie != 0) {
             timerToResetTimer += Time.deltaTime;
             if (timerToResetTimer > 30)
                 timerToDie = 0;
         }
     }
 
-    #region Stress handler
+    #region Gamle Stress handler der ikke bruges
     //    Gamle version
 
     //private void StartStressTimer()

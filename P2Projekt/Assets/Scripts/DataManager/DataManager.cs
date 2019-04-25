@@ -144,6 +144,17 @@ public class DataManager : MonoBehaviour
         }   
     }
 
+    public void ChangeMaxHunger(float newMaxHunger)
+    {
+        Fish.maxHunger = newMaxHunger;
+    }
+    public void ChangeMaxStress(float newMaxStress)
+    {
+        Fish.maxStress = newMaxStress;
+    }
+
+
+
     #region GUI TOOLS
     public void LoadMainMenu()
     {
