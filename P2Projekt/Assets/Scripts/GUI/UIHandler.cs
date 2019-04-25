@@ -31,6 +31,8 @@ public class UIHandler : MonoBehaviour
         GameObject.Find("PauseSettingPanel").SetActive(false);
         GameObject.Find("PauseMenuItems").SetActive(true);
         GameObject.Find("AdvancedSettings").SetActive(false);
+        DM.ChangeMaxStress(DefaultStress);
+        DM.ChangeMaxHunger(DefaultHunger);
     }
 
     void Update()
