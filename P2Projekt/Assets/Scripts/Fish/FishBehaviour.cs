@@ -1,5 +1,4 @@
 ﻿using Mathtools;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,26 +12,30 @@ public class FishBehaviour : MonoBehaviour
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
     private GameObject _net;
     public GameObject Net { set { if (value != null) _net = value; } }
-    private MathTools _mathTools;
-    Vector3 newdir;
-    public float gotDistance = 0;
+    private MathTools _mathTools = new MathTools();
+    private Material _mat;
+
     private const float _stressMultiplier = 0.5f;
+
     public List<Vector3> lastKnownFoodSpots = new List<Vector3>() { new Vector3(50,20,10), new Vector3(10,10,10) };
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
+
     private float[] lambdaArrayAlone = new float[5] { 0.1f, 1, 1, 0.21f, 1 };
     private float[] lambdaArrayStime = new float[6] { 0.1f, 1, 1, 0.21f, 0.21f, 0.21f };
     private Vector3[] D_tVectors = new Vector3[6];
 
-    //Stress timer
+    //Stress variables
     private float timerToDie = 0;
     private float timerToResetTimer = 0;
-    
+     
+    private Color _defaultColor = new Color(191/255f, 249/255f, 249/255f, 255/255f);
+
     private void Awake()
     {
-        _mathTools = new MathTools();
         DataManager = FindObjectOfType<DataManager>();
+
         Net = GameObject.FindGameObjectWithTag("Net");
 
         GetComponent<SphereCollider>().radius = 5f;
@@ -41,13 +44,13 @@ public class FishBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if(_fish.CurrentDirection != null)
+        if (_fish.CurrentDirection != null)
         {
-            Vector3 newdir = Vector3.RotateTowards(transform.forward, _fish.CurrentDirection, Time.deltaTime*5, 2.5f);
+            Vector3 newdir = Vector3.RotateTowards(transform.forward, _fish.CurrentDirection, Time.deltaTime * 5, 2.5f);
             transform.rotation = Quaternion.LookRotation(newdir);
         }
-        //AnimateDeath();
-        _fish.MoveTowards(GetNewDirection());    
+        ////AnimateDeath();
+        _fish.MoveTowards(GetNewDirection());
 
         UpdateStress();
         UpdateHunger();
@@ -60,7 +63,6 @@ public class FishBehaviour : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-
         //Dette kan genimplementeres hvis at maden skal bevæge sig
         //if (other.tag.Equals("Food"))
         //{
@@ -184,65 +186,36 @@ public class FishBehaviour : MonoBehaviour
             _fish.Stress -= 1 * Time.deltaTime;
 
         // Start the timer if the fish is stressed.
-// nye version af stress timeren (simplificeret)
         if (_fish.Stress >= 0.9 * Fish.maxStress)
         {
-            timerToDie += Time.deltaTime;
+                SetColor(Color.red);
+
+                timerToDie += Time.deltaTime;
             timerToResetTimer = 0;
             if (timerToDie > 30)
                 KillFish();
         }
-        // Stress is less than 900. Check if the timer is running.
         else if (_fish.Stress < 0.9 * Fish.maxStress && timerToDie != 0) {
-            timerToResetTimer += Time.deltaTime;
+                    SetColor(_defaultColor);
+
+
+                    timerToResetTimer += Time.deltaTime;
             if (timerToResetTimer > 30)
                 timerToDie = 0;
         }
     }
 
-    #region Gamle Stress handler der ikke bruges
-    //    Gamle version
+    private void SetColor(Color col)
+    {
+        if (_mat == null && _fish.FishObject != null)
+            _mat = _fish.FishObject.GetComponent<Renderer>().material;
 
-    //private void StartStressTimer()
-    //{
-
-
-    //    //_stressTimer = new Timer();
-    //    //_stressTimer.Interval = _stressDuration * 1000;
-    //    //_stressTimer.Elapsed += StressTimerElapsed;
-    //    //_stressTimer.AutoReset = false;
-    //    //_stressTimer.Enabled = true;
-
-    //    //Nye version:
-
-    //}
-
-    //private void ResetStressTimer()
-    //{
-    //    if(_stressTimer != null)
-    //    {
-    //        _stressTimer.Enabled = false;
-    //    }
-    //}
-
-    //private bool IsStressTimerRunning()
-    //{
-    //    return _stressTimer?.Enabled ?? false;
-    //} 
-
-    //private void StressTimerElapsed(object source, ElapsedEventArgs e)
-    //{
-    //    // Check if stress is more than 900.
-    //    if(_fish.Stress >= 900)
-    //    {
-    //        // Should call proper Kill() method instead that handles this.
-    //        KillFish();
-    //    }
-    //}
+        if (_mat.color != col)
+            _mat.color = col;
+    }
     #endregion
-    #endregion
+
     #region Die Methods
-    //DIE method ------------------------------------------------------------------START
     private void KillFish()
     {
         _fish.IsDead = true;
@@ -256,7 +229,7 @@ public class FishBehaviour : MonoBehaviour
         //Rotation of fish around the z-axis
         if (transform.rotation.x > -0.7f)
         {
-            newdir = Vector3.RotateTowards(transform.forward, new Vector3(0.0f, 1.0f, 0.0f), Time.deltaTime, 2.5f);
+            Vector3 newdir = Vector3.RotateTowards(transform.forward, new Vector3(0.0f, 1.0f, 0.0f), Time.deltaTime, 2.5f);
             transform.rotation = Quaternion.LookRotation(newdir);
             //Debug.Log(transform.rotation.x);
             //transform.RotateAround(transform.position, Vector3.forward, 10 * Time.deltaTime);
@@ -270,20 +243,14 @@ public class FishBehaviour : MonoBehaviour
             //MakeOpague;
         }
         else {
-            //Debug.Log("Er dissabled nu");
             transform.position = new Vector3(-5000.0f,-5000.0f, -5000.0f);
             this.transform.gameObject.SetActive(false);
         }
     }
-    //DIE method ------------------------------------------------------------------END
 
     void MakeOpague()
     {
     }
-
-
-
-
 
     #endregion
 
