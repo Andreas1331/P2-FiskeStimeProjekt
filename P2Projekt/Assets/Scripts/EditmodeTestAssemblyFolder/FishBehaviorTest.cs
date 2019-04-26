@@ -65,6 +65,7 @@ namespace Tests
         [Test]
         public void TestOfSwimTowardsOtherFishWithMultipleFish()
         {
+            var comparer = new Vector3EqualityComparer(0.0001f);
             //adding the fish from whoms "view" we are calculating
             GameObject fishbehavourobject = new GameObject();
             fishbehavourobject.AddComponent<FishBehaviour>();
@@ -91,11 +92,22 @@ namespace Tests
             scriptTest.nearbyFish.Add(0, otherFish);
             scriptTest.nearbyFish.Add(1, otherFish1);
             scriptTest.nearbyFish.Add(2, otherFish2);
-            Assert.AreEqual(new Vector3((4 * Mathf.Sqrt(17))/3+(16*Mathf.Sqrt(5))/3+(60)/3, 0, 16 * (Mathf.Sqrt(17))/3+32*(Mathf.Sqrt(5))/3+(80.0f/3.0f)), scriptTest.SwimTowardsOtherFish());
-            
+            Assert.True(comparer.Equals(new Vector3((4 * Mathf.Sqrt(17))/3+(16*Mathf.Sqrt(5))/3+(60)/3, 0, 16 * (Mathf.Sqrt(17))/3+32*(Mathf.Sqrt(5))/3+(80.0f/3.0f)), scriptTest.SwimTowardsOtherFish()));
         }
 
+        [Test]
+        public void TestOfSearchForOptimalDepth() {
+            Vector3 fishOwnVector = new Vector3(5,15,0);
+            GameObject fishbehavourobject = new GameObject();
+            fishbehavourobject.AddComponent<FishBehaviour>();
+            FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
+            scriptTest.transform.position = fishOwnVector;
+            
 
+            var comparer = new Vector3EqualityComparer(0.0004f);
+            Debug.Log(scriptTest.SearchForOptimalDepth());
+            Assert.True(comparer.Equals(scriptTest.SearchForOptimalDepth(),new Vector3(5,-15,0)));
+        }
 
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
         // `yield return null;` to skip a frame.

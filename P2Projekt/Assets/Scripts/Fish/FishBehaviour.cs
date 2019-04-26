@@ -508,36 +508,36 @@ private void setDepthFactorsAlone()
     #region Hold distance to fish
     private Vector3 HoldDistanceToFish()
     {
-        Vector3 GV = new Vector3(0, 0, 0);
-        Vector3 GN = new Vector3(0, 0, 0);
+        Vector3 GoAway = new Vector3(0, 0, 0);
+        Vector3 GoCloser = new Vector3(0, 0, 0);
         foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish)
         {
             if (_mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position) < 0.2f)
             {
-                GV.x += (-1) * ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                GoAway.x += (-1) * ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
                     (item.Value.transform.position.x - transform.position.x) / nearbyFish.Count;
-                GV.y += (-1) * ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                GoAway.y += (-1) * ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
                     (item.Value.transform.position.y - transform.position.y) / nearbyFish.Count;
-                GV.z += (-1) * ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                GoAway.z += (-1) * ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
                     (item.Value.transform.position.z - transform.position.z) / nearbyFish.Count;
             }
             else if (_mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position) < 0.35f) {
-                GN.x += ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                GoCloser.x += ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
                     (item.Value.transform.position.x - transform.position.x) / nearbyFish.Count;
 
-                GN.y += ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                GoCloser.y += ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
                                     (item.Value.transform.position.y - transform.position.y) / nearbyFish.Count;
-                GN.z += ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
+                GoCloser.z += ((1 / Mathf.Sin(8 * _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position))) - 1) *
                                     (item.Value.transform.position.z - transform.position.z) / nearbyFish.Count;
             }
         }
-        return GN+GV;
+        return GoAway + GoCloser;
     }
     #endregion
 
     #region Search for optimal depth
-    private Vector3 SearchForOptimalDepth() {
-        var vec = new Vector3(transform.position.x, -_net.transform.lossyScale.y/2- transform.position.y, transform.position.z);
+    public Vector3 SearchForOptimalDepth() {
+        var vec = new Vector3(transform.position.x, 0 - transform.position.y, transform.position.z);
         return vec;
     }
     #endregion
