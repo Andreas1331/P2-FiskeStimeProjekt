@@ -27,10 +27,10 @@ public class UIHandler : MonoBehaviour
 
     private void Start()
     {
-        GameObject.Find("OverlayMenu").SetActive(true);
-        GameObject.Find("PauseSettingPanel").SetActive(false);
-        GameObject.Find("PauseMenuItems").SetActive(true);
-        GameObject.Find("AdvancedSettings").SetActive(false);
+        //GameObject.Find("OverlayMenu").SetActive(true);
+        //GameObject.Find("PauseSettingPanel").SetActive(false);
+        //GameObject.Find("PauseMenuItems").SetActive(true);
+        //GameObject.Find("AdvancedSettings").SetActive(false);
         DM.ChangeMaxStress(DefaultStress);
         DM.ChangeMaxHunger(DefaultHunger);
     }
