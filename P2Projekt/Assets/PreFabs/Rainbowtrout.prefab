@@ -93,6 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0dc96064ccad6040b5fca13d1a3aa5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gotDistance: 0
   lastKnownFoodSpots: []
 --- !u!135 &6098468930709442805
 SphereCollider:
@@ -116,7 +117,7 @@ SphereCollider:
   m_GameObject: {fileID: 2851111430968988975}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.09666808
   m_Center: {x: 0, y: 0, z: 0}

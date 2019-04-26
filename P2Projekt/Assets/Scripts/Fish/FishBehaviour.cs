@@ -41,13 +41,15 @@ public class FishBehaviour : MonoBehaviour
     private Material _mat;
     private Color _defaultColor = new Color(191 / 255f, 249 / 255f, 249 / 255f, 255 / 255f);
 
-    private void Awake()
+    private void Start()
     {
         DataManager = FindObjectOfType<DataManager>();
 
         Net = GameObject.FindGameObjectWithTag("Net");
 
         GetComponent<SphereCollider>().radius = 5f;
+
+        _fish.Hunger = Fish.maxHunger;
     }
 
     // Update is called once per frame
@@ -60,7 +62,7 @@ public class FishBehaviour : MonoBehaviour
         }
         ////AnimateDeath();
         _fish.MoveTowards(GetNewDirection());
-        Debug.Log("Dir: " + _fish.CurrentDirection);
+        //Debug.Log("Dir: " + _fish.CurrentDirection);
 
         UpdateStress();
         UpdateHunger();
@@ -121,7 +123,7 @@ public class FishBehaviour : MonoBehaviour
                 nearbyFish.Add(fishBehav.Fish.Id, fishBehav);
             }
         }
-        else if (other.tag.Equals("Obstacle"))
+        else if (other.tag.Equals("Obstacle") || (other.tag.Equals("Net")))
         {
             Vector3 closestPos = other.ClosestPoint(transform.position);
             Debug.DrawRay(transform.position, closestPos - transform.position, Color.blue, 15);
@@ -217,7 +219,7 @@ public class FishBehaviour : MonoBehaviour
     #region Lambda
     private void calculateLambdaAlone() {
         //CS = constant value
-        float CS = 1 / 5;
+        float CS = 1.0f / 5.0f;
         lambdaAlone.prevDirectionLambda = CS * (stressFactorsAlone.prevDirectionStress + hungerFactorsAlone.prevDirectionHunger + depthFactorsAlone.prevDirectionDepth);
         lambdaAlone.findFoodLambda = CS * (stressFactorsAlone.findFoodStress + hungerFactorsAlone.findFoodHunger + depthFactorsAlone.findFoodDepth);
         lambdaAlone.findOtherFishLambda = CS * (stressFactorsAlone.findFishStress + hungerFactorsAlone.findFishHunger + depthFactorsAlone.findFishDepth);
@@ -226,7 +228,7 @@ public class FishBehaviour : MonoBehaviour
     }
     private void calculateLambdaSchool() {
         //CS = constant value
-        float CS = 1 / 6;
+        float CS = 1.0f / 6.0f;
         lambdaSchool.prevDirectionLambda = CS * (stressFactorsSchool.prevDirectionStress + hungerFactorsSchool.prevDirectionHunger + depthFactorsSchool.prevDirectionDepth);
         lambdaSchool.findFoodLambda = CS * (stressFactorsSchool.findFoodStress + hungerFactorsSchool.findFoodHunger + depthFactorsSchool.findFoodDepth);
         lambdaSchool.swimWithOtherFishLambda = CS * (stressFactorsSchool.swimWithOtherFishStress + hungerFactorsSchool.swimWithOtherFishHunger + depthFactorsSchool.swimWithOtherFishDepth);
@@ -546,7 +548,10 @@ private void setDepthFactorsAlone()
     private Vector3 GetNewDirection()
     {
         if (_fish.IsDead)
+        {
+            Debug.Log("I AM DEAD");
             return new Vector3(0, 0, 0);
+        }
         bool schooling = false;
         bool isThereNearbyFood = false;
         directions.previousDirection = _fish.CurrentDirection;
@@ -591,12 +596,17 @@ private void setDepthFactorsAlone()
                 directions.findFoodDirection = canSeeFood();
                 _fish.CurrentDirection = directions.previousDirection * lambdaAlone.prevDirectionLambda + directions.findFoodDirection * lambdaAlone.findFoodLambda
                     + directions.swimWithOrToFish * lambdaAlone.findOtherFishLambda + directions.dodgeCollisionDirection * lambdaAlone.collisionDodgeLambda + directions.optimalDepthDirection * lambdaAlone.optimalDepthLambda;
+                Debug.Log("TESTSETSETSE");
             }
             else 
             {
+                Debug.Log("ErDenHer?");
                 directions.findFoodDirection = cantSeeFood();
+                Debug.Log(directions.previousDirection);
+                Debug.Log(lambdaAlone.prevDirectionLambda);
                 _fish.CurrentDirection = directions.previousDirection * lambdaAlone.prevDirectionLambda + directions.findFoodDirection * lambdaAlone.findFoodLambda 
                     + directions.swimWithOrToFish * lambdaAlone.findOtherFishLambda + directions.dodgeCollisionDirection * lambdaAlone.collisionDodgeLambda + directions.optimalDepthDirection * lambdaAlone.optimalDepthLambda;
+                Debug.Log("nye retning" +_fish.CurrentDirection);
             }
         }
         directions.dodgeCollisionDirection = new Vector3(0,0,0);
