@@ -30,7 +30,7 @@ public class CameraZoom : MonoBehaviour
             }
             if (Input.GetKeyDown("r"))
             {
-                transform.localPosition = new Vector3(0, 0, -_net.transform.lossyScale.z / 2);
+                transform.localPosition = new Vector3(0, 0, _net.transform.lossyScale.z);
             }
             if (Input.GetKey("e"))
             {
