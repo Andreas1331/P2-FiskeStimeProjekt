@@ -38,11 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-<<<<<<< HEAD
   m_IndirectSpecularColor: {r: 0.3500695, g: 0.4492445, b: 0.58802646, a: 1}
-=======
-  m_IndirectSpecularColor: {r: 0.3500668, g: 0.44915104, b: 0.5880307, a: 1}
->>>>>>> parent of 15969da... Gui Changes, Sliders Works
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3212,10 +3208,7 @@ MonoBehaviour:
   AmountOfFishFromInputtxt: {fileID: 981758856}
   AmountOfFishSlider: {fileID: 210476975}
   SizeOfCageSlider: {fileID: 1832413021}
-<<<<<<< HEAD
   DepthOfCageSlider: {fileID: 0}
-=======
->>>>>>> parent of 15969da... Gui Changes, Sliders Works
   PauseMenuUI: {fileID: 822023183}
 --- !u!4 &1009735442
 Transform:
