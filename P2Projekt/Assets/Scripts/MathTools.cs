@@ -7,14 +7,9 @@ namespace Mathtools
         public float GetDistanceBetweenVectors(Vector3 vec1, Vector3 vec2)
         {
             float xDifference = (vec2.x - vec1.x);
-            Debug.Log("xDifference  = " + xDifference);
             float yDifference = (vec2.y - vec1.y);
             float zDifference = (vec2.z - vec1.z);
-            Debug.Log("zDifference  = " + zDifference);
             float distanceBetweenVectors = Mathf.Sqrt(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
-
-            //Debug.Log(distanceBetweenVectors);
-
             return distanceBetweenVectors;
         }
 

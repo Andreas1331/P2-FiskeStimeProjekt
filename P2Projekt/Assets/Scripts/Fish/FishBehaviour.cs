@@ -247,7 +247,6 @@ public class FishBehaviour : MonoBehaviour
         if (_mat.color != col)
             _mat.color = col;
     }
-    #endregion
 
     #region Die Methods
     private void KillFish()
