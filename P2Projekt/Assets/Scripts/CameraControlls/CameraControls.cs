@@ -56,7 +56,7 @@ public class CameraControls : MonoBehaviour
             {
                 cameraSpeed = normalCameraSpeed;
             }
-            _seaBottom.transform.position = new Vector3(0, -_net.transform.lossyScale.y - 5, 0);
+            //_seaBottom.transform.position = new Vector3(0, -_net.transform.lossyScale.y - 5, 0);
         }
     }
     public void InMenuChange()
