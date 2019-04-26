@@ -37,10 +37,8 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     private MathTools _mathTools = new MathTools();
+
     private Material _mat;
-
-
-
     private Color _defaultColor = new Color(191 / 255f, 249 / 255f, 249 / 255f, 255 / 255f);
 
     private void Awake()
@@ -62,6 +60,7 @@ public class FishBehaviour : MonoBehaviour
         }
         ////AnimateDeath();
         _fish.MoveTowards(GetNewDirection());
+        Debug.Log("Dir: " + _fish.CurrentDirection);
 
         UpdateStress();
         UpdateHunger();

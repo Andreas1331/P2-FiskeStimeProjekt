@@ -12,6 +12,7 @@ public class CageHandler : MonoBehaviour
     {
         GetColliderCoordinates();
         CreateColliders();
+        this.transform.localScale = new Vector3(20, 50, 20);
     }
 
     private void Update()
