@@ -175,7 +175,7 @@ public class FishBehaviour : MonoBehaviour
         return FindFreeDir(pos, ref offset);
     }
 
-    #region Lambda
+
     private void UpdateHunger()
     {
         _fish.Hunger -= 1 * Time.deltaTime;
@@ -215,7 +215,7 @@ public class FishBehaviour : MonoBehaviour
         }
     }
 
-
+    #region Lambda
     private void calculateLambdaAlone() {
         //CS = constant value
         float CS = 1 / 5;
@@ -235,7 +235,6 @@ public class FishBehaviour : MonoBehaviour
         lambdaSchool.optimalDepthLambda = CS * (stressFactorsSchool.optimalDepthStress + hungerFactorsSchool.optimalDepthHunger + depthFactorsSchool.optimalDepthDepth);
         lambdaSchool.holdDistanceToFishLambda = CS * (stressFactorsSchool.holdDistanceToFishStress + hungerFactorsSchool.holdDistanceToFishHunger + depthFactorsSchool.holdDistanceToFishDepth);
     }
-    #endregion
 
     #region Hunger factors
     private void calculateHungerFactorsAlone() {
@@ -308,6 +307,33 @@ public class FishBehaviour : MonoBehaviour
 
 
 
+    #endregion
+
+    #region Depth Factors
+
+    private void setDepthFactorsAlone()
+    {
+        depthFactorsAlone.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
+        //find bedre navn gidder ikke lige nu
+        float theRest = 1 - depthFactorsAlone.optimalDepthDepth / 4;
+        depthFactorsAlone.prevDirectionDepth = theRest;
+        depthFactorsAlone.findFoodDepth = theRest;
+        depthFactorsAlone.findFishDepth = theRest;
+        depthFactorsAlone.collisionDodgeDepth = theRest;
+    }
+
+    private void setDepthFactorsSchool()
+    {
+        depthFactorsSchool.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
+        //find bedre navn gidder ikke lige nu
+        float theRest = 1 - depthFactorsSchool.optimalDepthDepth / 5;
+        depthFactorsSchool.prevDirectionDepth = theRest;
+        depthFactorsSchool.findFoodDepth = theRest;
+        depthFactorsSchool.swimWithOtherFishDepth = theRest;
+        depthFactorsSchool.collisionDodgeDepth = theRest;
+        depthFactorsSchool.holdDistanceToFishDepth = theRest;
+    }
+    #endregion
     #endregion
     private void SetColor(Color col)
     {
@@ -450,27 +476,6 @@ public class FishBehaviour : MonoBehaviour
     private Vector3 SearchForOptimalDepth() {
         var vec = new Vector3(transform.position.x, -_net.transform.lossyScale.y/2- transform.position.y, transform.position.z);
         return vec;
-    }
-
-    private void setDepthFactorsAlone() {
-        depthFactorsAlone.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
-        //find bedre navn gidder ikke lige nu
-        float theRest = 1 - depthFactorsAlone.optimalDepthDepth / 4;
-        depthFactorsAlone.prevDirectionDepth = theRest;
-        depthFactorsAlone.findFoodDepth = theRest;
-        depthFactorsAlone.findFishDepth = theRest;
-        depthFactorsAlone.collisionDodgeDepth = theRest;
-    }
-
-    private void setDepthFactorsSchool() {
-        depthFactorsSchool.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
-        //find bedre navn gidder ikke lige nu
-        float theRest = 1 - depthFactorsSchool.optimalDepthDepth / 5;
-        depthFactorsSchool.prevDirectionDepth = theRest;
-        depthFactorsSchool.findFoodDepth = theRest;
-        depthFactorsSchool.swimWithOtherFishDepth = theRest;
-        depthFactorsSchool.collisionDodgeDepth = theRest;
-        depthFactorsSchool.holdDistanceToFishDepth = theRest;
     }
     #endregion
 
