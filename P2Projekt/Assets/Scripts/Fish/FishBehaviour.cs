@@ -7,7 +7,7 @@ using UnityEngine;
 public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
-    public Fish Fish { get {return _fish; } set { if (value != null) _fish = value; } }
+    public Fish Fish { get { return _fish; } set { if (value != null) _fish = value; } }
     private DataManager _dataManager;
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
     private GameObject _net;
@@ -37,11 +37,9 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     private MathTools _mathTools = new MathTools();
-    private Material _mat;
-        
 
-   
-    private Color _defaultColor = new Color(191/255f, 249/255f, 249/255f, 255/255f);
+    private Material _mat;
+    private Color _defaultColor = new Color(191 / 255f, 249 / 255f, 249 / 255f, 255 / 255f);
 
     private void Awake()
     {
@@ -62,6 +60,7 @@ public class FishBehaviour : MonoBehaviour
         }
         ////AnimateDeath();
         _fish.MoveTowards(GetNewDirection());
+        Debug.Log("Dir: " + _fish.CurrentDirection);
 
         UpdateStress();
         UpdateHunger();
@@ -175,11 +174,11 @@ public class FishBehaviour : MonoBehaviour
         return FindFreeDir(pos, ref offset);
     }
 
-    #region Lambda
+
     private void UpdateHunger()
     {
         _fish.Hunger -= 1 * Time.deltaTime;
-        if(_fish.Hunger <= 0)
+        if (_fish.Hunger <= 0)
         {
             KillFish();
         }
@@ -198,24 +197,24 @@ public class FishBehaviour : MonoBehaviour
         // Start the timer if the fish is stressed.
         if (_fish.Stress >= 0.9 * Fish.maxStress)
         {
-                SetColor(Color.red);
+            SetColor(Color.red);
 
-                timerToDie += Time.deltaTime;
+            timerToDie += Time.deltaTime;
             timerToResetTimer = 0;
             if (timerToDie > 30)
                 KillFish();
         }
         else if (_fish.Stress < 0.9 * Fish.maxStress && timerToDie != 0) {
-                    SetColor(_defaultColor);
+            SetColor(_defaultColor);
 
 
-                    timerToResetTimer += Time.deltaTime;
+            timerToResetTimer += Time.deltaTime;
             if (timerToResetTimer > 30)
                 timerToDie = 0;
         }
     }
 
-
+    #region Lambda
     private void calculateLambdaAlone() {
         //CS = constant value
         float CS = 1 / 5;
@@ -236,9 +235,105 @@ public class FishBehaviour : MonoBehaviour
         lambdaSchool.holdDistanceToFishLambda = CS * (stressFactorsSchool.holdDistanceToFishStress + hungerFactorsSchool.holdDistanceToFishHunger + depthFactorsSchool.holdDistanceToFishDepth);
     }
 
+    #region Hunger factors
+    private void calculateHungerFactorsAlone() {
+        hungerFactorsAlone.findFoodHunger = 20 / (_fish.Hunger / Fish.maxHunger * 100);
+        float leftOfHungerFactor = 2 - hungerFactorsAlone.findFoodHunger;
+        //if there is no object in the way
+        if (true)
+        {
+            hungerFactorsAlone.prevDirectionHunger = leftOfHungerFactor * 0.3f;
+            hungerFactorsAlone.findFishHunger = leftOfHungerFactor * 0.6f;
+            hungerFactorsAlone.collisionDodgeHunger = 0;
+            hungerFactorsAlone.optimalDepthHunger = leftOfHungerFactor * 0.1f;
+        }
+        //if there is an object in the way further ahead
+        else if (true)
+        {
+            hungerFactorsAlone.prevDirectionHunger = leftOfHungerFactor * 0.15f;
+            hungerFactorsAlone.findFishHunger = leftOfHungerFactor * 0.25f;
+            hungerFactorsAlone.collisionDodgeHunger = leftOfHungerFactor * 0.5f;
+            hungerFactorsAlone.optimalDepthHunger = leftOfHungerFactor * 0.1f;
+        }
+        //if there is an object in the way further ahead within 1 meter
+        else if (true)
+        {
+            hungerFactorsAlone.findFoodHunger = 0;
+            hungerFactorsAlone.prevDirectionHunger = 0;
+            hungerFactorsAlone.findFishHunger = 0;
+            hungerFactorsAlone.collisionDodgeHunger = 2;
+            hungerFactorsAlone.optimalDepthHunger = 0;
+        }
+    }
+    private void calculateHungerFactorsSchool()
+    {
+        hungerFactorsSchool.findFoodHunger = 25/(_fish.Hunger/Fish.maxHunger*100);
+        float leftOfHungerFactor = 2 - hungerFactorsSchool.findFoodHunger;
+        //if there is no object in the way
+        if (true)
+        {
+            hungerFactorsSchool.prevDirectionHunger = leftOfHungerFactor * 0.2f;
+            hungerFactorsSchool.swimWithOtherFishHunger = leftOfHungerFactor * 0.5f;
+            hungerFactorsSchool.collisionDodgeHunger = 0;
+            hungerFactorsSchool.optimalDepthHunger = leftOfHungerFactor * 0.1f;
+            hungerFactorsSchool.holdDistanceToFishHunger = leftOfHungerFactor * 0.2f;
+
+        }
+        //if there is an object in the way further ahead
+        else if (true)
+        {
+            hungerFactorsSchool.prevDirectionHunger = leftOfHungerFactor * 0.05f;
+            hungerFactorsSchool.swimWithOtherFishHunger = leftOfHungerFactor * 0.20f;
+            hungerFactorsSchool.collisionDodgeHunger = leftOfHungerFactor * 0.5f;
+            hungerFactorsSchool.optimalDepthHunger = leftOfHungerFactor * 0.05f;
+            hungerFactorsSchool.holdDistanceToFishHunger = leftOfHungerFactor *0.2f;
+        }
+        //if there is an object in the way further ahead within 1 meter
+        else if (true)
+        {
+            hungerFactorsSchool.findFoodHunger = 0;
+            hungerFactorsSchool.prevDirectionHunger = 0;
+            hungerFactorsSchool.swimWithOtherFishHunger = 0;
+            hungerFactorsSchool.collisionDodgeHunger = 2.5f;
+            hungerFactorsSchool.optimalDepthHunger = 0;
+            hungerFactorsSchool.holdDistanceToFishHunger = 0;
+        }
+
+    }
+    #endregion
+
+    #region stress Factors
+
+
 
     #endregion
-   
+
+    #region Depth Factors
+
+    private void setDepthFactorsAlone()
+    {
+        depthFactorsAlone.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
+        //find bedre navn gidder ikke lige nu
+        float theRest = 1 - depthFactorsAlone.optimalDepthDepth / 4;
+        depthFactorsAlone.prevDirectionDepth = theRest;
+        depthFactorsAlone.findFoodDepth = theRest;
+        depthFactorsAlone.findFishDepth = theRest;
+        depthFactorsAlone.collisionDodgeDepth = theRest;
+    }
+
+    private void setDepthFactorsSchool()
+    {
+        depthFactorsSchool.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
+        //find bedre navn gidder ikke lige nu
+        float theRest = 1 - depthFactorsSchool.optimalDepthDepth / 5;
+        depthFactorsSchool.prevDirectionDepth = theRest;
+        depthFactorsSchool.findFoodDepth = theRest;
+        depthFactorsSchool.swimWithOtherFishDepth = theRest;
+        depthFactorsSchool.collisionDodgeDepth = theRest;
+        depthFactorsSchool.holdDistanceToFishDepth = theRest;
+    }
+    #endregion
+    #endregion
     private void SetColor(Color col)
     {
         if (_mat == null && _fish.FishObject != null)
@@ -381,27 +476,6 @@ public class FishBehaviour : MonoBehaviour
         var vec = new Vector3(transform.position.x, -_net.transform.lossyScale.y/2- transform.position.y, transform.position.z);
         return vec;
     }
-
-    private void setDepthFactorsAlone() {
-        depthFactorsAlone.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
-        //find bedre navn gidder ikke lige nu
-        float theRest = 1 - depthFactorsAlone.optimalDepthDepth / 4;
-        depthFactorsAlone.prevDirectionDepth = theRest;
-        depthFactorsAlone.findFoodDepth = theRest;
-        depthFactorsAlone.findFishDepth = theRest;
-        depthFactorsAlone.collisionDodgeDepth = theRest;
-    }
-
-    private void setDepthFactorsSchool() {
-        depthFactorsSchool.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
-        //find bedre navn gidder ikke lige nu
-        float theRest = 1 - depthFactorsSchool.optimalDepthDepth / 5;
-        depthFactorsSchool.prevDirectionDepth = theRest;
-        depthFactorsSchool.findFoodDepth = theRest;
-        depthFactorsSchool.swimWithOtherFishDepth = theRest;
-        depthFactorsSchool.collisionDodgeDepth = theRest;
-        depthFactorsSchool.holdDistanceToFishDepth = theRest;
-    }
     #endregion
 
     #region Get new direction
@@ -426,6 +500,7 @@ public class FishBehaviour : MonoBehaviour
         if (schooling)
         {
             setDepthFactorsSchool();
+            calculateHungerFactorsSchool();
             calculateLambdaSchool();
             directions.swimWithOrToFish = SwimWithFriends();
             directions.holdDistanceToFishDirection = HoldDistanceToFish();
@@ -442,6 +517,7 @@ public class FishBehaviour : MonoBehaviour
         }
         else {
             setDepthFactorsAlone();
+            calculateHungerFactorsAlone();
             calculateLambdaAlone();
             directions.swimWithOrToFish = SwimTowardsOtherFish();
             if (isThereNearbyFood)

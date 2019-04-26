@@ -20,9 +20,15 @@ public class DataManager : MonoBehaviour
     private int foodCounter=0;
     private UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-    
+
     // Start is called before the first frame update
-    
+    public void Start()
+    {
+        UI = FindObjectOfType<UIHandler>();
+        GameObject obj = Instantiate(UI.Cage, new Vector3(), Quaternion.identity);
+        //obj.transform.localScale = new Vector3(20, 10, 20);       
+    }
+
     public bool SaveStatistics(Statistic stats)
     {
         if (stats == null)
