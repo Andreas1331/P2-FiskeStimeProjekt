@@ -16,9 +16,8 @@ public class CameraControls : MonoBehaviour
     void Start()
     {
         Net = GameObject.FindGameObjectWithTag("Net");
-        //transform.position = new Vector3(-_net.transform.position.x / 2, -_net.transform.position.y / 2, -_net.transform.position.z / 2);
+        transform.position = new Vector3(-_net.transform.position.x / 2, -_net.transform.lossyScale.y / 2, -_net.transform.position.z / 2);
         _seaBottom = GameObject.FindGameObjectWithTag("Terrain");
-
     }
 
     // Update is called once per frame
