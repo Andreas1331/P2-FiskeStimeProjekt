@@ -10,9 +10,6 @@ namespace Mathtools
             float yDifference = (vec2.y - vec1.y);
             float zDifference = (vec2.z - vec1.z);
             float distanceBetweenVectors = Mathf.Sqrt(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
-
-            //Debug.Log(distanceBetweenVectors);
-
             return distanceBetweenVectors;
         }
 
