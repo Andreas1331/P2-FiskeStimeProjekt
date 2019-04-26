@@ -16,8 +16,12 @@ public class UIHandler : MonoBehaviour
     public Text AmountOfFishFromInputtxt;
     public Slider AmountOfFishSlider;
     public Slider SizeOfCageSlider;
+    public Slider DepthOfCageSlider;
     private float DefaultHunger = 999;
     private float DefaultStress = 999;
+
+    private float RadiusOfCage = 10;
+    private float DepthOfCage = 8;
 
     private void Awake()
     {
@@ -140,11 +144,26 @@ public class UIHandler : MonoBehaviour
     
     public void ChangeCageSize()
     {
-        float sliderValue = SizeOfCageSlider.value;
-        Cage.transform.localScale = new Vector3(sliderValue, 1, sliderValue);
+        RadiusOfCage = SizeOfCageSlider.value;
+        GameObject.Find("SizeOfCageText").GetComponent<Text>().text = "CAGE RADIUS: " + SizeOfCageSlider.value;
+        ApplySizeOfCage();
+    }
+    public void ChangeCageSizeFromInput(Text inputText)
+    {
+        SizeOfCageSlider.value = float.Parse(inputText.text);
     }
     public void ChangeCageDepth()
     {
-
+        DepthOfCage = DepthOfCageSlider.value;
+        GameObject.Find("DepthOfCageText").GetComponent<Text>().text = "CAGE DEPTH: " + DepthOfCageSlider.value;
+        ApplySizeOfCage();
+    }
+    public void ChangeCageDepthFromInput(Text inputText)
+    {
+        DepthOfCageSlider.value = float.Parse(inputText.text);
+    }
+    public void ApplySizeOfCage()
+    {
+        Cage.transform.localScale = new Vector3(RadiusOfCage, 2 * DepthOfCage, RadiusOfCage);
     }
 }
