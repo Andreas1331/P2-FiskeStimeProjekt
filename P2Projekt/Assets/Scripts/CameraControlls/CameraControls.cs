@@ -16,7 +16,7 @@ public class CameraControls : MonoBehaviour
     void Start()
     {
         Net = GameObject.FindGameObjectWithTag("Net");
-        transform.position = new Vector3(-_net.transform.position.x / 2, -_net.transform.lossyScale.y / 2, -_net.transform.position.z / 2);
+        transform.position = new Vector3(_net.transform.position.x, _net.transform.position.y, _net.transform.position.z);
         _seaBottom = GameObject.FindGameObjectWithTag("Terrain");
     }
 
@@ -46,7 +46,8 @@ public class CameraControls : MonoBehaviour
             }
             if (Input.GetKeyDown("r"))
             {
-                transform.rotation = Quaternion.Euler(new Vector3(-_net.transform.lossyScale.x / 2, -_net.transform.lossyScale.y / 2, -_net.transform.lossyScale.z / 2));
+
+                transform.rotation = Quaternion.Euler(new Vector3(-_net.transform.lossyScale.x, _net.transform.lossyScale.y, -_net.transform.lossyScale.z));
             }
             if (Input.GetKey("left shift"))
             {
