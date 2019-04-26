@@ -2604,7 +2604,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 233
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -3838,7 +3838,7 @@ MonoBehaviour:
   AmountOfFishFromInputtxt: {fileID: 981758856}
   AmountOfFishSlider: {fileID: 210476975}
   SizeOfCageSlider: {fileID: 1832413021}
-  DepthOfCageSlider: {fileID: 0}
+  DepthOfCageSlider: {fileID: 806314947}
   PauseMenuUI: {fileID: 822023183}
 --- !u!4 &1009735442
 Transform:
