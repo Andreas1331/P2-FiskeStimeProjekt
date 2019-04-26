@@ -120,26 +120,18 @@ public class UIHandler : MonoBehaviour
 
     public void ToggleGuiVisibility(GameObject overlayPanel)
     {
-        DM.HideGui(overlayPanel); //Toggles the overlay GUI 
+        DM.HideGui(overlayPanel);
     }
 
     public void SetAmountOfFishInSimulationFromSlider()
     {
-        //Calls method in DM to update the amount of fish
         DM.GetAmountOfFishToAddOrRemove((int)AmountOfFishSlider.value);
-
-        //Change the text to display the current amount of fish
-        AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishSlider.value.ToString("0");
+        AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishSlider.value;
     }
 
-    public void SetAmountOfFishInSimulationFromInput()
+    public void SetAmountOfFishInSimulationFromInput(Text inputText)
     {
-        //Calls method in DM to update the amount of fish
-        DM.GetAmountOfFishToAddOrRemove(int.Parse(AmountOfFishFromInputtxt.text));
-        //AmountOfFishSlider.value = int.Parse(AmountOfFishFromInputtxt.text);
-
-        //Change the text to display the current amount of fish
-        AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishFromInputtxt.text;
+        AmountOfFishSlider.value = float.Parse(inputText.text);
     }
     
     public void ChangeCageSize()
