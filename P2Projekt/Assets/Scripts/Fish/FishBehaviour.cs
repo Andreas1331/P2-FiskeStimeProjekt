@@ -303,14 +303,78 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region stress Factors
+    private void calculateStressFactorsAlone() {
+        stressFactorsAlone.findFoodStress = 20 / (_fish.Hunger / Fish.maxHunger * 100);
+        float leftOfStressFactor = 2 - stressFactorsAlone.findFoodStress;
+        //if there is no object in the way
+        if (true)
+        {
+            stressFactorsAlone.prevDirectionStress = leftOfStressFactor * 0.3f;
+            stressFactorsAlone.findFishStress = leftOfStressFactor * 0.6f;
+            stressFactorsAlone.collisionDodgeStress = 0;
+            stressFactorsAlone.optimalDepthStress = leftOfStressFactor * 0.1f;
+        }
+        //if there is an object in the way further ahead
+        else if (true)
+        {
+            stressFactorsAlone.prevDirectionStress = leftOfStressFactor * 0.15f;
+            stressFactorsAlone.findFishStress = leftOfStressFactor * 0.25f;
+            stressFactorsAlone.collisionDodgeStress = leftOfStressFactor * 0.5f;
+            stressFactorsAlone.optimalDepthStress = leftOfStressFactor * 0.1f;
+        }
+        //if there is an object in the way further ahead within 1 meter
+        else if (true)
+        {
+            stressFactorsAlone.prevDirectionStress = 0;
+            stressFactorsAlone.findFoodStress = 0;
+            stressFactorsAlone.findFishStress = 0;
+            stressFactorsAlone.collisionDodgeStress = 2;
+            stressFactorsAlone.optimalDepthStress = 0;
+        }
+    }
+    private void calculateStressFactorsSchool()
+{
+        stressFactorsSchool.findFoodStress = 25 / (_fish.Hunger / Fish.maxHunger * 100);
+    float leftOfStressFactor = 2 - stressFactorsSchool.findFoodStress;
+        //if there is no object in the way
+        if (true)
+    {
+        stressFactorsSchool.prevDirectionStress = leftOfStressFactor * 0.2f;
+        stressFactorsSchool.swimWithOtherFishStress = leftOfStressFactor * 0.5f;
+        stressFactorsSchool.collisionDodgeStress = 0;
+            stressFactorsSchool.optimalDepthStress = leftOfStressFactor * 0.1f;
+            stressFactorsSchool.holdDistanceToFishStress = leftOfStressFactor * 0.2f;
+
+    }
+    //if there is an object in the way further ahead
+    else if (true)
+    {
+            stressFactorsSchool.prevDirectionStress = leftOfStressFactor * 0.05f;
+            stressFactorsSchool.swimWithOtherFishStress = leftOfStressFactor * 0.20f;
+            stressFactorsSchool.collisionDodgeStress = leftOfStressFactor * 0.5f;
+            stressFactorsSchool.optimalDepthStress = leftOfStressFactor * 0.05f;
+            stressFactorsSchool.holdDistanceToFishStress = leftOfStressFactor * 0.2f;
+    }
+    //if there is an object in the way further ahead within 1 meter
+    else if (true)
+    {
+            stressFactorsSchool.prevDirectionStress = 0;
+            stressFactorsSchool.findFoodStress = 0;
+            stressFactorsSchool.swimWithOtherFishStress = 0;
+            stressFactorsSchool.collisionDodgeStress = 2.5f;
+            stressFactorsSchool.optimalDepthStress = 0;
+            stressFactorsSchool.holdDistanceToFishStress = 0;
+    }
+
+}
 
 
 
-    #endregion
+#endregion
 
-    #region Depth Factors
+#region Depth Factors
 
-    private void setDepthFactorsAlone()
+private void setDepthFactorsAlone()
     {
         depthFactorsAlone.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
         //find bedre navn gidder ikke lige nu
@@ -501,6 +565,7 @@ public class FishBehaviour : MonoBehaviour
         {
             setDepthFactorsSchool();
             calculateHungerFactorsSchool();
+            calculateStressFactorsSchool();
             calculateLambdaSchool();
             directions.swimWithOrToFish = SwimWithFriends();
             directions.holdDistanceToFishDirection = HoldDistanceToFish();
@@ -518,6 +583,7 @@ public class FishBehaviour : MonoBehaviour
         else {
             setDepthFactorsAlone();
             calculateHungerFactorsAlone();
+            calculateStressFactorsAlone();
             calculateLambdaAlone();
             directions.swimWithOrToFish = SwimTowardsOtherFish();
             if (isThereNearbyFood)

@@ -4,6 +4,7 @@ using Assets.Scripts.Data;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.TestTools.Utils;
 
 namespace Tests
 {
@@ -59,6 +60,39 @@ namespace Tests
             otherFish.transform.position = new Vector3(2, 0, 8);
             scriptTest.nearbyFish.Add(0, otherFish);
             Assert.AreEqual(new Vector3(4*Mathf.Sqrt(17),0,16*Mathf.Sqrt(17)), scriptTest.SwimTowardsOtherFish());
+        }
+
+        [Test]
+        public void TestOfSwimTowardsOtherFishWithMultipleFish()
+        {
+            //adding the fish from whoms "view" we are calculating
+            GameObject fishbehavourobject = new GameObject();
+            fishbehavourobject.AddComponent<FishBehaviour>();
+            FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
+            scriptTest.MathTools = new Mathtools.MathTools();
+            //adding other fish
+            GameObject otherFishObject = new GameObject();
+            otherFishObject.AddComponent<FishBehaviour>();
+            FishBehaviour otherFish = otherFishObject.GetComponent<FishBehaviour>();
+            otherFish.transform.position = new Vector3(2, 0, 8);
+
+            GameObject otherFishObject1 = new GameObject();
+            otherFishObject1.AddComponent<FishBehaviour>();
+            FishBehaviour otherFish1 = otherFishObject1.GetComponent<FishBehaviour>();
+            otherFish1.transform.position = new Vector3(4, 0, 8);
+
+            GameObject otherFishObject2 = new GameObject();
+            otherFishObject2.AddComponent<FishBehaviour>();
+            FishBehaviour otherFish2 = otherFishObject2.GetComponent<FishBehaviour>();
+            otherFish2.transform.position = new Vector3(6, 0, 8);
+
+
+            //adding the fish to the dictionary
+            scriptTest.nearbyFish.Add(0, otherFish);
+            scriptTest.nearbyFish.Add(1, otherFish1);
+            scriptTest.nearbyFish.Add(2, otherFish2);
+            Assert.AreEqual(new Vector3((4 * Mathf.Sqrt(17))/3+(16*Mathf.Sqrt(5))/3+(60)/3, 0, 16 * (Mathf.Sqrt(17))/3+32*(Mathf.Sqrt(5))/3+(80.0f/3.0f)), scriptTest.SwimTowardsOtherFish());
+            
         }
 
 
