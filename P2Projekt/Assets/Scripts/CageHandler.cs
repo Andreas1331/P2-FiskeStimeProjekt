@@ -4,22 +4,17 @@ using UnityEngine;
 public class CageHandler : MonoBehaviour
 {
     public GameObject prefabCollider;
-    public bool draw;
-
     private List<Vector3> coords = new List<Vector3>();
 
     private void Start()
     {
         GetColliderCoordinates();
         CreateColliders();
-        this.transform.localScale = new Vector3(20, 50, 20);
+        this.transform.localScale = new Vector3(10, 5, 10);
     }
 
     private void Update()
     {
-        if (!draw)
-            return;
-
         foreach (var item in coords)
         {
             Vector3 dir = item - transform.position;
