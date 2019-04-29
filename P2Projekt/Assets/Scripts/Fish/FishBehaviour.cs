@@ -20,6 +20,7 @@ public class FishBehaviour : MonoBehaviour
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
+    public List<GameObject> _nearByOjects = new List<GameObject>();
     //Stress timer
     private float timerToDie = 0;
     private float timerToResetTimer = 0;
