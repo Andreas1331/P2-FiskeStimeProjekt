@@ -1254,6 +1254,7 @@ MonoBehaviour:
     type: 3}
   deathCounter: 0
   timesAddedFood: 0
+  DefaultFishAmount: 4
 --- !u!1 &571862027
 GameObject:
   m_ObjectHideFlags: 0
