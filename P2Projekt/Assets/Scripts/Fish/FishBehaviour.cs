@@ -13,14 +13,13 @@ public class FishBehaviour : MonoBehaviour
     private GameObject _net;
     public GameObject Net { set { if (value != null) _net = value; } }
     public MathTools MathTools { set { if (value != null) _mathTools = value; } }
-    Vector3 newdir;
+    private bool _isObstacleDetected = false;
     public float gotDistance = 0;
     private const float _stressMultiplier = 0.5f;
-    public List<Vector3> lastKnownFoodSpots = new List<Vector3>();
+    private List<Vector3> lastKnownFoodSpots = new List<Vector3>() { new Vector3(5, 0, 3), new Vector3(-2, 0, 4) };
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
-    public List<GameObject> _nearByOjects = new List<GameObject>();
     //Stress timer
     private float timerToDie = 0;
     private float timerToResetTimer = 0;
@@ -49,21 +48,13 @@ public class FishBehaviour : MonoBehaviour
         Net = GameObject.FindGameObjectWithTag("Net");
 
         GetComponent<SphereCollider>().radius = 5f;
-
-        _fish.Hunger = Fish.maxHunger;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        if (_fish.CurrentDirection != null)
-        {
-            Vector3 newdir = Vector3.RotateTowards(transform.forward, _fish.CurrentDirection, Time.deltaTime * 5, 2.5f);
-            transform.rotation = Quaternion.LookRotation(newdir);
-        }
         ////AnimateDeath();
         _fish.MoveTowards(GetNewDirection());
-        //Debug.Log("Dir: " + _fish.CurrentDirection);
 
         UpdateStress();
         UpdateHunger();
@@ -76,15 +67,10 @@ public class FishBehaviour : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        //Dette kan genimplementeres hvis at maden skal bevæge sig
-        //if (other.tag.Equals("Food"))
-        //{
-        //    if (knownFoodSpots.ContainsKey(other.GetComponent<FoodBehavior>().Food.Id)) {
-        //        knownFoodSpots[other.GetComponent<FoodBehavior>().Food.Id] = other.transform.position;
-        //        Debug.Log(knownFoodSpots[other.GetComponent<FoodBehavior>().Food.Id]);
-        //    }
-        //}
-        //Debug.Log("Object is nearby .. ");
+        if(other.tag.Equals("Obstacle") || other.tag.Equals("Net"))
+        {
+            //HandleSpottedObject(other);
+        }
     }
 
     private void OnTriggerExit(Collider other)
@@ -127,17 +113,15 @@ public class FishBehaviour : MonoBehaviour
         else if (other.tag.Equals("Obstacle") || (other.tag.Equals("Net")))
         {
             Vector3 closestPos = other.ClosestPoint(transform.position);
-            Debug.DrawRay(transform.position, closestPos - transform.position, Color.blue, 15);
-
-            float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, closestPos);
-            float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, closestPos);
-            float catheter = _mathTools.GetOpposingCatheter(angle, dist);
-
-            if (catheter <= _fish.Width / 2)
+            if (_mathTools.GetDistanceBetweenVectors(transform.position, closestPos) < 1)
             {
-                int offset = 1;
-                Vector3 newDir = FindFreeDir(closestPos, ref offset);
-                directions.dodgeCollisionDirection = newDir;
+                if (_isObstacleDetected = IsHeadingTowardsPoint(closestPos))
+                {
+                    int offset = 1;
+                    directions.dodgeCollisionDirection = FindFreeDir(closestPos, ref offset);
+                    Debug.LogWarning("NewDir: " + directions.dodgeCollisionDirection);
+                    Debug.DrawRay(transform.position, directions.dodgeCollisionDirection - transform.position, Color.green, 60);
+                }
             }
         }
         else if (other.tag.Equals("Food"))
@@ -150,13 +134,23 @@ public class FishBehaviour : MonoBehaviour
             }
             else
             {
-                _fish.Hunger = 1000;
+                _fish.Hunger = Fish.maxHunger;
                 othersFoodBehavior.BeingEaten();
-                Debug.Log("Fisken spiste");
                 //grimt workaround
                 knownFoodSpots.Remove(othersFoodBehavior.Food.Id);
             }
         }
+    }
+
+    private bool IsHeadingTowardsPoint(Vector3 pos)
+    {
+        Debug.DrawRay(transform.position, pos - transform.position, Color.blue, 15);
+
+        float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, pos);
+        float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection, pos);
+        float catheter = _mathTools.GetOpposingCatheter(angle, dist);
+
+        return catheter <= _fish.Width / 2;
     }
 
     private Vector3 FindFreeDir(Vector3 pos, ref int offset)
@@ -243,37 +237,37 @@ public class FishBehaviour : MonoBehaviour
         hungerFactorsAlone.findFoodHunger = 20 / (_fish.Hunger / Fish.maxHunger * 100);
         float leftOfHungerFactor = 2 - hungerFactorsAlone.findFoodHunger;
         //if there is no object in the way
-        if (true)
+        if (!_isObstacleDetected)
         {
             hungerFactorsAlone.prevDirectionHunger = leftOfHungerFactor * 0.3f;
             hungerFactorsAlone.findFishHunger = leftOfHungerFactor * 0.6f;
             hungerFactorsAlone.collisionDodgeHunger = 0;
             hungerFactorsAlone.optimalDepthHunger = leftOfHungerFactor * 0.1f;
         }
-        //if there is an object in the way further ahead
-        else if (true)
+        else
         {
-            hungerFactorsAlone.prevDirectionHunger = leftOfHungerFactor * 0.15f;
-            hungerFactorsAlone.findFishHunger = leftOfHungerFactor * 0.25f;
-            hungerFactorsAlone.collisionDodgeHunger = leftOfHungerFactor * 0.5f;
-            hungerFactorsAlone.optimalDepthHunger = leftOfHungerFactor * 0.1f;
-        }
-        //if there is an object in the way further ahead within 1 meter
-        else if (true)
-        {
+            Debug.Log("Here hunger obs");
             hungerFactorsAlone.findFoodHunger = 0;
             hungerFactorsAlone.prevDirectionHunger = 0;
             hungerFactorsAlone.findFishHunger = 0;
             hungerFactorsAlone.collisionDodgeHunger = 2;
             hungerFactorsAlone.optimalDepthHunger = 0;
         }
+        //if there is an object in the way further ahead
+        //else if (true)
+        //{
+        //    hungerFactorsAlone.prevDirectionHunger = leftOfHungerFactor * 0.15f;
+        //    hungerFactorsAlone.findFishHunger = leftOfHungerFactor * 0.25f;
+        //    hungerFactorsAlone.collisionDodgeHunger = leftOfHungerFactor * 0.5f;
+        //    hungerFactorsAlone.optimalDepthHunger = leftOfHungerFactor * 0.1f;
+        //}
     }
     private void calculateHungerFactorsSchool()
     {
         hungerFactorsSchool.findFoodHunger = 25/(_fish.Hunger/Fish.maxHunger*100);
         float leftOfHungerFactor = 2 - hungerFactorsSchool.findFoodHunger;
         //if there is no object in the way
-        if (true)
+        if (!_isObstacleDetected)
         {
             hungerFactorsSchool.prevDirectionHunger = leftOfHungerFactor * 0.2f;
             hungerFactorsSchool.swimWithOtherFishHunger = leftOfHungerFactor * 0.5f;
@@ -282,17 +276,7 @@ public class FishBehaviour : MonoBehaviour
             hungerFactorsSchool.holdDistanceToFishHunger = leftOfHungerFactor * 0.2f;
 
         }
-        //if there is an object in the way further ahead
-        else if (true)
-        {
-            hungerFactorsSchool.prevDirectionHunger = leftOfHungerFactor * 0.05f;
-            hungerFactorsSchool.swimWithOtherFishHunger = leftOfHungerFactor * 0.20f;
-            hungerFactorsSchool.collisionDodgeHunger = leftOfHungerFactor * 0.5f;
-            hungerFactorsSchool.optimalDepthHunger = leftOfHungerFactor * 0.05f;
-            hungerFactorsSchool.holdDistanceToFishHunger = leftOfHungerFactor *0.2f;
-        }
-        //if there is an object in the way further ahead within 1 meter
-        else if (true)
+        else
         {
             hungerFactorsSchool.findFoodHunger = 0;
             hungerFactorsSchool.prevDirectionHunger = 0;
@@ -301,7 +285,15 @@ public class FishBehaviour : MonoBehaviour
             hungerFactorsSchool.optimalDepthHunger = 0;
             hungerFactorsSchool.holdDistanceToFishHunger = 0;
         }
-
+        //if there is an object in the way further ahead
+        //else if (true)
+        //{
+        //    hungerFactorsSchool.prevDirectionHunger = leftOfHungerFactor * 0.05f;
+        //    hungerFactorsSchool.swimWithOtherFishHunger = leftOfHungerFactor * 0.20f;
+        //    hungerFactorsSchool.collisionDodgeHunger = leftOfHungerFactor * 0.5f;
+        //    hungerFactorsSchool.optimalDepthHunger = leftOfHungerFactor * 0.05f;
+        //    hungerFactorsSchool.holdDistanceToFishHunger = leftOfHungerFactor *0.2f;
+        //}        
     }
     #endregion
 
@@ -310,74 +302,70 @@ public class FishBehaviour : MonoBehaviour
         stressFactorsAlone.findFoodStress = 20 / (_fish.Hunger / Fish.maxHunger * 100);
         float leftOfStressFactor = 2 - stressFactorsAlone.findFoodStress;
         //if there is no object in the way
-        if (true)
+        if (!_isObstacleDetected)
         {
             stressFactorsAlone.prevDirectionStress = leftOfStressFactor * 0.3f;
             stressFactorsAlone.findFishStress = leftOfStressFactor * 0.6f;
             stressFactorsAlone.collisionDodgeStress = 0;
             stressFactorsAlone.optimalDepthStress = leftOfStressFactor * 0.1f;
         }
-        //if there is an object in the way further ahead
-        else if (true)
+        else
         {
-            stressFactorsAlone.prevDirectionStress = leftOfStressFactor * 0.15f;
-            stressFactorsAlone.findFishStress = leftOfStressFactor * 0.25f;
-            stressFactorsAlone.collisionDodgeStress = leftOfStressFactor * 0.5f;
-            stressFactorsAlone.optimalDepthStress = leftOfStressFactor * 0.1f;
-        }
-        //if there is an object in the way further ahead within 1 meter
-        else if (true)
-        {
+            Debug.Log("Here stress obs");
             stressFactorsAlone.prevDirectionStress = 0;
             stressFactorsAlone.findFoodStress = 0;
             stressFactorsAlone.findFishStress = 0;
             stressFactorsAlone.collisionDodgeStress = 2;
             stressFactorsAlone.optimalDepthStress = 0;
         }
+        //if there is an object in the way further ahead
+        //else if (true)
+        //{
+        //    stressFactorsAlone.prevDirectionStress = leftOfStressFactor * 0.15f;
+        //    stressFactorsAlone.findFishStress = leftOfStressFactor * 0.25f;
+        //    stressFactorsAlone.collisionDodgeStress = leftOfStressFactor * 0.5f;
+        //    stressFactorsAlone.optimalDepthStress = leftOfStressFactor * 0.1f;
+        //}        
     }
+
     private void calculateStressFactorsSchool()
-{
-        stressFactorsSchool.findFoodStress = 25 / (_fish.Hunger / Fish.maxHunger * 100);
-    float leftOfStressFactor = 2 - stressFactorsSchool.findFoodStress;
-        //if there is no object in the way
-        if (true)
     {
-        stressFactorsSchool.prevDirectionStress = leftOfStressFactor * 0.2f;
-        stressFactorsSchool.swimWithOtherFishStress = leftOfStressFactor * 0.5f;
-        stressFactorsSchool.collisionDodgeStress = 0;
+        stressFactorsSchool.findFoodStress = 25 / (_fish.Hunger / Fish.maxHunger * 100);
+        float leftOfStressFactor = 2 - stressFactorsSchool.findFoodStress;
+        //if there is no object in the way
+        if (!_isObstacleDetected)
+        {
+            stressFactorsSchool.prevDirectionStress = leftOfStressFactor * 0.2f;
+            stressFactorsSchool.swimWithOtherFishStress = leftOfStressFactor * 0.5f;
+            stressFactorsSchool.collisionDodgeStress = 0;
             stressFactorsSchool.optimalDepthStress = leftOfStressFactor * 0.1f;
             stressFactorsSchool.holdDistanceToFishStress = leftOfStressFactor * 0.2f;
 
-    }
-    //if there is an object in the way further ahead
-    else if (true)
-    {
-            stressFactorsSchool.prevDirectionStress = leftOfStressFactor * 0.05f;
-            stressFactorsSchool.swimWithOtherFishStress = leftOfStressFactor * 0.20f;
-            stressFactorsSchool.collisionDodgeStress = leftOfStressFactor * 0.5f;
-            stressFactorsSchool.optimalDepthStress = leftOfStressFactor * 0.05f;
-            stressFactorsSchool.holdDistanceToFishStress = leftOfStressFactor * 0.2f;
-    }
-    //if there is an object in the way further ahead within 1 meter
-    else if (true)
-    {
+        }
+        else
+        {
             stressFactorsSchool.prevDirectionStress = 0;
             stressFactorsSchool.findFoodStress = 0;
             stressFactorsSchool.swimWithOtherFishStress = 0;
             stressFactorsSchool.collisionDodgeStress = 2.5f;
             stressFactorsSchool.optimalDepthStress = 0;
             stressFactorsSchool.holdDistanceToFishStress = 0;
+        }
+        //if there is an object in the way further ahead
+        //else if (true)
+        //{
+        //    stressFactorsSchool.prevDirectionStress = leftOfStressFactor * 0.05f;
+        //    stressFactorsSchool.swimWithOtherFishStress = leftOfStressFactor * 0.20f;
+        //    stressFactorsSchool.collisionDodgeStress = leftOfStressFactor * 0.5f;
+        //    stressFactorsSchool.optimalDepthStress = leftOfStressFactor * 0.05f;
+        //    stressFactorsSchool.holdDistanceToFishStress = leftOfStressFactor * 0.2f;
+        //}        
     }
+    #endregion
 
-}
+    #region Depth Factors
 
-
-
-#endregion
-
-#region Depth Factors
-
-private void setDepthFactorsAlone()
+    private void setDepthFactorsAlone()
     {
         depthFactorsAlone.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
         //find bedre navn gidder ikke lige nu
@@ -597,25 +585,20 @@ private void setDepthFactorsAlone()
                 directions.findFoodDirection = canSeeFood();
                 _fish.CurrentDirection = directions.previousDirection * lambdaAlone.prevDirectionLambda + directions.findFoodDirection * lambdaAlone.findFoodLambda
                     + directions.swimWithOrToFish * lambdaAlone.findOtherFishLambda + directions.dodgeCollisionDirection * lambdaAlone.collisionDodgeLambda + directions.optimalDepthDirection * lambdaAlone.optimalDepthLambda;
-                Debug.Log("TESTSETSETSE");
             }
             else 
             {
-                Debug.Log("ErDenHer?");
                 directions.findFoodDirection = cantSeeFood();
-                Debug.Log(directions.previousDirection);
-                Debug.Log(lambdaAlone.prevDirectionLambda);
                 _fish.CurrentDirection = directions.previousDirection * lambdaAlone.prevDirectionLambda + directions.findFoodDirection * lambdaAlone.findFoodLambda 
                     + directions.swimWithOrToFish * lambdaAlone.findOtherFishLambda + directions.dodgeCollisionDirection * lambdaAlone.collisionDodgeLambda + directions.optimalDepthDirection * lambdaAlone.optimalDepthLambda;
-                Debug.Log("nye retning" +_fish.CurrentDirection);
             }
         }
-        directions.dodgeCollisionDirection = new Vector3(0,0,0);
+        if (!_isObstacleDetected)
+        {
+            directions.dodgeCollisionDirection = new Vector3(0, 0, 0);
+        }
         schooling = false;
-        //Debug.Log("Currect direction = "+ Vector3.Normalize(_fish.CurrentDirection));
-        _fish.CurrentDirection = Vector3.Normalize(_fish.CurrentDirection);
         return _fish.CurrentDirection;
-        //return _fish.CurrentDirection;
     }
     #endregion
 }
