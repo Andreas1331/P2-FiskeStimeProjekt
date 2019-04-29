@@ -20,7 +20,7 @@ public class DataManager : MonoBehaviour
     private int foodCounter=0;
     private UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-    public int DefaultFishAmount = 12;
+    public float DefaultFishAmount = 4;
 
     // Start is called before the first frame update
     public void Start()
@@ -29,7 +29,6 @@ public class DataManager : MonoBehaviour
         GameObject obj = Instantiate(UI.Cage, new Vector3(), Quaternion.identity);
         //obj.transform.localScale = new Vector3(20, 10, 20);       
         AddFoodToNet(10, 6);
-
     }
 
     public bool SaveStatistics(Statistic stats)
@@ -172,7 +171,6 @@ public class DataManager : MonoBehaviour
     public void LoadScene()
     {
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
-        UI.AmountOfFishSlider.value = DefaultFishAmount;
     }
     public void ApplicationQuit()
     {

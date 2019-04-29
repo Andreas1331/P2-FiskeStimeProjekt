@@ -37,6 +37,7 @@ public class UIHandler : MonoBehaviour
         //GameObject.Find("AdvancedSettings").SetActive(false);
         DM.ChangeMaxStress(DefaultStress);
         DM.ChangeMaxHunger(DefaultHunger);
+        AmountOfFishSlider.value = (float)DM.DefaultFishAmount;
     }
 
     void Update()
