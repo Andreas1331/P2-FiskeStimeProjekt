@@ -162,7 +162,30 @@ public class DataManager : MonoBehaviour
         Fish.maxStress = newMaxStress;
     }
 
+    public void SaveHungerAndStress(Statistic stats)
+    {
+        float Timer = 0;
+        float TimerThreshold = 5;
+        float HungerSum = 0;
+        float StressSum = 0;
 
+        Timer += Time.deltaTime;
+
+        if(Timer >= TimerThreshold)
+        {
+            foreach (Fish item in fishList)
+            {
+                HungerSum += item.Hunger;
+                StressSum += item.Stress;
+
+            }
+            
+            HungerSum /= fishList.Count;
+            StressSum /= fishList.Count;
+            
+            Timer = 0;
+        }
+    }
 
     #region GUI TOOLS
     public void LoadMainMenu()
