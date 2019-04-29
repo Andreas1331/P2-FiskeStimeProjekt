@@ -25,15 +25,15 @@ public class FishBehaviour : MonoBehaviour
     private float timerToResetTimer = 0;
 
     #region Lambda structs
-    lambdaStructAlone lambdaAlone = new lambdaStructAlone();
-    lambdaStructSchool lambdaSchool = new lambdaStructSchool();
-    stressFactorLambdaAlone stressFactorsAlone = new stressFactorLambdaAlone();
-    stressFactorLambdaSchool stressFactorsSchool = new stressFactorLambdaSchool();
-    hungerFactorLambdaAlone hungerFactorsAlone = new hungerFactorLambdaAlone();
-    hungerFactorLambdaSchool hungerFactorsSchool = new hungerFactorLambdaSchool();
-    depthFactorLambdaAlone depthFactorsAlone = new depthFactorLambdaAlone();
-    depthFactorLambdaSchool depthFactorsSchool = new depthFactorLambdaSchool();
-    directionVectors directions = new directionVectors();
+    public lambdaStructAlone lambdaAlone = new lambdaStructAlone();
+    public lambdaStructSchool lambdaSchool = new lambdaStructSchool();
+    public stressFactorLambdaAlone stressFactorsAlone = new stressFactorLambdaAlone();
+    public stressFactorLambdaSchool stressFactorsSchool = new stressFactorLambdaSchool();
+    public hungerFactorLambdaAlone hungerFactorsAlone = new hungerFactorLambdaAlone();
+    public hungerFactorLambdaSchool hungerFactorsSchool = new hungerFactorLambdaSchool();
+    public depthFactorLambdaAlone depthFactorsAlone = new depthFactorLambdaAlone();
+    public depthFactorLambdaSchool depthFactorsSchool = new depthFactorLambdaSchool();
+    public directionVectors directions = new directionVectors();
     #endregion
 
     private MathTools _mathTools = new MathTools();
@@ -305,7 +305,7 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region stress Factors
-    private void calculateStressFactorsAlone() {
+    public void calculateStressFactorsAlone() {
         stressFactorsAlone.findFoodStress = 20 / (_fish.Hunger / Fish.maxHunger * 100);
         float leftOfStressFactor = 2 - stressFactorsAlone.findFoodStress;
         //if there is no object in the way

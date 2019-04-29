@@ -109,6 +109,31 @@ namespace Tests
             Assert.True(comparer.Equals(scriptTest.SearchForOptimalDepth(),new Vector3(5,-15,0)));
         }
 
+        [Test]
+        public void TestOfcalculateStressFactorsAloneNoObjects() {
+            Fish.maxHunger = 1000;
+            Fish.maxStress = 1000;
+            GameObject fishbehavourobject = new GameObject();
+            GameObject FishContainer = new GameObject();
+            FishContainer.tag = "FishContainer";
+            Debug.Log(GameObject.FindGameObjectWithTag("FishContainer").name);
+            if (Resources.Load<GameObject>("PreFabs/Rainbowtrout") == null)
+                Debug.Log("NULL");
+            fishbehavourobject.AddComponent<FishBehaviour>();
+            FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
+            scriptTest.Fish = new Rainbowtrout(0, 10f, (GameObject)Resources.Load<GameObject>("PreFabs/Rainbowtrout"));
+            
+            scriptTest.Fish.Hunger = 500;
+
+            scriptTest.calculateStressFactorsAlone();
+
+            Assert.AreEqual(0.48f, scriptTest.stressFactorsAlone.prevDirectionStress, 0.0004f);
+            Assert.AreEqual(0.4f,scriptTest.stressFactorsAlone.findFoodStress, 0.0004f);
+            Assert.AreEqual(0f,scriptTest.stressFactorsAlone.collisionDodgeStress, 0.0004f);
+            Assert.AreEqual(0.96f,scriptTest.stressFactorsAlone.findFishStress, 0.0004f);
+            Assert.AreEqual(0.16f,scriptTest.stressFactorsAlone.optimalDepthStress, 0.0004f);
+        }
+
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
         // `yield return null;` to skip a frame.
         [UnityTest]
