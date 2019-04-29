@@ -4,22 +4,23 @@ using UnityEngine;
 public class CageHandler : MonoBehaviour
 {
     public GameObject prefabCollider;
+    public Vector3 defaultSize = new Vector3(10, 5, 10);
     private List<Vector3> coords = new List<Vector3>();
 
     private void Start()
     {
         GetColliderCoordinates();
         CreateColliders();
-        this.transform.localScale = new Vector3(10, 5, 10);
+        this.transform.localScale = defaultSize;
     }
 
     private void Update()
     {
-        foreach (var item in coords)
-        {
-            Vector3 dir = item - transform.position;
-            Debug.DrawRay(transform.position, dir, Color.yellow);
-        }
+        //foreach (var item in coords)
+        //{
+        //    Vector3 dir = item - transform.position;
+        //    Debug.DrawRay(transform.position, dir, Color.yellow);
+        //}
     }
 
     private void GetColliderCoordinates()
@@ -41,7 +42,7 @@ public class CageHandler : MonoBehaviour
         for(int i = 0; i < 20; i++)
         {
             GameObject obj = Instantiate(prefabCollider, coords[i], Quaternion.identity, transform);
-            obj.transform.localScale = new Vector3(0.275f, 0.5f, 0.15f);
+            obj.transform.localScale = new Vector3(0.3f, 0.5f, 0.15f); //new Vector3(0.275f, 0.5f, 0.15f);
             obj.transform.LookAt(this.transform);
             obj.transform.tag = "Net";
         }

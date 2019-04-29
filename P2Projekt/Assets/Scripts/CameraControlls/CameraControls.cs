@@ -16,7 +16,7 @@ public class CameraControls : MonoBehaviour
     void Start()
     {
         Net = GameObject.FindGameObjectWithTag("Net");
-        transform.position = new Vector3(_net.transform.position.x, _net.transform.position.y, _net.transform.position.z);
+        //transform.position = new Vector3(_net.transform.position.x, _net.transform.position.y, _net.transform.position.z);
         _seaBottom = GameObject.FindGameObjectWithTag("Terrain");
     }
 

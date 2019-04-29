@@ -55,17 +55,17 @@ public abstract class Fish
         MaxSpeed = maxSpeed;
         Width = width;
         Stress = 0;
-        Hunger = 1000;
+        Hunger = maxHunger;
         TypeOfFish = typeOfFish;
         CurrentDirection = new Vector3(0, 0, 1);
-        FishObject = GameObject.Instantiate(preFab, new Vector3(Random.Range(0,10), Random.Range(0,10), Random.Range(0,10)), Quaternion.identity, GameObject.FindGameObjectWithTag("FishContainer").transform);
+        FishObject = GameObject.Instantiate(preFab, new Vector3(Random.Range(0, 3),0,4), Quaternion.identity, GameObject.FindGameObjectWithTag("FishContainer").transform);
         FishObject.GetComponent<FishBehaviour>().Fish = this;
     }
 
     public virtual void MoveTowards(Vector3 direction)
     {
-        //Debug.Log(direction);
-        FishObject.transform.Translate(direction * MovementSpeed * Time.deltaTime, Space.Self);
-        //FishObject.transform.position = Vector3.MoveTowards(FishObject.transform.position, direction, MovementSpeed * Time.deltaTime);
+        Vector3 newdir = Vector3.RotateTowards(FishObject.transform.forward, direction.normalized - FishObject.transform.position, Time.deltaTime * 5, 2.5f);
+        FishObject.transform.rotation = Quaternion.LookRotation(newdir);
+        FishObject.transform.Translate(Vector3.Normalize(direction) * 0.5f * Time.deltaTime, Space.Self);
     }
 }

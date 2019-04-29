@@ -27,8 +27,6 @@ public class DataManager : MonoBehaviour
     {
         UI = FindObjectOfType<UIHandler>();
         GameObject obj = Instantiate(UI.Cage, new Vector3(), Quaternion.identity);
-        //obj.transform.localScale = new Vector3(20, 10, 20);       
-        AddFoodToNet(10, 6);
     }
 
     public bool SaveStatistics(Statistic stats)
@@ -161,7 +159,30 @@ public class DataManager : MonoBehaviour
         Fish.maxStress = newMaxStress;
     }
 
+    public void SaveHungerAndStress(Statistic stats)
+    {
+        float Timer = 0;
+        float TimerThreshold = 5;
+        float HungerSum = 0;
+        float StressSum = 0;
 
+        Timer += Time.deltaTime;
+
+        if(Timer >= TimerThreshold)
+        {
+            foreach (Fish item in fishList)
+            {
+                HungerSum += item.Hunger;
+                StressSum += item.Stress;
+
+            }
+            
+            HungerSum /= fishList.Count;
+            StressSum /= fishList.Count;
+            
+            Timer = 0;
+        }
+    }
 
     #region GUI TOOLS
     public void LoadMainMenu()
