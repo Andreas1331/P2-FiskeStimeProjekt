@@ -55,6 +55,7 @@ public class UIHandler : MonoBehaviour
     public void LoadScene()
     {
         DM.LoadScene();
+        DM.AddFishToNet(DM.DefaultFishAmount);
     }
 
     public void ApplicationQuit()
