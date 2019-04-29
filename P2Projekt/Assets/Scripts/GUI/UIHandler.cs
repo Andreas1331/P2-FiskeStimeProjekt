@@ -55,7 +55,7 @@ public class UIHandler : MonoBehaviour
     public void LoadScene()
     {
         DM.LoadScene();
-        DM.AddFishToNet(DM.DefaultFishAmount);
+        AmountOfFishSlider.value = DM.DefaultFishAmount;
     }
 
     public void ApplicationQuit()
