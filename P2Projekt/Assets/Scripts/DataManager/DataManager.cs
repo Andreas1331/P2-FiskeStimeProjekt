@@ -20,14 +20,13 @@ public class DataManager : MonoBehaviour
     private int foodCounter=0;
     private UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-    public int DefaultFishAmount = 12;
+    public float DefaultFishAmount = 4;
 
     // Start is called before the first frame update
     public void Start()
     {
         UI = FindObjectOfType<UIHandler>();
         GameObject obj = Instantiate(UI.Cage, new Vector3(), Quaternion.identity);
-        //AddFoodToNet(10, 6);
     }
 
     public bool SaveStatistics(Statistic stats)
@@ -160,7 +159,30 @@ public class DataManager : MonoBehaviour
         Fish.maxStress = newMaxStress;
     }
 
+    public void SaveHungerAndStress(Statistic stats)
+    {
+        float Timer = 0;
+        float TimerThreshold = 5;
+        float HungerSum = 0;
+        float StressSum = 0;
 
+        Timer += Time.deltaTime;
+
+        if(Timer >= TimerThreshold)
+        {
+            foreach (Fish item in fishList)
+            {
+                HungerSum += item.Hunger;
+                StressSum += item.Stress;
+
+            }
+            
+            HungerSum /= fishList.Count;
+            StressSum /= fishList.Count;
+            
+            Timer = 0;
+        }
+    }
 
     #region GUI TOOLS
     public void LoadMainMenu()
@@ -170,7 +192,6 @@ public class DataManager : MonoBehaviour
     public void LoadScene()
     {
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
-        UI.AmountOfFishSlider.value = DefaultFishAmount;
     }
     public void ApplicationQuit()
     {
