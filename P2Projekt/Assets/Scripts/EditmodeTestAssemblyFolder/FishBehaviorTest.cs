@@ -42,9 +42,9 @@ namespace Tests
             fishbehavourobject.AddComponent<FishBehaviour>();
             FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
             scriptTest.MathTools = new Mathtools.MathTools();
-            scriptTest.lastKnownFoodSpots.Add(new Vector3(3, 0, 0));
-            scriptTest.lastKnownFoodSpots.Add(new Vector3(1, 0, 0));
-            scriptTest.lastKnownFoodSpots.Add(new Vector3(7, 0, 0));
+            //scriptTest.lastKnownFoodSpots.Add(new Vector3(3, 0, 0));
+            //scriptTest.lastKnownFoodSpots.Add(new Vector3(1, 0, 0));
+            //scriptTest.lastKnownFoodSpots.Add(new Vector3(7, 0, 0));
             Assert.AreEqual(new Vector3(3,0, 0),scriptTest.cantSeeFood());
         }
 

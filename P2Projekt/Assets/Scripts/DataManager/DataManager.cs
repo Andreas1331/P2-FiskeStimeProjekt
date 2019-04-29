@@ -26,9 +26,7 @@ public class DataManager : MonoBehaviour
     {
         UI = FindObjectOfType<UIHandler>();
         GameObject obj = Instantiate(UI.Cage, new Vector3(), Quaternion.identity);
-        //obj.transform.localScale = new Vector3(20, 10, 20);       
-        AddFoodToNet(10, 6);
-
+        //AddFoodToNet(10, 6);
     }
 
     public bool SaveStatistics(Statistic stats)
