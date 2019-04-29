@@ -3979,7 +3979,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 4-50
+  m_Text: 0-50
 --- !u!222 &1065347261
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5128,6 +5128,7 @@ MonoBehaviour:
     type: 3}
   deathCounter: 0
   timesAddedFood: 0
+  DefaultFishAmount: 4
 --- !u!4 &1517171065
 Transform:
   m_ObjectHideFlags: 0

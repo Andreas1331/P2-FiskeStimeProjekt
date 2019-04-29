@@ -20,7 +20,7 @@ public class DataManager : MonoBehaviour
     private int foodCounter=0;
     private UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-    public float DefaultFishAmount = 4;
+    public float DefaultFishAmount = 10;
 
     // Start is called before the first frame update
     public void Start()
