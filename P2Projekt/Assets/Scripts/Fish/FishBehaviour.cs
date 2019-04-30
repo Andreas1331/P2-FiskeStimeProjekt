@@ -192,7 +192,6 @@ public class FishBehaviour : MonoBehaviour
 
     private void UpdateStress()
     {
-        Debug.Log("Stress: " + _fish.Stress + " Hunger: " + _fish.Hunger);
         // Increase or lower the stress based on the fish hunger.
         if (_fish.Hunger <= 0.5 * Fish.maxHunger && _fish.Hunger > 0.3 * Fish.maxHunger)
             _fish.Stress += 1 * _stressMultiplier * Time.deltaTime;
@@ -260,7 +259,6 @@ public class FishBehaviour : MonoBehaviour
         }
         else
         {
-            Debug.Log("Here hunger obs");
             hungerFactorsAlone.findFoodHunger = 0;
             hungerFactorsAlone.prevDirectionHunger = 0;
             hungerFactorsAlone.findFishHunger = 0;
@@ -333,7 +331,6 @@ public class FishBehaviour : MonoBehaviour
         }
         else
         {
-            Debug.Log("Here stress obs");
             stressFactorsAlone.prevDirectionStress = 0;
             stressFactorsAlone.findFoodStress = 0;
             stressFactorsAlone.findFishStress = 0;
@@ -552,7 +549,6 @@ public class FishBehaviour : MonoBehaviour
     {
         if (_fish.IsDead)
         {
-            Debug.Log("I AM DEAD");
             return new Vector3(0, 0, 0);
         }
         bool schooling = false;
@@ -586,7 +582,7 @@ public class FishBehaviour : MonoBehaviour
                 directions.findFoodDirection = cantSeeFood();
                 _fish.CurrentDirection = directions.previousDirection * lambdaSchool.prevDirectionLambda + directions.findFoodDirection * lambdaSchool.findFoodLambda + directions.swimWithOrToFish * lambdaSchool.swimWithOtherFishLambda
                     + directions.dodgeCollisionDirection * lambdaSchool.collisionDodgeLambda + directions.optimalDepthDirection * lambdaSchool.optimalDepthLambda + directions.holdDistanceToFishDirection * lambdaSchool.holdDistanceToFishLambda;
-                Debug.Log("dodge kolision"+directions.dodgeCollisionDirection + "dodge kolision lambda: " + lambdaSchool.collisionDodgeLambda);
+                //Debug.Log("dodge kolision"+directions.dodgeCollisionDirection + "dodge kolision lambda: " + lambdaSchool.collisionDodgeLambda);
             }
         }
         else {

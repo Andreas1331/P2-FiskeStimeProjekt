@@ -68,10 +68,10 @@ public abstract class Fish
     {
         if (!IsDead)
         {
-            Debug.Log("why am I here?");
+            //Debug.Log("why am I here?");
             Vector3 newdir = Vector3.RotateTowards(FishObject.transform.forward, direction.normalized - FishObject.transform.position, Time.deltaTime * 5, 2.5f);
             FishObject.transform.rotation = Quaternion.LookRotation(newdir);
-            Debug.LogWarning(direction + " Dead state: " + IsDead);
+            //Debug.LogWarning(direction + " Dead state: " + IsDead);
             FishObject.transform.Translate(Vector3.Normalize(direction) * 0.5f * Time.deltaTime, Space.Self);
         }
     }
