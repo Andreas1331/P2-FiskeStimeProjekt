@@ -3712,7 +3712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1009735441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5109,7 +5109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1517171064
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5128,12 +5128,6 @@ MonoBehaviour:
     type: 3}
   deathCounter: 0
   timesAddedFood: 0
-  DefaultFishAmount: 4
-  DefaultHungerLimit: 999
-  DefaultStressLimit: 999
-  DefaultRadiusOfCage: 10
-  DefaultDepthOfCage: 8
-  DefaultSimSpeed: 1
 --- !u!4 &1517171065
 Transform:
   m_ObjectHideFlags: 0

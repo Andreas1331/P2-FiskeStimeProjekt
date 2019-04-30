@@ -40,7 +40,7 @@ public class UIHandler : MonoBehaviour
     {
         //DM.ChangeHungerLimit(DM.DefaultHungerLimit);
         //DM.ChangeStressLimit(DM.DefaultStressLimit);
-        //AmountOfFishSlider.value = DM.DefaultFishAmount;
+        //AmountOfFishSlider.value = DefaultFishAmount;
         //_radiusOfCage = DM.DefaultRadiusOfCage;
         //_depthOfCage = DM.DefaultDepthOfCage;
         //SetSimSpeed(DM.DefaultSimSpeed);
@@ -62,6 +62,7 @@ public class UIHandler : MonoBehaviour
     public void LoadMainScene()
     {
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        AmountOfFishSlider.value = _defaultFishAmount;
     }
 
     public void ApplicationQuit()

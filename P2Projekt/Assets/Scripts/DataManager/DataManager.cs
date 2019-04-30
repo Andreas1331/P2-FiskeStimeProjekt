@@ -20,13 +20,6 @@ public class DataManager : MonoBehaviour
     private UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
 
-    //Start menu settings
-    public float DefaultFishAmount = 12;
-    public float DefaultHungerLimit = 999;
-    public float DefaultStressLimit = 999;
-    public float DefaultRadiusOfCage = 10;
-    public float DefaultDepthOfCage = 8;
-    public float DefaultSimSpeed = 1;
 
     // Start is called before the first frame update
     public void Start()
