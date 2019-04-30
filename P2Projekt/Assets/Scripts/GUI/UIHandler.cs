@@ -35,8 +35,8 @@ public class UIHandler : MonoBehaviour
     private float _defaultFishAmount = 12;
     private float _defaultHungerLimit = 999;
     private float _defaultStressLimit = 999;
-    private float _defaultRadiusOfCage = 10;
-    private float _defaultDepthOfCage = 8;
+    public float defaultRadiusOfCage = 12;
+    public float defaultDepthOfCage = 15;
     private float _defaultSimSpeed = 1;
 
     private void Awake()
@@ -66,9 +66,6 @@ public class UIHandler : MonoBehaviour
 
     private void Start()
     {
-        DM.ChangeHungerLimit(_defaultHungerLimit);
-        DM.ChangeStressLimit(_defaultStressLimit);
-        //AmountOfFishSlider.value = DefaultFishAmount;
         //_radiusOfCage = DM.DefaultRadiusOfCage;
         //_depthOfCage = DM.DefaultDepthOfCage;
         //SetSimSpeed(DM.DefaultSimSpeed);
@@ -83,6 +80,13 @@ public class UIHandler : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.K)) {
             DM.AddFoodToNet(1,5);
         }
+    }
+
+    public void SetCageSizeAfterCageLoad()
+    {
+        SizeOfCageSlider.value = defaultRadiusOfCage;
+        DepthOfCageSlider.value = defaultDepthOfCage;
+        AmountOfFishSlider.value = _defaultFishAmount;
     }
 
     public void LoadStartMenu()
@@ -158,18 +162,16 @@ public class UIHandler : MonoBehaviour
         if (FishHealthtxt.text != "")
         {
             _defaultHungerLimit = float.Parse(FishHealthtxt.text);
-            //DM.ChangeHungerLimit(float.Parse(FishHealthtxt.text));
         }
 
         if (FishStresstxt.text != "")
         {
             _defaultStressLimit = float.Parse(FishStresstxt.text);
-            //DM.ChangeStressLimit(float.Parse(FishStresstxt.text));
         }
 
         if (FishDepthtxt.text != "")
         {
-            _defaultDepthOfCage = float.Parse(FishDepthtxt.text);
+            defaultDepthOfCage = float.Parse(FishDepthtxt.text);
         }
 
         if(SimSpeedtxt.text != "")
@@ -180,6 +182,17 @@ public class UIHandler : MonoBehaviour
         {
             SetSimSpeed(_defaultSimSpeed);
         }
+
+        CallMethodsWithButtonValues();
+    }
+
+    public void CallMethodsWithButtonValues()
+    {
+        DM.ChangeHungerLimit(_defaultHungerLimit);
+        DM.ChangeStressLimit(_defaultStressLimit);
+        SizeOfCageSlider.value = defaultRadiusOfCage;
+        DepthOfCageSlider.value = defaultDepthOfCage;
+
     }
     public void SetAmountOfFishInSimulationFromSlider()
     {
@@ -214,6 +227,6 @@ public class UIHandler : MonoBehaviour
     }
     public void ApplySizeOfCage()
     {
-        Cage.transform.localScale = new Vector3(_radiusOfCage, 2 * _depthOfCage, _radiusOfCage);
+        Cage.transform.localScale = new Vector3(_radiusOfCage, 2.5f * _depthOfCage, _radiusOfCage);
     }
 }

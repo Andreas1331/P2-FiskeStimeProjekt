@@ -116,7 +116,7 @@ Transform:
   m_GameObject: {fileID: 7093261861641521035}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 39, y: 78, z: 39}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5274696022782578872}
   - {fileID: 5789525517474124137}
@@ -182,4 +182,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabCollider: {fileID: 3335476404762559106, guid: fe02bf84d9d91bc4fa28cdd3027a8c9e,
     type: 3}
-  defaultSize: {x: 10, y: 5, z: 10}
