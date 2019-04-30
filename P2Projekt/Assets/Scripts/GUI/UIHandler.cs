@@ -30,12 +30,12 @@ public class UIHandler : MonoBehaviour
 
     private void Start()
     {
-        DM.ChangeHungerLimit(DM.DefaultHungerLimit);
-        DM.ChangeStressLimit(DM.DefaultStressLimit);
-        AmountOfFishSlider.value = DM.DefaultFishAmount;
-        _radiusOfCage = DM.DefaultRadiusOfCage;
-        _depthOfCage = DM.DefaultDepthOfCage;
-        SetSimSpeed(DM.DefaultSimSpeed);
+        //DM.ChangeHungerLimit(DM.DefaultHungerLimit);
+        //DM.ChangeStressLimit(DM.DefaultStressLimit);
+        //AmountOfFishSlider.value = DM.DefaultFishAmount;
+        //_radiusOfCage = DM.DefaultRadiusOfCage;
+        //_depthOfCage = DM.DefaultDepthOfCage;
+        //SetSimSpeed(DM.DefaultSimSpeed);
     }
 
     void Update()
@@ -46,12 +46,12 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void LoadMainMenu()
+    public void LoadStartMenu()
     {
         SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
 
-    public void LoadScene()
+    public void LoadMainScene()
     {
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
