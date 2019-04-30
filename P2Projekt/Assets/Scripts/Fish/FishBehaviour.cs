@@ -53,7 +53,7 @@ public class FishBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        ////AnimateDeath();
+        AnimateDeath();
         _fish.MoveTowards(GetNewDirection());
 
         UpdateStress();
@@ -421,20 +421,12 @@ public class FishBehaviour : MonoBehaviour
         {
             //transform.RotateAround(transform.position, Vector3.forward, 0);
             transform.position = new Vector3(transform.position.x, transform.position.y + 5 * Time.deltaTime, transform.position.z);
-            //Debug.Log("1");
-
-            //MakeOpague;
         }
         else {
             transform.position = new Vector3(-5000.0f,-5000.0f, -5000.0f);
             this.transform.gameObject.SetActive(false);
         }
     }
-
-    void MakeOpague()
-    {
-    }
-
     #endregion
 
     #region Food Methods
