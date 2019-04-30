@@ -95,7 +95,7 @@ public class UIHandler : MonoBehaviour
     public void DeactivatePauseMenu()
     {
         PauseMenuUI.SetActive(false);
-        //SetSimSpeed(1.0f);
+        SetSimSpeed(_defaultSimSpeed);
     }
     public void SetSimSpeed(float timeFactor)
     {
