@@ -203,7 +203,7 @@ GameObject:
   - component: {fileID: 88704471}
   - component: {fileID: 88704470}
   m_Layer: 5
-  m_Name: Text
+  m_Name: FishDepthtxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1190,7 +1190,6 @@ GameObject:
   m_Component:
   - component: {fileID: 414763659}
   - component: {fileID: 414763660}
-  - component: {fileID: 414763661}
   m_Layer: 0
   m_Name: GameHandler
   m_TagString: Untagged
@@ -1224,36 +1223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 052a4b20fca406b4ebe9b4eab0105456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GuiPanel: {fileID: 0}
   Cage: {fileID: 0}
-  FishHealthtxt: {fileID: 0}
-  FishStresstxt: {fileID: 0}
-  FishDepthtxt: {fileID: 0}
-  SimSpeedtxt: {fileID: 0}
-  AmountOfFishtxt: {fileID: 0}
-  AmountOfFishFromInputtxt: {fileID: 0}
-  AmountOfFishSlider: {fileID: 0}
-  SizeOfCageSlider: {fileID: 0}
-  DepthOfCageSlider: {fileID: 0}
   PauseMenuUI: {fileID: 0}
---- !u!114 &414763661
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 414763658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 550a3dc744eaa0745a2893dca4f43a00, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  RainbowPreFab: {fileID: 2851111430968988975, guid: 9f28b2c48ec0209419a30db0991dca4d,
-    type: 3}
-  FoodPreFab: {fileID: 792305209597686558, guid: 9a0909af304b73e4a9ea2acf3cec2bd3,
-    type: 3}
-  deathCounter: 0
-  timesAddedFood: 0
 --- !u!1 &571862027
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,7 +1440,7 @@ RectTransform:
   - {fileID: 370674779}
   - {fileID: 2108548383}
   m_Father: {fileID: 1858240496}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -1567,7 +1538,7 @@ GameObject:
   - component: {fileID: 790815284}
   - component: {fileID: 790815283}
   m_Layer: 5
-  m_Name: Text
+  m_Name: FishStresstxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2121,7 +2092,7 @@ RectTransform:
   - {fileID: 1904341659}
   - {fileID: 1224090}
   m_Father: {fileID: 1094745357}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -2327,7 +2298,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1094745357
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2347,10 +2318,10 @@ RectTransform:
   - {fileID: 908156133}
   - {fileID: 571862028}
   - {fileID: 1729990203}
-  - {fileID: 1384504450}
   - {fileID: 922347540}
+  - {fileID: 1384504450}
   m_Father: {fileID: 1858240496}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2661,7 +2632,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1094745357}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
@@ -2941,7 +2912,7 @@ GameObject:
   - component: {fileID: 1422246998}
   - component: {fileID: 1422246997}
   m_Layer: 5
-  m_Name: Text
+  m_Name: SimSpeedTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3458,7 +3429,7 @@ GameObject:
   - component: {fileID: 1800476017}
   - component: {fileID: 1800476016}
   m_Layer: 5
-  m_Name: Text
+  m_Name: FishHungerTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3744,8 +3715,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 607427013}
   - {fileID: 1094745357}
+  - {fileID: 607427013}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
