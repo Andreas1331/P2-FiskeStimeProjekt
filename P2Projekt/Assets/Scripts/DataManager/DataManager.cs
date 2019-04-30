@@ -158,7 +158,7 @@ public class DataManager : MonoBehaviour
         Fish.maxStress = newMaxStress;
     }
 
-    public void SaveHungerAndStress(Statistic stats)
+    public void SaveHungerAndStress()
     {
         float Timer = 0;
         float TimerThreshold = 5;
@@ -178,5 +178,9 @@ public class DataManager : MonoBehaviour
             
             Timer = 0;
         }
+    }
+    public void Update()
+    {
+        SaveHungerAndStress();
     }
 }
