@@ -192,6 +192,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void UpdateStress()
     {
+        Debug.Log("Stress: " + _fish.Stress + " Hunger: " + _fish.Hunger);
         // Increase or lower the stress based on the fish hunger.
         if (_fish.Hunger <= 0.5 * Fish.maxHunger && _fish.Hunger > 0.3 * Fish.maxHunger)
             _fish.Stress += 1 * _stressMultiplier * Time.deltaTime;
@@ -244,6 +245,10 @@ public class FishBehaviour : MonoBehaviour
     #region Hunger factors
     private void calculateHungerFactorsAlone() {
         hungerFactorsAlone.findFoodHunger = 20 / (_fish.Hunger / Fish.maxHunger * 100);
+
+        if (hungerFactorsAlone.findFoodHunger > 2)
+            hungerFactorsAlone.findFoodHunger = 2;
+
         float leftOfHungerFactor = 2 - hungerFactorsAlone.findFoodHunger;
         //if there is no object in the way
         if (!_isObstacleDetected)
@@ -273,8 +278,12 @@ public class FishBehaviour : MonoBehaviour
     }
     private void calculateHungerFactorsSchool()
     {
-        hungerFactorsSchool.findFoodHunger = 25/(_fish.Hunger/Fish.maxHunger*100);
-        float leftOfHungerFactor = 2 - hungerFactorsSchool.findFoodHunger;
+        hungerFactorsSchool.findFoodHunger = 25 / (_fish.Hunger / Fish.maxHunger * 100);
+
+        if (hungerFactorsSchool.findFoodHunger > 2.5f)
+            hungerFactorsSchool.findFoodHunger = 2.5f;
+
+        float leftOfHungerFactor = 2.5f - hungerFactorsSchool.findFoodHunger;
         //if there is no object in the way
         if (!_isObstacleDetected)
         {
@@ -309,6 +318,10 @@ public class FishBehaviour : MonoBehaviour
     #region stress Factors
     public void calculateStressFactorsAlone() {
         stressFactorsAlone.findFoodStress = 20 / (_fish.Hunger / Fish.maxHunger * 100);
+
+        if (stressFactorsAlone.findFoodStress > 2)
+            stressFactorsAlone.findFoodStress = 2;
+
         float leftOfStressFactor = 2 - stressFactorsAlone.findFoodStress;
         //if there is no object in the way
         if (!_isObstacleDetected)
@@ -340,7 +353,11 @@ public class FishBehaviour : MonoBehaviour
     private void calculateStressFactorsSchool()
     {
         stressFactorsSchool.findFoodStress = 25 / (_fish.Hunger / Fish.maxHunger * 100);
-        float leftOfStressFactor = 2 - stressFactorsSchool.findFoodStress;
+
+        if (stressFactorsSchool.findFoodStress > 2.5f)
+            stressFactorsSchool.findFoodStress = 2.5f;
+
+        float leftOfStressFactor = 2.5f - stressFactorsSchool.findFoodStress;
         //if there is no object in the way
         if (!_isObstacleDetected)
         {
@@ -594,9 +611,7 @@ public class FishBehaviour : MonoBehaviour
         if (!_isObstacleDetected)
         {
             directions.dodgeCollisionDirection = new Vector3(0, 0, 0);
-        }
-        
-
+        }      
 
         schooling = false;
         return _fish.CurrentDirection;
