@@ -17,15 +17,19 @@ public class DataManager : MonoBehaviour
     public int timesAddedFood = 0;
     private int fishCounter=0;
     private int foodCounter=0;
-    private UIHandler UI;
+    public UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
+    private float _timer;
+    private readonly float _timerThreshold = 5;
+    private float _hungerSum;
+    private float _stressSum;
 
-
+    
     // Start is called before the first frame update
     public void Start()
     {
         UI = FindObjectOfType<UIHandler>();
-        GameObject obj = Instantiate(UI.Cage, new Vector3(), Quaternion.identity);
+        UI.Cage = Instantiate(UI.CagePrefab, new Vector3(), Quaternion.identity);
     }
 
     public bool SaveStatistics(Statistic stats)
@@ -102,6 +106,7 @@ public class DataManager : MonoBehaviour
             foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood));
         }
     }
+
     public void KillFish(int amountToKill)
     {
         for (int i = 0; i < amountToKill; i++)
@@ -151,33 +156,35 @@ public class DataManager : MonoBehaviour
     {
         Fish.maxHunger = newMaxHunger;
     }
+
     public void ChangeStressLimit(float newMaxStress)
     {
         Fish.maxStress = newMaxStress;
     }
 
-    public void SaveHungerAndStress(Statistic stats)
+    public void SaveHungerAndStress()
     {
-        float Timer = 0;
-        float TimerThreshold = 5;
-        float HungerSum = 0;
-        float StressSum = 0;
 
-        Timer += Time.deltaTime;
+        _timer += Time.deltaTime;
 
-        if(Timer >= TimerThreshold)
+        if(_timer >= _timerThreshold)
         {
             foreach (Fish item in fishList)
             {
-                HungerSum += item.Hunger;
-                StressSum += item.Stress;
-
+                _hungerSum += item.Hunger;
+                _stressSum += item.Stress;
             }
+
+            _hungerSum /= fishList.Count;
+            _stressSum /= fishList.Count;
             
-            HungerSum /= fishList.Count;
-            StressSum /= fishList.Count;
-            
-            Timer = 0;
+            _timer = 0;
+
+            Debug.Log("HungerSum :" + _hungerSum +"StressSum : "+_stressSum);
         }
+    }
+    public void Update()
+    {
+        SaveHungerAndStress();
     }
 }
