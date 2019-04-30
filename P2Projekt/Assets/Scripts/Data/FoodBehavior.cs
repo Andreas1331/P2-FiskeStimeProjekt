@@ -12,7 +12,19 @@ public class FoodBehavior : MonoBehaviour
     void Start()
     {
         //transform.position = new Vector30(Random.value*(-20), Random.value*(-20), Random.value*(-20));
+        bool xPos = (Random.value < 0.5f);
+        bool yPos = (Random.value < 0.5f);
+        bool zPos = (Random.value < 0.5f);
+        
         transform.position = new Vector3(Random.value*10, Random.value * (-5), Random.value * 10);
+        if (xPos)
+            transform.position = new Vector3(-transform.position.x, transform.position.y, transform.position.z);
+        if (yPos)
+            transform.position = new Vector3(transform.position.x, -transform.position.y, transform.position.z);
+        if (zPos)
+            transform.position = new Vector3(transform.position.x, transform.position.y, -transform.position.z);
+
+
         DataManager = FindObjectOfType<DataManager>();
         _dataManager.foodList.Add(_food);
     }
