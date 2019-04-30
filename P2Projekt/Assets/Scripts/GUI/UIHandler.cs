@@ -18,8 +18,8 @@ public class UIHandler : MonoBehaviour
     public Slider AmountOfFishSlider;
     public Slider SizeOfCageSlider;
     public Slider DepthOfCageSlider;
-    private float DefaultHunger = 150;
-    private float DefaultStress = 150;
+    private float DefaultHunger = 999;
+    private float DefaultStress = 999;
 
     private float _radiusOfCage;
     private float _depthOfCage;

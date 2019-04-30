@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5274696022782578872}
   - component: {fileID: 1003571533795410609}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Roof
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -54,7 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5789525517474124137}
   - component: {fileID: 2959099852875455049}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 7093261861638626187}
   - component: {fileID: 7093261861639592267}
   - component: {fileID: 158686132}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Cage
   m_TagString: Net
   m_Icon: {fileID: 0}
