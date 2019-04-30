@@ -32,7 +32,7 @@ public class UIHandler : MonoBehaviour
     private float _depthOfCage;
 
     //Start menu settings
-    private float _defaultFishAmount = 12;
+    private float _defaultFishAmount = 1;
     private float _defaultHungerLimit = 999;
     private float _defaultStressLimit = 999;
     public float defaultRadiusOfCage = 12;

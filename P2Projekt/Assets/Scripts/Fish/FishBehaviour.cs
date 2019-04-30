@@ -1,6 +1,7 @@
 ﻿using Mathtools;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(SphereCollider))]
@@ -16,7 +17,7 @@ public class FishBehaviour : MonoBehaviour
     private bool _isObstacleDetected = false;
     public float gotDistance = 0;
     private const float _stressMultiplier = 1.5f;
-    private List<Vector3> lastKnownFoodSpots = new List<Vector3>() ;
+    private List<Vector3> lastKnownFoodSpots = new List<Vector3>() { new Vector3(3, 3, 3), new Vector3(5, 10, 3), new Vector3(-10, -2, 4) };
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
@@ -42,6 +43,9 @@ public class FishBehaviour : MonoBehaviour
     private Material _mat;
     private Color _defaultColor = new Color(191 / 255f, 249 / 255f, 249 / 255f, 255 / 255f);
 
+    Text txt2;
+    Text txt; 
+
     private void Start()
     {
         DataManager = FindObjectOfType<DataManager>();
@@ -49,6 +53,9 @@ public class FishBehaviour : MonoBehaviour
         Net = GameObject.FindGameObjectWithTag("Net");
 
         GetComponent<SphereCollider>().radius = 5f;
+
+        txt = GameObject.Find("FishDirectionTxt").GetComponent<Text>();
+        txt2 = GameObject.Find("FishNormalizedTxt").GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -58,18 +65,20 @@ public class FishBehaviour : MonoBehaviour
         UpdateStress();
         UpdateHunger();
         AnimateDeath();
-    
+
+        //Debug.DrawRay(transform.position, _fish.CurrentDirection - transform.position, Color.green);
+        txt.text = "Direction: " + _fish.CurrentDirection;
+        txt2.text = "Hunger: " + _fish.Hunger + " | Stress: " + _fish.Stress;
+        for(int i = 0; i < 3; i++)
+        {
+            Debug.DrawRay(transform.position, lastKnownFoodSpots[i] - transform.position, Color.red);
+        }
     }
     
     private void OnTriggerEnter(Collider other)
     {
         HandleSpottedObject(other);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-      
-    }
+    }    
 
     private void OnTriggerExit(Collider other)
     {
@@ -540,6 +549,7 @@ public class FishBehaviour : MonoBehaviour
 
     #region Search for optimal depth
     public Vector3 SearchForOptimalDepth() {
+        return new Vector3();
         var vec = new Vector3(transform.position.x, 0 - transform.position.y, transform.position.z);
         return vec;
     }
