@@ -102,6 +102,7 @@ public class DataManager : MonoBehaviour
             foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood));
         }
     }
+
     public void KillFish(int amountToKill)
     {
         for (int i = 0; i < amountToKill; i++)
@@ -151,6 +152,7 @@ public class DataManager : MonoBehaviour
     {
         Fish.maxHunger = newMaxHunger;
     }
+
     public void ChangeStressLimit(float newMaxStress)
     {
         Fish.maxStress = newMaxStress;
