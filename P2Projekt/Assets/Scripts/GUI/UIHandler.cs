@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
@@ -20,8 +21,16 @@ public class UIHandler : MonoBehaviour
     private float DefaultHunger = 150;
     private float DefaultStress = 150;
 
-    private float RadiusOfCage = 10;
-    private float DepthOfCage = 8;
+    private float _radiusOfCage;
+    private float _depthOfCage;
+
+    //Start menu settings
+    private float _defaultFishAmount = 12;
+    private float _defaultHungerLimit = 999;
+    private float _defaultStressLimit = 999;
+    private float _defaultRadiusOfCage = 10;
+    private float _defaultDepthOfCage = 8;
+    private float _defaultSimSpeed = 1;
 
     private void Awake()
     {
@@ -31,13 +40,12 @@ public class UIHandler : MonoBehaviour
 
     private void Start()
     {
-        //GameObject.Find("OverlayMenu").SetActive(true);
-        //GameObject.Find("PauseSettingPanel").SetActive(false);
-        //GameObject.Find("PauseMenuItems").SetActive(true);
-        //GameObject.Find("AdvancedSettings").SetActive(false);
-        DM.ChangeMaxStress(DefaultStress);
-        DM.ChangeMaxHunger(DefaultHunger);
-        AmountOfFishSlider.value = (float)DM.DefaultFishAmount;
+        //DM.ChangeHungerLimit(DM.DefaultHungerLimit);
+        //DM.ChangeStressLimit(DM.DefaultStressLimit);
+        //AmountOfFishSlider.value = DefaultFishAmount;
+        //_radiusOfCage = DM.DefaultRadiusOfCage;
+        //_depthOfCage = DM.DefaultDepthOfCage;
+        //SetSimSpeed(DM.DefaultSimSpeed);
     }
 
     void Update()
@@ -53,19 +61,25 @@ public class UIHandler : MonoBehaviour
 
     }
 
-    public void LoadMainMenu()
+    public void LoadStartMenu()
     {
-        DM.LoadMainMenu();
+        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
     }
 
-    public void LoadScene()
+    public void LoadMainScene()
     {
-        DM.LoadScene();
+        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        AmountOfFishSlider.value = _defaultFishAmount;
     }
 
     public void ApplicationQuit()
     {
-        DM.ApplicationQuit();
+        #if UNITY_EDITOR
+                //Sættes sådan at vi kan teste i Unity editoren.
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     [SerializeField] private GameObject PauseMenuUI;
@@ -73,60 +87,76 @@ public class UIHandler : MonoBehaviour
     {   
         if(PauseMenuUI.activeSelf == true)
         {
-            //DM.DeactivatePauseMenu(PauseMenuUI);
             DeactivatePauseMenu();
         } else if (PauseMenuUI.activeSelf == false)
         {
-            //DM.ActivatePauseMenu(PauseMenuUI);
             ActivatePauseMenu();
         }
     }
-
+    
     public void ActivatePauseMenu()
     {
         PauseMenuUI.SetActive(true);
-        Time.timeScale = 0.0f;
+        SetSimSpeed(0.0f);
     }
 
     public void DeactivatePauseMenu()
     {
         PauseMenuUI.SetActive(false);
-        //Time.timeScale = 1.0f;
+        SetSimSpeed(_defaultSimSpeed);
+    }
+    public void SetSimSpeed(float timeFactor)
+    {
+        Time.timeScale = timeFactor;
+    }
+    public void SetSpeedButtens(float timefactor)
+    {
+        SetSimSpeed(timefactor);
+    }
+
+    public void ToggleGuiVisibility(GameObject overlayPanel)
+    {
+        HideGui(overlayPanel);
+    }
+    public void HideGui(GameObject GuiPanel)
+    {
+        if (GuiPanel.activeSelf == true)
+        {
+            GuiPanel.SetActive(false);
+        }
+        else
+        {
+            GuiPanel.SetActive(true);
+        }
     }
 
     public void ApplyButtonValues()
     {
         if (FishHealthtxt.text != "")
         {
-            DM.ChangeMaxHunger(float.Parse(FishHealthtxt.text));
+            _defaultHungerLimit = float.Parse(FishHealthtxt.text);
+            //DM.ChangeHungerLimit(float.Parse(FishHealthtxt.text));
         }
 
         if (FishStresstxt.text != "")
         {
-            DM.ChangeMaxStress(float.Parse(FishStresstxt.text));
+            _defaultStressLimit = float.Parse(FishStresstxt.text);
+            //DM.ChangeStressLimit(float.Parse(FishStresstxt.text));
         }
 
         if (FishDepthtxt.text != "")
         {
-            int.Parse(FishDepthtxt.text);
+            _defaultDepthOfCage = float.Parse(FishDepthtxt.text);
         }
 
         if(SimSpeedtxt.text != "")
         {
-            DM.SetSimSpeed(float.Parse(SimSpeedtxt.text));
+            _defaultSimSpeed = float.Parse(SimSpeedtxt.text);
+            //SetSimSpeed(float.Parse(SimSpeedtxt.text));
         } else
         {
-            DM.SetSimSpeed(1);
+            SetSimSpeed(_defaultSimSpeed);
         }
-    }
-    public void SetSpeedButtens(float timefactor)
-    {
-        DM.SetSimSpeed(timefactor);
-    }
-
-    public void ToggleGuiVisibility(GameObject overlayPanel)
-    {
-        DM.HideGui(overlayPanel);
     }
 
     public void SetAmountOfFishInSimulationFromSlider()
@@ -134,7 +164,6 @@ public class UIHandler : MonoBehaviour
         DM.GetAmountOfFishToAddOrRemove((int)AmountOfFishSlider.value);
         AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishSlider.value;
     }
-
     public void SetAmountOfFishInSimulationFromInput(Text inputText)
     {
         AmountOfFishSlider.value = float.Parse(inputText.text);
@@ -142,7 +171,7 @@ public class UIHandler : MonoBehaviour
     
     public void ChangeCageSize()
     {
-        RadiusOfCage = SizeOfCageSlider.value;
+        _radiusOfCage = SizeOfCageSlider.value;
         GameObject.Find("SizeOfCageText").GetComponent<Text>().text = "CAGE RADIUS: " + SizeOfCageSlider.value;
         ApplySizeOfCage();
     }
@@ -152,7 +181,7 @@ public class UIHandler : MonoBehaviour
     }
     public void ChangeCageDepth()
     {
-        DepthOfCage = DepthOfCageSlider.value;
+        _depthOfCage = DepthOfCageSlider.value;
         GameObject.Find("DepthOfCageText").GetComponent<Text>().text = "CAGE DEPTH: " + DepthOfCageSlider.value;
         ApplySizeOfCage();
     }
@@ -163,6 +192,6 @@ public class UIHandler : MonoBehaviour
     }
     public void ApplySizeOfCage()
     {
-        Cage.transform.localScale = new Vector3(RadiusOfCage, 2 * DepthOfCage, RadiusOfCage);
+        Cage.transform.localScale = new Vector3(_radiusOfCage, 2 * _depthOfCage, _radiusOfCage);
     }
 }

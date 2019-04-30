@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class DataManager : MonoBehaviour
 {
@@ -20,7 +19,7 @@ public class DataManager : MonoBehaviour
     private int foodCounter=0;
     private UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
-    public float DefaultFishAmount = 4;
+
 
     // Start is called before the first frame update
     public void Start()
@@ -81,9 +80,7 @@ public class DataManager : MonoBehaviour
             ActivateFishFromPool(howManyToAdd);
         } else
         {
-            //Activate fish from pool(FishInFishPool)
             ActivateFishFromPool(fishInFishPool);
-            //Generate new fish(FishToGenerate)
             SpawnNewFish(fishToGenerate);
         }
     }
@@ -150,11 +147,11 @@ public class DataManager : MonoBehaviour
         }   
     }
 
-    public void ChangeMaxHunger(float newMaxHunger)
+    public void ChangeHungerLimit(float newMaxHunger)
     {
         Fish.maxHunger = newMaxHunger;
     }
-    public void ChangeMaxStress(float newMaxStress)
+    public void ChangeStressLimit(float newMaxStress)
     {
         Fish.maxStress = newMaxStress;
     }
@@ -183,51 +180,4 @@ public class DataManager : MonoBehaviour
             Timer = 0;
         }
     }
-
-    #region GUI TOOLS
-    public void LoadMainMenu()
-    {
-        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
-    }
-    public void LoadScene()
-    {
-        SceneManager.LoadScene("Main", LoadSceneMode.Single);
-    }
-    public void ApplicationQuit()
-    {
-#if UNITY_EDITOR
-        //Sættes sådan at vi kan teste i Unity editoren.
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
-    }
-
-    public void SetSimSpeed(float timeFactor)
-    {
-        Time.timeScale = timeFactor;
-    }
-
-    public void ActivatePauseMenu(GameObject PauseMenuUI)
-    {
-        PauseMenuUI.SetActive(true);
-        Time.timeScale = 0.0f;
-    }
-    public void DeactivatePauseMenu(GameObject PauseMenuUI)
-    {
-        PauseMenuUI.SetActive(false);
-        Time.timeScale = 1.0f;
-    }
-
-    public void HideGui(GameObject GuiPanel)
-    {
-        if(GuiPanel.activeSelf == true)
-        {
-            GuiPanel.SetActive(false);
-        } else
-        {
-            GuiPanel.SetActive(true);
-        }
-    }
-    #endregion
 }

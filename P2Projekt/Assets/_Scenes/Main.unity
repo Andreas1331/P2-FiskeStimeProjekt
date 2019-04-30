@@ -689,7 +689,7 @@ GameObject:
   - component: {fileID: 279269683}
   - component: {fileID: 279269682}
   m_Layer: 5
-  m_Name: ReturnToMainMenuButton
+  m_Name: ReturnToMainStartButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -767,7 +767,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1009735441}
-        m_MethodName: LoadMainMenu
+        m_MethodName: LoadStartMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3712,7 +3712,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1009735441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3979,7 +3979,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 4-50
+  m_Text: 0-50
 --- !u!222 &1065347261
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5109,7 +5109,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1517171064
 MonoBehaviour:
   m_ObjectHideFlags: 0
