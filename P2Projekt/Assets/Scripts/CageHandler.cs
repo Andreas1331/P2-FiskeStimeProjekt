@@ -4,7 +4,7 @@ using UnityEngine;
 public class CageHandler : MonoBehaviour
 {
     public GameObject prefabCollider;
-    public Vector3 defaultSize = new Vector3(10, 5, 10);
+    private Vector3 defaultSize = new Vector3(15, 37.5f, 15);
     private List<Vector3> coords = new List<Vector3>();
 
     private void Start()

@@ -17,8 +17,8 @@ public class UIHandler : MonoBehaviour
     public Slider AmountOfFishSlider;
     public Slider SizeOfCageSlider;
     public Slider DepthOfCageSlider;
-    private float DefaultHunger = 999;
-    private float DefaultStress = 999;
+    private float DefaultHunger = 150;
+    private float DefaultStress = 150;
 
     private float RadiusOfCage = 10;
     private float DepthOfCage = 8;
@@ -46,6 +46,11 @@ public class UIHandler : MonoBehaviour
         {
             TogglePauseMenuInGame();
         }
+        if (Input.GetKeyUp(KeyCode.K)) {
+            DM.AddFoodToNet(1,5);
+        }
+
+
     }
 
     public void LoadMainMenu()
@@ -153,7 +158,8 @@ public class UIHandler : MonoBehaviour
     }
     public void ChangeCageDepthFromInput(Text inputText)
     {
-        DepthOfCageSlider.value = float.Parse(inputText.text);
+        if (inputText.text != null && inputText.text.Length > 0)
+            DepthOfCageSlider.value = float.Parse(inputText.text);
     }
     public void ApplySizeOfCage()
     {
