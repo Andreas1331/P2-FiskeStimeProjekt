@@ -17,15 +17,17 @@ public class DataManager : MonoBehaviour
     public int timesAddedFood = 0;
     private int fishCounter=0;
     private int foodCounter=0;
-    private UIHandler UI;
+    public UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
 
-
+    private float HungerSum = 0;
+    private float StressSum = 0;
+    
     // Start is called before the first frame update
     public void Start()
     {
         UI = FindObjectOfType<UIHandler>();
-        GameObject obj = Instantiate(UI.Cage, new Vector3(), Quaternion.identity);
+        UI.Cage = Instantiate(UI.CagePrefab, new Vector3(), Quaternion.identity);
     }
 
     public bool SaveStatistics(Statistic stats)
@@ -158,12 +160,10 @@ public class DataManager : MonoBehaviour
         Fish.maxStress = newMaxStress;
     }
 
-    public void SaveHungerAndStress(Statistic stats)
+    public void SaveHungerAndStress()
     {
         float Timer = 0;
         float TimerThreshold = 5;
-        float HungerSum = 0;
-        float StressSum = 0;
 
         Timer += Time.deltaTime;
 
@@ -173,7 +173,6 @@ public class DataManager : MonoBehaviour
             {
                 HungerSum += item.Hunger;
                 StressSum += item.Stress;
-
             }
             
             HungerSum /= fishList.Count;
@@ -181,5 +180,9 @@ public class DataManager : MonoBehaviour
             
             Timer = 0;
         }
+    }
+    public void Update()
+    {
+        SaveHungerAndStress();
     }
 }

@@ -4,15 +4,17 @@ using UnityEngine;
 public class CageHandler : MonoBehaviour
 {
     public GameObject prefabCollider;
-    private Vector3 defaultSize = new Vector3(15, 37.5f, 15);
     private List<Vector3> coords = new List<Vector3>();
 
     private void Start()
     {
+        UIHandler UI = GameObject.FindObjectOfType<UIHandler>();
         GetColliderCoordinates();
         CreateColliders();
-        this.transform.localScale = defaultSize;
+        this.transform.localScale = new Vector3(UI.defaultRadiusOfCage, UI.defaultDepthOfCage * 2.5f, UI.defaultRadiusOfCage);
+        UI.SetCageSizeAfterCageLoad();
     }
+    
 
     private void Update()
     {

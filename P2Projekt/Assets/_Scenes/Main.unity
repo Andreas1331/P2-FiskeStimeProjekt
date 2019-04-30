@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3500668, g: 0.44915104, b: 0.5880307, a: 1}
+  m_IndirectSpecularColor: {r: 0.3500884, g: 0.44928193, b: 0.5880745, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2406,7 +2406,7 @@ GameObject:
   - component: {fileID: 781850322}
   - component: {fileID: 781850321}
   m_Layer: 5
-  m_Name: Text
+  m_Name: FishStresstxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2779,10 +2779,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 880912412}
   m_HandleRect: {fileID: 492788098}
   m_Direction: 0
-  m_MinValue: 20
-  m_MaxValue: 60
+  m_MinValue: 5
+  m_MaxValue: 30
   m_WholeNumbers: 1
-  m_Value: 20
+  m_Value: 5
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -2931,7 +2931,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &822023184
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3463,7 +3463,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &924585423
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3629,7 +3629,7 @@ GameObject:
   - component: {fileID: 981758857}
   - component: {fileID: 981758856}
   m_Layer: 5
-  m_Name: Text
+  m_Name: AmountOfFishFromInputtxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3725,18 +3725,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 052a4b20fca406b4ebe9b4eab0105456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GuiPanel: {fileID: 199933234}
-  Cage: {fileID: 7093261861641521035, guid: 2a6a22725c45c6a45a99f0bcd3dc9abc, type: 3}
-  FishHealthtxt: {fileID: 2068249025}
-  FishStresstxt: {fileID: 781850321}
-  FishDepthtxt: {fileID: 1813256654}
-  SimSpeedtxt: {fileID: 1444605007}
-  AmountOfFishtxt: {fileID: 172988455}
-  AmountOfFishFromInputtxt: {fileID: 981758856}
-  AmountOfFishSlider: {fileID: 210476975}
-  SizeOfCageSlider: {fileID: 1832413021}
-  DepthOfCageSlider: {fileID: 806314947}
   PauseMenuUI: {fileID: 822023183}
+  Cage: {fileID: 7093261861641521035, guid: 2a6a22725c45c6a45a99f0bcd3dc9abc, type: 3}
+  CagePrefab: {fileID: 7093261861641521035, guid: 2a6a22725c45c6a45a99f0bcd3dc9abc,
+    type: 3}
 --- !u!4 &1009735442
 Transform:
   m_ObjectHideFlags: 0
@@ -4875,7 +4867,7 @@ GameObject:
   - component: {fileID: 1444605008}
   - component: {fileID: 1444605007}
   m_Layer: 5
-  m_Name: Text
+  m_Name: SimSpeedTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5128,6 +5120,7 @@ MonoBehaviour:
     type: 3}
   deathCounter: 0
   timesAddedFood: 0
+  UI: {fileID: 0}
 --- !u!4 &1517171065
 Transform:
   m_ObjectHideFlags: 0
@@ -6056,7 +6049,7 @@ GameObject:
   - component: {fileID: 1813256655}
   - component: {fileID: 1813256654}
   m_Layer: 5
-  m_Name: Text
+  m_Name: FishDepthtxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6331,10 +6324,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 9063335}
   m_HandleRect: {fileID: 2033966811}
   m_Direction: 0
-  m_MinValue: 20
-  m_MaxValue: 60
+  m_MinValue: 10
+  m_MaxValue: 20
   m_WholeNumbers: 1
-  m_Value: 20
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -6902,7 +6895,7 @@ GameObject:
   - component: {fileID: 2068249026}
   - component: {fileID: 2068249025}
   m_Layer: 5
-  m_Name: Text
+  m_Name: FishHungerTxt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
