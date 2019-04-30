@@ -11,6 +11,7 @@ public class UIHandler : MonoBehaviour
  
     //General objects
     private DataManager DM;
+    private DontDestroyOnLoadVariables DDOLV;
     private GameObject GuiPanel;
     public GameObject Cage;
     public GameObject CagePrefab;
@@ -19,6 +20,7 @@ public class UIHandler : MonoBehaviour
     private Text SimSpeedtxt;
 
     //Overlay-menu objects
+    private Text FishAmounttxt;
     private Text FishHealthtxt;
     private Text FishStresstxt;
     private Text FishDepthtxt;
@@ -32,20 +34,32 @@ public class UIHandler : MonoBehaviour
     private float _depthOfCage;
 
     //Start menu settings
-    private float _defaultFishAmount = 12;
-    private float _defaultHungerLimit = 999;
-    private float _defaultStressLimit = 999;
+    //private float _defaultFishAmount = 7;
+    //private float _defaultHungerLimit = 999;
+    //private float _defaultStressLimit = 999;
     public float defaultRadiusOfCage = 12;
-    public float defaultDepthOfCage = 15;
-    private float _defaultSimSpeed = 1;
+    //public float defaultDepthOfCage = 15;
+    //private float _defaultSimSpeed = 1;
 
     private void Awake()
     {
-        //Menu objects
-        SimSpeedtxt     = GameObject.Find("SimSpeedTxt").GetComponent<Text>();
-        FishHealthtxt   = GameObject.Find("FishHungerTxt").GetComponent<Text>();
-        FishStresstxt   = GameObject.Find("FishStresstxt").GetComponent<Text>();
-        FishDepthtxt    = GameObject.Find("FishDepthtxt").GetComponent<Text>();
+        //Class to store variables to transfor to Main-scene
+        DDOLV = FindObjectOfType<DontDestroyOnLoadVariables>();
+
+        //Start-menu objects
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            FishAmounttxt = GameObject.Find("FishAmounttxt").GetComponent<Text>();
+        }
+
+        //Start-menu and Main Scene objects
+        if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            FishHealthtxt = GameObject.Find("FishHungerTxt").GetComponent<Text>();
+            FishStresstxt = GameObject.Find("FishStresstxt").GetComponent<Text>();
+            FishDepthtxt = GameObject.Find("FishDepthtxt").GetComponent<Text>();
+            SimSpeedtxt = GameObject.Find("SimSpeedTxt").GetComponent<Text>();
+        }
 
         //General objects
         if (SceneManager.GetActiveScene().buildIndex == 1)
@@ -66,6 +80,10 @@ public class UIHandler : MonoBehaviour
 
     private void Start()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            InitializeButtonValues();
+        }
         //_radiusOfCage = DM.DefaultRadiusOfCage;
         //_depthOfCage = DM.DefaultDepthOfCage;
         //SetSimSpeed(DM.DefaultSimSpeed);
@@ -85,8 +103,7 @@ public class UIHandler : MonoBehaviour
     public void SetCageSizeAfterCageLoad()
     {
         SizeOfCageSlider.value = defaultRadiusOfCage;
-        DepthOfCageSlider.value = defaultDepthOfCage;
-        AmountOfFishSlider.value = _defaultFishAmount;
+        DepthOfCageSlider.value = DDOLV.defaultDepthOfCage;
     }
 
     public void LoadStartMenu()
@@ -130,7 +147,7 @@ public class UIHandler : MonoBehaviour
     public void DeactivatePauseMenu()
     {
         PauseMenuUI.SetActive(false);
-        SetSimSpeed(_defaultSimSpeed);
+        SetSimSpeed(DDOLV.defaultSimSpeed);
     }
     public void SetSimSpeed(float timeFactor)
     {
@@ -161,39 +178,49 @@ public class UIHandler : MonoBehaviour
     {
         if (FishHealthtxt.text != "")
         {
-            _defaultHungerLimit = float.Parse(FishHealthtxt.text);
+            DDOLV.defaultHungerLimit = float.Parse(FishHealthtxt.text);
         }
 
         if (FishStresstxt.text != "")
         {
-            _defaultStressLimit = float.Parse(FishStresstxt.text);
+            DDOLV.defaultStressLimit = float.Parse(FishStresstxt.text);
         }
 
         if (FishDepthtxt.text != "")
         {
-            defaultDepthOfCage = float.Parse(FishDepthtxt.text);
+            DDOLV.defaultDepthOfCage = float.Parse(FishDepthtxt.text);
         }
 
         if(SimSpeedtxt.text != "")
         {
-            _defaultSimSpeed = float.Parse(SimSpeedtxt.text);
+            DDOLV.defaultSimSpeed = float.Parse(SimSpeedtxt.text);
             //SetSimSpeed(float.Parse(SimSpeedtxt.text));
         } else
         {
-            SetSimSpeed(_defaultSimSpeed);
+            SetSimSpeed(DDOLV.defaultSimSpeed);
         }
 
-        CallMethodsWithButtonValues();
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            if (FishAmounttxt.text != "")
+            {
+                DDOLV.defaultAmountOfFish = float.Parse(FishAmounttxt.text);
+            }
+        } else
+        {
+            InitializeButtonValues();
+        }
     }
 
-    public void CallMethodsWithButtonValues()
+    public void InitializeButtonValues()
     {
-        DM.ChangeHungerLimit(_defaultHungerLimit);
-        DM.ChangeStressLimit(_defaultStressLimit);
-        SizeOfCageSlider.value = defaultRadiusOfCage;
-        DepthOfCageSlider.value = defaultDepthOfCage;
-
+            AmountOfFishSlider.value = DDOLV.defaultAmountOfFish;
+            DepthOfCageSlider.value = DDOLV.defaultDepthOfCage;
+            DM.ChangeHungerLimit(DDOLV.defaultHungerLimit);
+            DM.ChangeStressLimit(DDOLV.defaultStressLimit);
+            SetSimSpeed(DDOLV.defaultSimSpeed);
     }
+
     public void SetAmountOfFishInSimulationFromSlider()
     {
         DM.GetAmountOfFishToAddOrRemove((int)AmountOfFishSlider.value);
