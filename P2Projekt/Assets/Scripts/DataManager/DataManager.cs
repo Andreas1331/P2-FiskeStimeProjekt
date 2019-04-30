@@ -87,9 +87,7 @@ public class DataManager : MonoBehaviour
             ActivateFishFromPool(howManyToAdd);
         } else
         {
-            //Activate fish from pool(FishInFishPool)
             ActivateFishFromPool(fishInFishPool);
-            //Generate new fish(FishToGenerate)
             SpawnNewFish(fishToGenerate);
         }
     }

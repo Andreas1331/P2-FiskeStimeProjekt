@@ -22,6 +22,14 @@ public class UIHandler : MonoBehaviour
     private float _radiusOfCage;
     private float _depthOfCage;
 
+    //Start menu settings
+    private float _defaultFishAmount = 12;
+    private float _defaultHungerLimit = 999;
+    private float _defaultStressLimit = 999;
+    private float _defaultRadiusOfCage = 10;
+    private float _defaultDepthOfCage = 8;
+    private float _defaultSimSpeed = 1;
+
     private void Awake()
     {
         DM = FindObjectOfType<DataManager>();
@@ -58,12 +66,12 @@ public class UIHandler : MonoBehaviour
 
     public void ApplicationQuit()
     {
-#if UNITY_EDITOR
-            //Sættes sådan at vi kan teste i Unity editoren.
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-        Application.Quit();
-#endif
+        #if UNITY_EDITOR
+                //Sættes sådan at vi kan teste i Unity editoren.
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
     }
 
     [SerializeField] private GameObject PauseMenuUI;
@@ -71,29 +79,37 @@ public class UIHandler : MonoBehaviour
     {   
         if(PauseMenuUI.activeSelf == true)
         {
-            //DM.DeactivatePauseMenu(PauseMenuUI);
             DeactivatePauseMenu();
         } else if (PauseMenuUI.activeSelf == false)
         {
-            //DM.ActivatePauseMenu(PauseMenuUI);
             ActivatePauseMenu();
         }
+    }
+    
+    public void ActivatePauseMenu()
+    {
+        PauseMenuUI.SetActive(true);
+        SetSimSpeed(0.0f);
+    }
+
+    public void DeactivatePauseMenu()
+    {
+        PauseMenuUI.SetActive(false);
+        //SetSimSpeed(1.0f);
     }
     public void SetSimSpeed(float timeFactor)
     {
         Time.timeScale = timeFactor;
     }
-    public void ActivatePauseMenu(GameObject PauseMenuUI)
+    public void SetSpeedButtens(float timefactor)
     {
-        PauseMenuUI.SetActive(true);
-        SetSimSpeed(0.0f);
-    }
-    public void DeactivatePauseMenu(GameObject PauseMenuUI)
-    {
-        PauseMenuUI.SetActive(false);
-        SetSimSpeed(1.0f);
+        SetSimSpeed(timefactor);
     }
 
+    public void ToggleGuiVisibility(GameObject overlayPanel)
+    {
+        HideGui(overlayPanel);
+    }
     public void HideGui(GameObject GuiPanel)
     {
         if (GuiPanel.activeSelf == true)
@@ -106,51 +122,33 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void ActivatePauseMenu()
-    {
-        PauseMenuUI.SetActive(true);
-        Time.timeScale = 0.0f;
-    }
-
-    public void DeactivatePauseMenu()
-    {
-        PauseMenuUI.SetActive(false);
-        //Time.timeScale = 1.0f;
-    }
-
     public void ApplyButtonValues()
     {
         if (FishHealthtxt.text != "")
         {
-            DM.ChangeHungerLimit(float.Parse(FishHealthtxt.text));
+            _defaultHungerLimit = float.Parse(FishHealthtxt.text);
+            //DM.ChangeHungerLimit(float.Parse(FishHealthtxt.text));
         }
 
         if (FishStresstxt.text != "")
         {
-            DM.ChangeStressLimit(float.Parse(FishStresstxt.text));
+            _defaultStressLimit = float.Parse(FishStresstxt.text);
+            //DM.ChangeStressLimit(float.Parse(FishStresstxt.text));
         }
 
         if (FishDepthtxt.text != "")
         {
-            DM.DefaultDepthOfCage = float.Parse(FishDepthtxt.text);
+            _defaultDepthOfCage = float.Parse(FishDepthtxt.text);
         }
 
         if(SimSpeedtxt.text != "")
         {
-            SetSimSpeed(float.Parse(SimSpeedtxt.text));
+            _defaultSimSpeed = float.Parse(SimSpeedtxt.text);
+            //SetSimSpeed(float.Parse(SimSpeedtxt.text));
         } else
         {
-            SetSimSpeed(1);
+            SetSimSpeed(_defaultSimSpeed);
         }
-    }
-    public void SetSpeedButtens(float timefactor)
-    {
-        SetSimSpeed(timefactor);
-    }
-
-    public void ToggleGuiVisibility(GameObject overlayPanel)
-    {
-        HideGui(overlayPanel);
     }
 
     public void SetAmountOfFishInSimulationFromSlider()
@@ -158,7 +156,6 @@ public class UIHandler : MonoBehaviour
         DM.GetAmountOfFishToAddOrRemove((int)AmountOfFishSlider.value);
         AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishSlider.value;
     }
-
     public void SetAmountOfFishInSimulationFromInput(Text inputText)
     {
         AmountOfFishSlider.value = float.Parse(inputText.text);
