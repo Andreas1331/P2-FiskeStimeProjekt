@@ -19,9 +19,11 @@ public class DataManager : MonoBehaviour
     private int foodCounter=0;
     public UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
+    private float _timer;
+    private readonly float _timerThreshold = 5;
+    private float _hungerSum;
+    private float _stressSum;
 
-    private float HungerSum = 0;
-    private float StressSum = 0;
     
     // Start is called before the first frame update
     public void Start()
@@ -104,6 +106,7 @@ public class DataManager : MonoBehaviour
             foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood));
         }
     }
+
     public void KillFish(int amountToKill)
     {
         for (int i = 0; i < amountToKill; i++)
@@ -153,6 +156,7 @@ public class DataManager : MonoBehaviour
     {
         Fish.maxHunger = newMaxHunger;
     }
+
     public void ChangeStressLimit(float newMaxStress)
     {
         Fish.maxStress = newMaxStress;
@@ -160,23 +164,25 @@ public class DataManager : MonoBehaviour
 
     public void SaveHungerAndStress()
     {
-        float Timer = 0;
-        float TimerThreshold = 5;
 
-        Timer += Time.deltaTime;
+        _timer += Time.deltaTime;
 
-        if(Timer >= TimerThreshold)
+        if(_timer >= _timerThreshold)
         {
-            foreach (Fish item in fishList)
+            if (fishList.Count < 0)
             {
-                HungerSum += item.Hunger;
-                StressSum += item.Stress;
+                foreach (Fish item in fishList)
+                {
+                    _hungerSum += item.Hunger;
+                    _stressSum += item.Stress;
+                }
+                _hungerSum /= fishList.Count;
+                _stressSum /= fishList.Count;
             }
-            
-            HungerSum /= fishList.Count;
-            StressSum /= fishList.Count;
-            
-            Timer = 0;
+            _timer = 0;
+
+            Debug.Log("HungerSum : " + _hungerSum);
+            Debug.Log("StressSum : " + _stressSum);
         }
     }
     public void Update()
