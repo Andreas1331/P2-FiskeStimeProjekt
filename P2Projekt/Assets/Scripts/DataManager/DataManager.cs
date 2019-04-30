@@ -17,7 +17,7 @@ public class DataManager : MonoBehaviour
     public int timesAddedFood = 0;
     private int fishCounter=0;
     private int foodCounter=0;
-    private UIHandler UI;
+    public UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
 
 
@@ -25,7 +25,7 @@ public class DataManager : MonoBehaviour
     public void Start()
     {
         UI = FindObjectOfType<UIHandler>();
-        GameObject obj = Instantiate(UI.Cage, new Vector3(), Quaternion.identity);
+        UI.Cage = Instantiate(UI.CagePrefab, new Vector3(), Quaternion.identity);
     }
 
     public bool SaveStatistics(Statistic stats)

@@ -6,18 +6,24 @@ using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
+    //General objects
     private DataManager DM;
-    public GameObject GuiPanel;
+    private GameObject GuiPanel;
     public GameObject Cage;
-    public Text FishHealthtxt;
-    public Text FishStresstxt;
-    public Text FishDepthtxt;
-    public Text SimSpeedtxt;
-    public Text AmountOfFishtxt;
-    public Text AmountOfFishFromInputtxt;
-    public Slider AmountOfFishSlider;
-    public Slider SizeOfCageSlider;
-    public Slider DepthOfCageSlider;
+    public GameObject CagePrefab;
+
+    //Start-menu objects
+    private Text SimSpeedtxt;
+
+    //Overlay-menu objects
+    private Text FishHealthtxt;
+    private Text FishStresstxt;
+    private Text FishDepthtxt;
+    private Text AmountOfFishtxt;
+    private Text AmountOfFishFromInputtxt;
+    private Slider AmountOfFishSlider;
+    private Slider SizeOfCageSlider;
+    private Slider DepthOfCageSlider;
 
     private float _radiusOfCage;
     private float _depthOfCage;
@@ -32,18 +38,38 @@ public class UIHandler : MonoBehaviour
 
     private void Awake()
     {
-        DM = FindObjectOfType<DataManager>();
-        DontDestroyOnLoad(this.gameObject);
+        //Menu objects
+        SimSpeedtxt = GameObject.Find("SimSpeedTxt").GetComponent<Text>();
+        FishHealthtxt = GameObject.Find("FishHungerTxt").GetComponent<Text>();
+        FishStresstxt = GameObject.Find("FishStresstxt").GetComponent<Text>();
+        FishDepthtxt = GameObject.Find("FishDepthtxt").GetComponent<Text>();
+
+        //General objects
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            GuiPanel = GameObject.Find("OverlayMenu");
+            DM = FindObjectOfType<DataManager>();
+            AmountOfFishSlider = GameObject.Find("AmountOfFishSlider").GetComponent<Slider>();
+            SizeOfCageSlider = GameObject.Find("SizeOfCageSlider").GetComponent<Slider>();
+            DepthOfCageSlider = GameObject.Find("DepthOfCageSlider").GetComponent<Slider>();
+            AmountOfFishFromInputtxt = GameObject.Find("AmountOfFishFromInputtxt").GetComponent<Text>();
+            AmountOfFishtxt = GameObject.Find("AmountOfFishText").GetComponent<Text>();
+            GameObject.Find("AdvancedSettings").SetActive(false);
+            GameObject.Find("PauseSettingPanel").SetActive(false);
+        }
+
     }
 
     private void Start()
     {
+        Debug.Log("UI");
         //DM.ChangeHungerLimit(DM.DefaultHungerLimit);
         //DM.ChangeStressLimit(DM.DefaultStressLimit);
         //AmountOfFishSlider.value = DefaultFishAmount;
         //_radiusOfCage = DM.DefaultRadiusOfCage;
         //_depthOfCage = DM.DefaultDepthOfCage;
         //SetSimSpeed(DM.DefaultSimSpeed);
+        SceneManager.sceneLoaded += OnLevelFinishedLoading;
     }
 
     void Update()
@@ -62,9 +88,14 @@ public class UIHandler : MonoBehaviour
     public void LoadMainScene()
     {
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
-        AmountOfFishSlider.value = _defaultFishAmount;
+        //AmountOfFishSlider.value = _defaultFishAmount;
     }
-
+    void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+    {
+        Debug.Log("Level Loaded");
+        Debug.Log(scene.name);
+        Debug.Log(mode);
+    }
     public void ApplicationQuit()
     {
         #if UNITY_EDITOR
@@ -151,7 +182,6 @@ public class UIHandler : MonoBehaviour
             SetSimSpeed(_defaultSimSpeed);
         }
     }
-
     public void SetAmountOfFishInSimulationFromSlider()
     {
         DM.GetAmountOfFishToAddOrRemove((int)AmountOfFishSlider.value);
