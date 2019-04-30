@@ -19,9 +19,11 @@ public class DataManager : MonoBehaviour
     private int foodCounter=0;
     public UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
+    private float _timer;
+    private readonly float _timerThreshold = 5;
+    private float _hungerSum;
+    private float _stressSum;
 
-    private float HungerSum = 0;
-    private float StressSum = 0;
     
     // Start is called before the first frame update
     public void Start()
@@ -160,23 +162,23 @@ public class DataManager : MonoBehaviour
 
     public void SaveHungerAndStress()
     {
-        float Timer = 0;
-        float TimerThreshold = 5;
 
-        Timer += Time.deltaTime;
+        _timer += Time.deltaTime;
 
-        if(Timer >= TimerThreshold)
+        if(_timer >= _timerThreshold)
         {
             foreach (Fish item in fishList)
             {
-                HungerSum += item.Hunger;
-                StressSum += item.Stress;
+                _hungerSum += item.Hunger;
+                _stressSum += item.Stress;
             }
+
+            _hungerSum /= fishList.Count;
+            _stressSum /= fishList.Count;
             
-            HungerSum /= fishList.Count;
-            StressSum /= fishList.Count;
-            
-            Timer = 0;
+            _timer = 0;
+
+            Debug.Log("HungerSum :" + _hungerSum +"StressSum : "+_stressSum);
         }
     }
     public void Update()
