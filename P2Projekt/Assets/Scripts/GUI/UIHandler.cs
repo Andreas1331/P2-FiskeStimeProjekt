@@ -78,6 +78,11 @@ public class UIHandler : MonoBehaviour
         {
             TogglePauseMenuInGame();
         }
+        if (Input.GetKeyUp(KeyCode.K)) {
+            DM.AddFoodToNet(1,5);
+        }
+
+
     }
 
     public void LoadStartMenu()
@@ -210,7 +215,8 @@ public class UIHandler : MonoBehaviour
     }
     public void ChangeCageDepthFromInput(Text inputText)
     {
-        DepthOfCageSlider.value = float.Parse(inputText.text);
+        if (inputText.text != null && inputText.text.Length > 0)
+            DepthOfCageSlider.value = float.Parse(inputText.text);
     }
     public void ApplySizeOfCage()
     {
