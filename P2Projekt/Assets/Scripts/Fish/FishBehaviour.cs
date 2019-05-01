@@ -16,7 +16,7 @@ public class FishBehaviour : MonoBehaviour
     private bool _isObstacleDetected = false;
     public float gotDistance = 0;
     private const float _stressMultiplier = 1.5f;
-    private List<Vector3> lastKnownFoodSpots = new List<Vector3>() ;
+    private List<Vector3> lastKnownFoodSpots = new List<Vector3>() { new Vector3(10,7,4)} ;
     public Dictionary<int, Vector3> knownFoodSpots = new Dictionary<int, Vector3>();
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
@@ -26,15 +26,15 @@ public class FishBehaviour : MonoBehaviour
     private float timerToResetTimer = 0;
 
     #region Lambda structs
-    public lambdaStructAlone lambdaAlone = new lambdaStructAlone();
-    public lambdaStructSchool lambdaSchool = new lambdaStructSchool();
-    public stressFactorLambdaAlone stressFactorsAlone = new stressFactorLambdaAlone();
-    public stressFactorLambdaSchool stressFactorsSchool = new stressFactorLambdaSchool();
-    public hungerFactorLambdaAlone hungerFactorsAlone = new hungerFactorLambdaAlone();
-    public hungerFactorLambdaSchool hungerFactorsSchool = new hungerFactorLambdaSchool();
-    public depthFactorLambdaAlone depthFactorsAlone = new depthFactorLambdaAlone();
-    public depthFactorLambdaSchool depthFactorsSchool = new depthFactorLambdaSchool();
-    public directionVectors directions = new directionVectors();
+    private lambdaStructAlone lambdaAlone = new lambdaStructAlone();
+    private lambdaStructSchool lambdaSchool = new lambdaStructSchool();
+    private stressFactorLambdaAlone stressFactorsAlone = new stressFactorLambdaAlone();
+    private stressFactorLambdaSchool stressFactorsSchool = new stressFactorLambdaSchool();
+    private hungerFactorLambdaAlone hungerFactorsAlone = new hungerFactorLambdaAlone();
+    private hungerFactorLambdaSchool hungerFactorsSchool = new hungerFactorLambdaSchool();
+    private depthFactorLambdaAlone depthFactorsAlone = new depthFactorLambdaAlone();
+    private depthFactorLambdaSchool depthFactorsSchool = new depthFactorLambdaSchool();
+    private directionVectors directions = new directionVectors();
     #endregion
 
     private MathTools _mathTools = new MathTools();
@@ -250,19 +250,17 @@ public class FishBehaviour : MonoBehaviour
 
         if (hungerFactorsAlone.findFoodHunger > 2)
             hungerFactorsAlone.findFoodHunger = 2;
-
         float leftOfHungerFactor = 2 - hungerFactorsAlone.findFoodHunger;
         //if there is no object in the way
         if (!_isObstacleDetected)
         {
-            hungerFactorsAlone.prevDirectionHunger = leftOfHungerFactor * 0.3f;
-            hungerFactorsAlone.findFishHunger = leftOfHungerFactor * 0.6f;
+            hungerFactorsAlone.prevDirectionHunger = leftOfHungerFactor * 1f;
+            hungerFactorsAlone.findFishHunger = leftOfHungerFactor * 0/*.3f*/;
             hungerFactorsAlone.collisionDodgeHunger = 0;
-            hungerFactorsAlone.optimalDepthHunger = leftOfHungerFactor * 0.1f;
+            hungerFactorsAlone.optimalDepthHunger = leftOfHungerFactor * 0/*.1f*/;
         }
         else
         {
-            Debug.Log("Here hunger obs");
             hungerFactorsAlone.findFoodHunger = 0;
             hungerFactorsAlone.prevDirectionHunger = 0;
             hungerFactorsAlone.findFishHunger = 0;
@@ -284,6 +282,7 @@ public class FishBehaviour : MonoBehaviour
 
         if (hungerFactorsSchool.findFoodHunger > 2.5f)
             hungerFactorsSchool.findFoodHunger = 2.5f;
+        Debug.Log(" FindfoodHunger "+hungerFactorsSchool.findFoodHunger);
 
         float leftOfHungerFactor = 2.5f - hungerFactorsSchool.findFoodHunger;
         //if there is no object in the way
@@ -291,6 +290,7 @@ public class FishBehaviour : MonoBehaviour
         {
             hungerFactorsSchool.prevDirectionHunger = leftOfHungerFactor * 0.2f;
             hungerFactorsSchool.swimWithOtherFishHunger = leftOfHungerFactor * 0.5f;
+            Debug.Log("HungerSchool Svøm til andre :"+hungerFactorsSchool.swimWithOtherFishHunger);
             hungerFactorsSchool.collisionDodgeHunger = 0;
             hungerFactorsSchool.optimalDepthHunger = leftOfHungerFactor * 0.1f;
             hungerFactorsSchool.holdDistanceToFishHunger = leftOfHungerFactor * 0.2f;
@@ -328,10 +328,10 @@ public class FishBehaviour : MonoBehaviour
         //if there is no object in the way
         if (!_isObstacleDetected)
         {
-            stressFactorsAlone.prevDirectionStress = leftOfStressFactor * 0.3f;
-            stressFactorsAlone.findFishStress = leftOfStressFactor * 0.6f;
+            stressFactorsAlone.prevDirectionStress = leftOfStressFactor * 1f/*0.6f*/;
+            stressFactorsAlone.findFishStress = leftOfStressFactor * 0/*.3f*/;
             stressFactorsAlone.collisionDodgeStress = 0;
-            stressFactorsAlone.optimalDepthStress = leftOfStressFactor * 0.1f;
+            stressFactorsAlone.optimalDepthStress = leftOfStressFactor * 0/*.1*/;
         }
         else
         {
@@ -395,7 +395,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void setDepthFactorsAlone()
     {
-        depthFactorsAlone.optimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
+        depthFactorsAlone.optimalDepthDepth = 0 /*1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2 */;
         //find bedre navn gidder ikke lige nu
         float theRest = 1 - depthFactorsAlone.optimalDepthDepth / 4;
         depthFactorsAlone.prevDirectionDepth = theRest;
@@ -613,8 +613,9 @@ public class FishBehaviour : MonoBehaviour
         if (!_isObstacleDetected)
         {
             directions.dodgeCollisionDirection = new Vector3(0, 0, 0);
-        }      
-
+        }
+        Debug.Log(_fish.CurrentDirection);
+        Debug.Log(Vector3.Normalize(_fish.CurrentDirection));
         schooling = false;
         return _fish.CurrentDirection;
     }

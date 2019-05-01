@@ -180,7 +180,7 @@ public class DataManager : MonoBehaviour
             
             _timer = 0;
 
-            Debug.Log("HungerSum :" + _hungerSum +"StressSum : "+_stressSum);
+            //Debug.Log("HungerSum :" + _hungerSum +"StressSum : "+_stressSum);
         }
     }
     public void Update()
