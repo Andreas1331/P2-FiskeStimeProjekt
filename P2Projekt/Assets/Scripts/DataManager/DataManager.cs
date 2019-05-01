@@ -169,18 +169,21 @@ public class DataManager : MonoBehaviour
 
         if(_timer >= _timerThreshold)
         {
-            foreach (Fish item in fishList)
+            if (fishList.Count < 0)
             {
-                _hungerSum += item.Hunger;
-                _stressSum += item.Stress;
+                foreach (Fish item in fishList)
+                {
+                    _hungerSum += item.Hunger;
+                    _stressSum += item.Stress;
+                }
+                _hungerSum /= fishList.Count;
+                _stressSum /= fishList.Count;
             }
-
-            _hungerSum /= fishList.Count;
-            _stressSum /= fishList.Count;
-            
             _timer = 0;
 
-            //Debug.Log("HungerSum :" + _hungerSum +"StressSum : "+_stressSum);
+
+            Debug.Log("HungerSum : " + _hungerSum);
+            Debug.Log("StressSum : " + _stressSum);
         }
     }
     public void Update()
