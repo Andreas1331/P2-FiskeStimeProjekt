@@ -81,10 +81,6 @@ public class UIHandler : MonoBehaviour
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            InitializeButtonValues();
-        }
         //_radiusOfCage = DM.DefaultRadiusOfCage;
         //_depthOfCage = DM.DefaultDepthOfCage;
         //SetSimSpeed(DM.DefaultSimSpeed);
@@ -101,10 +97,15 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void SetCageSizeAfterCageLoad()
+    public void SetCageSizeAfterCageLoad() //Gets called after CageManager
     {
         SizeOfCageSlider.value = defaultRadiusOfCage;
         DepthOfCageSlider.value = DDOLV.defaultDepthOfCage;
+
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            InitializeButtonValues();
+        }
     }
 
     public void LoadStartMenu()

@@ -9,13 +9,12 @@ public class CageHandler : MonoBehaviour
     private void Start()
     {
         UIHandler UI = GameObject.FindObjectOfType<UIHandler>();
-        DontDestroyOnLoadVariables DDOLV = GameObject.FindObjectOfType<DontDestroyOnLoadVariables>();
         GetColliderCoordinates();
         CreateColliders();
+        DontDestroyOnLoadVariables DDOLV = GameObject.FindObjectOfType<DontDestroyOnLoadVariables>();
         this.transform.localScale = new Vector3(UI.defaultRadiusOfCage, DDOLV.defaultDepthOfCage * 2.5f, UI.defaultRadiusOfCage);
         UI.SetCageSizeAfterCageLoad();
     }
-    
 
     private void Update()
     {
