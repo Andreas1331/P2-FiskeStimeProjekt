@@ -14,8 +14,10 @@ public class CageHandler : MonoBehaviour
         CreateColliders();
         this.transform.localScale = new Vector3(UI.defaultRadiusOfCage, DDOLV.defaultDepthOfCage * 2.5f, UI.defaultRadiusOfCage);
         UI.SetCageSizeAfterCageLoad();
+        this.transform.localScale = new Vector3(10, 10, 10);
+
     }
-    
+
 
     private void Update()
     {
