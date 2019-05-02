@@ -22,6 +22,10 @@ public class FishBehaviour : MonoBehaviour
     public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
     public Dictionary<int, FishBehaviour> innerColliderFish = new Dictionary<int, FishBehaviour>();
+
+    private SphereCollider _outerCollider;
+    private SphereCollider _innerCollider;
+
     //Stress timer
     private float timerToDie = 0;
     private float timerToResetTimer = 0;
@@ -46,9 +50,6 @@ public class FishBehaviour : MonoBehaviour
     Text txt2;
     Text txt;
 
-    private float getNewRandomDirection;
-    private Vector3 randomPoint;
-
     private void Start()
     {
         DataManager = FindObjectOfType<DataManager>();
@@ -59,24 +60,27 @@ public class FishBehaviour : MonoBehaviour
 
         txt = GameObject.Find("FishDirectionTxt").GetComponent<Text>();
         txt2 = GameObject.Find("FishNormalizedTxt").GetComponent<Text>();
+
+        _outerCollider = GetComponents<SphereCollider>()[0];
+        _innerCollider = GetComponents<SphereCollider>()[1];
     }
 
     // Update is called once per frame
     private void Update()
     {
-        //_fish.MoveTowards(GetNewDirection());
+        _fish.MoveTowards(GetNewDirection());
         UpdateStress();
         UpdateHunger();
         AnimateDeath();
 
-        //Debug.DrawRay(transform.position, _fish.CurrentDirection - transform.position, Color.green);
-        //txt.text = "Direction: " + _fish.CurrentDirection;
+        Debug.DrawRay(transform.position, ((_fish.CurrentDirection - transform.position).normalized / 2), Color.green);
+        txt.text = "Direction: " + (_fish.CurrentDirection - transform.position);
         //foreach (KeyValuePair<int, Vector3> item in knownFoodSpots) {
         //    Debug.Log("Madpunkt" + knownFoodSpots[item.Key]);
         //}
         //txt2.text = "Madcount" + knownFoodSpots.Count + " | position af maden: " + knownFoodSpots[0];
-        randomPoint = _dataManager.randomPoint;
-        _fish.MoveTowards(_fish.CurrentDirection);
+        //randomPoint = _dataManager.randomPoint;
+        //_fish.MoveTowards(_fish.CurrentDirection);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -90,7 +94,8 @@ public class FishBehaviour : MonoBehaviour
         {
             int othersId = other.GetComponent<FoodBehavior>().Food.Id;
             if (knownFoodSpots.ContainsKey(othersId) && _mathTools.GetDistanceBetweenVectors(other.transform.position, transform.position) < 4.5f)
-            { knownFoodSpots.Remove(othersId);
+            {
+                knownFoodSpots.Remove(othersId);
                 Debug.Log("Jeg fjernede maden i collider exit");
             }
             if (inInnerCollider.ContainsKey(othersId))
@@ -172,22 +177,15 @@ public class FishBehaviour : MonoBehaviour
 
     private bool IsHeadingTowardsPoint(Vector3 pos)
     {
-        Vector3 testpos = pos;
-        Debug.DrawRay(transform.position, pos, Color.blue, 15);
-        //gamle
-        //float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, pos);
-        //test med ny vinkel
-        float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection.normalized, testpos.normalized);
-        Debug.Log("angle between vectors = "+angle);
-        Debug.Log("min retning= " + _fish.CurrentDirection + " den nærmeste retning til klods:" + testpos);
-        float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection.normalized, testpos.normalized);
+        float angle = _mathTools.GetAngleBetweenVectors((_fish.CurrentDirection - _fish.FishObject.transform.position), (pos - transform.position));
+
+        Vector3 posOne = _fish.CurrentDirection - transform.position;
+        Vector3 posTwo = pos - transform.position;
+        Debug.DrawRay(transform.position, posOne.normalized, Color.red, 30);
+
+        float dist = _mathTools.GetDistanceBetweenVectors(transform.position, pos);
         float catheter = _mathTools.GetOpposingCatheter(angle, dist);
-        Debug.DrawRay(transform.position,transform.position,Color.black,60f);
-        catheter = pos.x / testpos.normalized.x*catheter*10f;
-        Debug.Log("test = "+ catheter);
-        //test
-        return true;
-        //gamle
+
         return catheter <= _fish.Width / 2f;
     }
 
@@ -201,20 +199,11 @@ public class FishBehaviour : MonoBehaviour
 
         RaycastHit hit;
         if (!Physics.Raycast(transform.position, posOne, out hit, 10, LayerMask.GetMask("Obstacle")))
-        {
-            Debug.Log("raycast posOne ramte");
             return posOne;
-
-        }
         else if (!Physics.Raycast(transform.position, posTwo, out hit, 10, LayerMask.GetMask("Obstacle")))
-        {
-            Debug.Log("Raycast posTwo ramte");
             return posTwo;
 
-        }
-
         offset++;
-        Debug.Log("offset = " + offset);
         return FindFreeDir(pos, ref offset);
     }
 
@@ -304,14 +293,6 @@ public class FishBehaviour : MonoBehaviour
             hungerFactorsAlone.collisionDodgeHunger = 2;
             hungerFactorsAlone.optimalDepthHunger = 0;
         }
-        //if there is an object in the way further ahead
-        //else if (true)
-        //{
-        //    hungerFactorsAlone.prevDirectionHunger = leftOfHungerFactor * 0.15f;
-        //    hungerFactorsAlone.findFishHunger = leftOfHungerFactor * 0.25f;
-        //    hungerFactorsAlone.collisionDodgeHunger = leftOfHungerFactor * 0.5f;
-        //    hungerFactorsAlone.optimalDepthHunger = leftOfHungerFactor * 0.1f;
-        //}
     }
     private void calculateHungerFactorsSchool()
     {
@@ -341,15 +322,6 @@ public class FishBehaviour : MonoBehaviour
             hungerFactorsSchool.optimalDepthHunger = 0;
             hungerFactorsSchool.holdDistanceToFishHunger = 0;
         }
-        //if there is an object in the way further ahead
-        //else if (true)
-        //{
-        //    hungerFactorsSchool.prevDirectionHunger = leftOfHungerFactor * 0.05f;
-        //    hungerFactorsSchool.swimWithOtherFishHunger = leftOfHungerFactor * 0.20f;
-        //    hungerFactorsSchool.collisionDodgeHunger = leftOfHungerFactor * 0.5f;
-        //    hungerFactorsSchool.optimalDepthHunger = leftOfHungerFactor * 0.05f;
-        //    hungerFactorsSchool.holdDistanceToFishHunger = leftOfHungerFactor *0.2f;
-        //}        
     }
     #endregion
 
@@ -376,15 +348,7 @@ public class FishBehaviour : MonoBehaviour
             stressFactorsAlone.findFishStress = 0;
             stressFactorsAlone.collisionDodgeStress = 2;
             stressFactorsAlone.optimalDepthStress = 0;
-        }
-        //if there is an object in the way further ahead
-        //else if (true)
-        //{
-        //    stressFactorsAlone.prevDirectionStress = leftOfStressFactor * 0.15f;
-        //    stressFactorsAlone.findFishStress = leftOfStressFactor * 0.25f;
-        //    stressFactorsAlone.collisionDodgeStress = leftOfStressFactor * 0.5f;
-        //    stressFactorsAlone.optimalDepthStress = leftOfStressFactor * 0.1f;
-        //}        
+        }       
     }
 
     private void calculateStressFactorsSchool()
@@ -400,11 +364,9 @@ public class FishBehaviour : MonoBehaviour
         {
             stressFactorsSchool.prevDirectionStress = leftOfStressFactor * 0.2f;
             stressFactorsSchool.swimWithOtherFishStress = leftOfStressFactor * 0.4f;
-            //Debug.Log("Stress school svøm til andre: " + stressFactorsSchool.swimWithOtherFishStress);
             stressFactorsSchool.collisionDodgeStress = 0;
             stressFactorsSchool.optimalDepthStress = leftOfStressFactor * 0.1f;
             stressFactorsSchool.holdDistanceToFishStress = leftOfStressFactor * 0.3f;
-            //Debug.Log("Stress school hold afstand: " + stressFactorsSchool.holdDistanceToFishStress);
         }
         else
         {
@@ -414,16 +376,7 @@ public class FishBehaviour : MonoBehaviour
             stressFactorsSchool.collisionDodgeStress = 2.5f;
             stressFactorsSchool.optimalDepthStress = 0;
             stressFactorsSchool.holdDistanceToFishStress = 0;
-        }
-        //if there is an object in the way further ahead
-        //else if (true)
-        //{
-        //    stressFactorsSchool.prevDirectionStress = leftOfStressFactor * 0.05f;
-        //    stressFactorsSchool.swimWithOtherFishStress = leftOfStressFactor * 0.20f;
-        //    stressFactorsSchool.collisionDodgeStress = leftOfStressFactor * 0.5f;
-        //    stressFactorsSchool.optimalDepthStress = leftOfStressFactor * 0.05f;
-        //    stressFactorsSchool.holdDistanceToFishStress = leftOfStressFactor * 0.2f;
-        //}        
+        }        
     }
     #endregion
 
@@ -593,23 +546,22 @@ public class FishBehaviour : MonoBehaviour
         {
             return new Vector3(0, 0, 0);
         }
-        //bool schooling = false;
-        //bool isThereNearbyFood = false;
+        bool schooling = false;
+        bool isThereNearbyFood = false;
         directions.previousDirection = _fish.CurrentDirection;
         directions.optimalDepthDirection = SearchForOptimalDepth();
         foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
             if (_mathTools.GetDistanceBetweenVectors(transform.position, item.Value.transform.position) < 1f)
             {
-                //schooling = true;
+                schooling = true;
 
                 break;
             }
         }
         if (knownFoodSpots.Count < 0) {
-            //isThereNearbyFood = true;
+            isThereNearbyFood = true;
         }
-
-        /*
+        
         if (schooling)
         {
             setDepthFactorsSchool();
@@ -621,18 +573,13 @@ public class FishBehaviour : MonoBehaviour
             if (isThereNearbyFood) {
                 directions.findFoodDirection = canSeeFood();
                 _fish.CurrentDirection = directions.previousDirection * lambdaSchool.prevDirectionLambda + directions.findFoodDirection * lambdaSchool.findFoodLambda + directions.swimWithOrToFish * lambdaSchool.swimWithOtherFishLambda
-                    + directions.dodgeCollisionDirection * lambdaSchool.collisionDodgeLambda + directions.optimalDepthDirection * lambdaSchool.optimalDepthLambda + directions.holdDistanceToFishDirection * lambdaSchool.holdDistanceToFishLambda
-                    + randomPoint * lambdaSchool.prevDirectionLambda;
+                    + directions.dodgeCollisionDirection * lambdaSchool.collisionDodgeLambda + directions.optimalDepthDirection * lambdaSchool.optimalDepthLambda + directions.holdDistanceToFishDirection * lambdaSchool.holdDistanceToFishLambda;
             }
             else {
                 directions.findFoodDirection = cantSeeFood();
 
-                Debug.Log("prev direktion = "+ directions.previousDirection + " Findmaddirektion =" + directions.findFoodDirection + " Svøm med venner direktion = " + directions.swimWithOrToFish + " directions.holdDistanceToFishDirection =" + directions.holdDistanceToFishDirection);
-                //_fish.CurrentDirection = directions.previousDirection * lambdaSchool.prevDirectionLambda;
                 _fish.CurrentDirection = directions.previousDirection * lambdaSchool.prevDirectionLambda + directions.findFoodDirection * lambdaSchool.findFoodLambda + directions.swimWithOrToFish * lambdaSchool.swimWithOtherFishLambda
-                    + directions.dodgeCollisionDirection * lambdaSchool.collisionDodgeLambda + directions.optimalDepthDirection * lambdaSchool.optimalDepthLambda + directions.holdDistanceToFishDirection * lambdaSchool.holdDistanceToFishLambda
-                    + randomPoint * lambdaSchool.prevDirectionLambda;
-                //Debug.Log("dodge kolision"+directions.dodgeCollisionDirection + "dodge kolision lambda: " + lambdaSchool.collisionDodgeLambda);
+                    + directions.dodgeCollisionDirection * lambdaSchool.collisionDodgeLambda + directions.optimalDepthDirection * lambdaSchool.optimalDepthLambda + directions.holdDistanceToFishDirection * lambdaSchool.holdDistanceToFishLambda;                    
             }
         }
         else {
@@ -655,14 +602,13 @@ public class FishBehaviour : MonoBehaviour
                     + directions.swimWithOrToFish * lambdaAlone.findOtherFishLambda + directions.dodgeCollisionDirection * lambdaAlone.collisionDodgeLambda + directions.optimalDepthDirection * lambdaAlone.optimalDepthLambda
                     ;
             }
-        }*/
+        }
         if (!_isObstacleDetected)
         {
             directions.dodgeCollisionDirection = new Vector3(0, 0, 0);
         }
-        Debug.Log(_fish.CurrentDirection);
-        //Debug.Log(Vector3.Normalize(_fish.CurrentDirection));
-        //schooling = false;
+
+        schooling = false;
         return _fish.CurrentDirection;
     }
     #endregion
@@ -670,7 +616,6 @@ public class FishBehaviour : MonoBehaviour
     private Vector3 collidingwithcagemovementtest(){
         if (_isObstacleDetected) {
             _fish.CurrentDirection = directions.dodgeCollisionDirection;
-            Debug.Log("collisionsdodge = " + directions.dodgeCollisionDirection);
         }
 
         return _fish.CurrentDirection;
