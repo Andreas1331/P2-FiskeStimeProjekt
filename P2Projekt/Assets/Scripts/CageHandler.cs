@@ -14,6 +14,8 @@ public class CageHandler : MonoBehaviour
         DontDestroyOnLoadVariables DDOLV = GameObject.FindObjectOfType<DontDestroyOnLoadVariables>();
         this.transform.localScale = new Vector3(UI.defaultRadiusOfCage, DDOLV.defaultDepthOfCage * 2.5f, UI.defaultRadiusOfCage);
         UI.SetCageSizeAfterCageLoad();
+        this.transform.localScale = new Vector3(10, 10, 10);
+
     }
 
     private void Update()

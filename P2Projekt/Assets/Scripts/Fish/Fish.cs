@@ -57,9 +57,9 @@ public abstract class Fish
         MaxSpeed = maxSpeed;
         Width = width;
         Stress = 0;
-        Hunger = 100;
+        Hunger = 600;
         TypeOfFish = typeOfFish;
-        CurrentDirection = new Vector3(Random.value*7, Random.value*(-4), Random.value*4);
+        CurrentDirection = new Vector3(5, 0, 0);
         FishObject = GameObject.Instantiate(preFab, new Vector3(Random.value*10,Random.value*2,Random.value*5), Quaternion.identity, GameObject.FindGameObjectWithTag("FishContainer").transform);
         FishObject.GetComponent<FishBehaviour>().Fish = this;
     }
@@ -68,9 +68,11 @@ public abstract class Fish
     {
         if (!IsDead)
         {
+            CurrentDirection += direction.normalized;
+            FishObject.transform.position = Vector3.MoveTowards(FishObject.transform.position, direction, 0.5f * Time.deltaTime);
             Vector3 newdir = Vector3.RotateTowards(FishObject.transform.forward, direction - FishObject.transform.position, Time.deltaTime * 5, 2.5f);
             FishObject.transform.rotation = Quaternion.LookRotation(newdir);
-            FishObject.transform.position = Vector3.MoveTowards(FishObject.transform.position, direction, 0.5f * Time.deltaTime);
+            //FishObject.transform.Translate(direction.normalized * Time.deltaTime, Space.Self);
         }
     }
 }
