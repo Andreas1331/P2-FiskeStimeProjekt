@@ -23,6 +23,9 @@ public class FishBehaviour : MonoBehaviour
     public Dictionary<int, FishBehaviour> nearbyFish = new Dictionary<int, FishBehaviour>();
     public Dictionary<int, FishBehaviour> innerColliderFish = new Dictionary<int, FishBehaviour>();
 
+    private List<FishBehaviour> _nearbyFish = new List<FishBehaviour>();
+    private float _schoolDst = 0.25f;
+
     private SphereCollider _outerCollider;
     private SphereCollider _innerCollider;
 
@@ -73,8 +76,8 @@ public class FishBehaviour : MonoBehaviour
         UpdateHunger();
         AnimateDeath();
 
-        Debug.DrawRay(transform.position, ((_fish.CurrentDirection - transform.position).normalized / 2), Color.green);
-        txt.text = "Direction: " + (_fish.CurrentDirection - transform.position);
+        //Debug.DrawRay(transform.position, ((_fish.CurrentDirection - transform.position).normalized / 2), Color.green);
+        //txt.text = "Direction: " + (_fish.CurrentDirection - transform.position);
         //foreach (KeyValuePair<int, Vector3> item in knownFoodSpots) {
         //    Debug.Log("Madpunkt" + knownFoodSpots[item.Key]);
         //}
@@ -96,7 +99,6 @@ public class FishBehaviour : MonoBehaviour
             if (knownFoodSpots.ContainsKey(othersId) && _mathTools.GetDistanceBetweenVectors(other.transform.position, transform.position) < 4.5f)
             {
                 knownFoodSpots.Remove(othersId);
-                Debug.Log("Jeg fjernede maden i collider exit");
             }
             if (inInnerCollider.ContainsKey(othersId))
             {
@@ -106,6 +108,16 @@ public class FishBehaviour : MonoBehaviour
         }
         else if (other.tag.Equals("Fish"))
         {
+            if (_mathTools.GetDistanceBetweenVectors(transform.position, other.gameObject.transform.position) >= _innerCollider.radius)
+                return;
+
+            FishBehaviour fishBehav = other.GetComponent<FishBehaviour>();
+            if (fishBehav == null)
+                return;
+
+            if (_nearbyFish.Contains(fishBehav))
+                _nearbyFish.Remove(fishBehav);
+
             int othersId = other.GetComponent<FishBehaviour>().Fish.Id;
             if (nearbyFish.ContainsKey(othersId))
             {
@@ -124,9 +136,15 @@ public class FishBehaviour : MonoBehaviour
         // Check if the object detected is another fish, or an obstacle.
         if (other.tag.Equals("Fish"))
         {
+            if (_mathTools.GetDistanceBetweenVectors(transform.position, other.gameObject.transform.position) <= _innerCollider.radius)
+                return;
+
             FishBehaviour fishBehav = other.GetComponent<FishBehaviour>();
             if (fishBehav == null)
                 return;
+
+            if (!_nearbyFish.Contains(fishBehav))
+                _nearbyFish.Add(fishBehav);
 
             if (!nearbyFish.ContainsKey(fishBehav.Fish.Id))
             {
@@ -141,15 +159,12 @@ public class FishBehaviour : MonoBehaviour
         else if (other.tag.Equals("Obstacle") || (other.tag.Equals("Net")))
         {
             Vector3 closestPos = other.ClosestPoint(transform.position);
-            //Debug.DrawRay(transform.position, closestPos, Color.red, 60f);
             if (_mathTools.GetDistanceBetweenVectors(transform.position, closestPos) < 1)
             {
                 if (_isObstacleDetected = IsHeadingTowardsPoint(closestPos))
                 {
                     int offset = 1;
                     directions.dodgeCollisionDirection = FindFreeDir(closestPos, ref offset);
-                    //Debug.LogWarning("NewDir: " + directions.dodgeCollisionDirection);
-                    //Debug.DrawRay(transform.position, directions.dodgeCollisionDirection - transform.position, Color.green, 60);
                 }
             }
         }
@@ -467,7 +482,6 @@ public class FishBehaviour : MonoBehaviour
         {
             return new Vector3(0, 0, 0);
         }
-        Debug.Log("Jeg kan ikke se mad");
         foreach (Vector3 vec in lastKnownFoodSpots)
         {
             factor = (1 / (_mathTools.GetDistanceBetweenVectors(vec, this.transform.position)));
@@ -482,12 +496,19 @@ public class FishBehaviour : MonoBehaviour
     public Vector3 SwimTowardsOtherFish() {
         Vector3 D_3 = new Vector3(0, 0, 0);
         float distanceBetweenFish;
-        foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
-            distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(transform.position, item.Value.transform.position) / nearbyFish.Count;
-            D_3.x += distanceBetweenFish * (item.Value.transform.position.x - transform.position.x);
-            D_3.y += distanceBetweenFish * (item.Value.transform.position.y - transform.position.y);
-            D_3.z += distanceBetweenFish * (item.Value.transform.position.z - transform.position.z);
+        foreach (FishBehaviour fish in _nearbyFish)
+        {
+            distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) / _nearbyFish.Count;
+            D_3.x += distanceBetweenFish * (fish.transform.position.x - transform.position.x);
+            D_3.y += distanceBetweenFish * (fish.transform.position.y - transform.position.y);
+            D_3.z += distanceBetweenFish * (fish.transform.position.z - transform.position.z);
         }
+        //foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
+        //    distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(transform.position, item.Value.transform.position) / nearbyFish.Count;
+        //    D_3.x += distanceBetweenFish * (item.Value.transform.position.x - transform.position.x);
+        //    D_3.y += distanceBetweenFish * (item.Value.transform.position.y - transform.position.y);
+        //    D_3.z += distanceBetweenFish * (item.Value.transform.position.z - transform.position.z);
+        //}
         return D_3;
     }
     #endregion
@@ -495,12 +516,19 @@ public class FishBehaviour : MonoBehaviour
     #region Swim with fish
     private Vector3 SwimWithFriends() {
         Vector3 D_3 = new Vector3(0, 0, 0);
-        foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
-            D_3 = item.Value.Fish.CurrentDirection;
-            /*D_3.x += item.Value.Fish.CurrentDirection.x / nearbyFish.Count;
-            D_3.y += item.Value.Fish.CurrentDirection.y / nearbyFish.Count;
-            D_3.z += item.Value.Fish.CurrentDirection.z / nearbyFish.Count;*/
+        foreach (FishBehaviour fish in _nearbyFish)
+        {
+            D_3.x += Fish.CurrentDirection.x / nearbyFish.Count;
+            D_3.y += Fish.CurrentDirection.y / nearbyFish.Count;
+            D_3.z += Fish.CurrentDirection.z / nearbyFish.Count;
         }
+
+        //foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
+        //    D_3 = item.Value.Fish.CurrentDirection;
+        //    /*D_3.x += item.Value.Fish.CurrentDirection.x / nearbyFish.Count;
+        //    D_3.y += item.Value.Fish.CurrentDirection.y / nearbyFish.Count;
+        //    D_3.z += item.Value.Fish.CurrentDirection.z / nearbyFish.Count;*/
+        //}
         return D_3;
     }
     #endregion
@@ -510,23 +538,59 @@ public class FishBehaviour : MonoBehaviour
     {
         Vector3 GoAway = new Vector3(0, 0, 0);
         Vector3 GoCloser = new Vector3(0, 0, 0);
-        foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish)
+        foreach (FishBehaviour item in _nearbyFish)
         {
-            float distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position);
+            float distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
             float distanceFactor = (1 / Mathf.Sin(3 * distanceBetweenFish)) - 1;
             if (distanceBetweenFish < 0.52f)
             {
                 float negativeDistanceFactor = (-1) * (distanceFactor);
-                GoAway.x += negativeDistanceFactor * (item.Value.transform.position.x - transform.position.x) / nearbyFish.Count;
-                GoAway.y += negativeDistanceFactor * (item.Value.transform.position.y - transform.position.y) / nearbyFish.Count;
-                GoAway.z += negativeDistanceFactor * (item.Value.transform.position.z - transform.position.z) / nearbyFish.Count;
+                GoAway.x += negativeDistanceFactor * (item.transform.position.x - transform.position.x) / _nearbyFish.Count;
+                GoAway.y += negativeDistanceFactor * (item.transform.position.y - transform.position.y) / _nearbyFish.Count;
+                GoAway.z += negativeDistanceFactor * (item.transform.position.z - transform.position.z) / _nearbyFish.Count;
             }
-            else if (distanceBetweenFish < 0.86f) {
-                GoCloser.x += (distanceFactor) * (item.Value.transform.position.x - transform.position.x) / nearbyFish.Count;
-                GoCloser.y += (distanceFactor) * (item.Value.transform.position.y - transform.position.y) / nearbyFish.Count;
-                GoCloser.z += (distanceFactor) * (item.Value.transform.position.z - transform.position.z) / nearbyFish.Count;
+            else if (distanceBetweenFish < 0.86f)
+            {
+                GoCloser.x += (distanceFactor) * (item.transform.position.x - transform.position.x) / _nearbyFish.Count;
+                GoCloser.y += (distanceFactor) * (item.transform.position.y - transform.position.y) / _nearbyFish.Count;
+                GoCloser.z += (distanceFactor) * (item.transform.position.z - transform.position.z) / _nearbyFish.Count;
             }
         }
+        //foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish)
+        //{
+        //    float distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position);
+        //    float distanceFactor = (1 / Mathf.Sin(3 * distanceBetweenFish)) - 1;
+        //    if (distanceBetweenFish < 0.52f)
+        //    {
+        //        float negativeDistanceFactor = (-1) * (distanceFactor);
+        //        GoAway.x += negativeDistanceFactor * (item.Value.transform.position.x - transform.position.x) / nearbyFish.Count;
+        //        GoAway.y += negativeDistanceFactor * (item.Value.transform.position.y - transform.position.y) / nearbyFish.Count;
+        //        GoAway.z += negativeDistanceFactor * (item.Value.transform.position.z - transform.position.z) / nearbyFish.Count;
+        //    }
+        //    else if (distanceBetweenFish < 0.86f)
+        //    {
+        //        GoCloser.x += (distanceFactor) * (item.Value.transform.position.x - transform.position.x) / nearbyFish.Count;
+        //        GoCloser.y += (distanceFactor) * (item.Value.transform.position.y - transform.position.y) / nearbyFish.Count;
+        //        GoCloser.z += (distanceFactor) * (item.Value.transform.position.z - transform.position.z) / nearbyFish.Count;
+        //    }
+        //}
+        //foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish)
+        //{
+        //    float distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(item.Value.transform.position, transform.position);
+        //    float distanceFactor = (1 / Mathf.Sin(3 * distanceBetweenFish)) - 1;
+        //    if (distanceBetweenFish < 0.52f)
+        //    {
+        //        float negativeDistanceFactor = (-1) * (distanceFactor);
+        //        GoAway.x += negativeDistanceFactor * (item.Value.transform.position.x - transform.position.x) / nearbyFish.Count;
+        //        GoAway.y += negativeDistanceFactor * (item.Value.transform.position.y - transform.position.y) / nearbyFish.Count;
+        //        GoAway.z += negativeDistanceFactor * (item.Value.transform.position.z - transform.position.z) / nearbyFish.Count;
+        //    }
+        //    else if (distanceBetweenFish < 0.86f) {
+        //        GoCloser.x += (distanceFactor) * (item.Value.transform.position.x - transform.position.x) / nearbyFish.Count;
+        //        GoCloser.y += (distanceFactor) * (item.Value.transform.position.y - transform.position.y) / nearbyFish.Count;
+        //        GoCloser.z += (distanceFactor) * (item.Value.transform.position.z - transform.position.z) / nearbyFish.Count;
+        //    }
+        //}
         return GoAway + GoCloser;
     }
     #endregion
@@ -546,18 +610,18 @@ public class FishBehaviour : MonoBehaviour
         {
             return new Vector3(0, 0, 0);
         }
-        bool schooling = false;
+        bool schooling = IsSchooling();
         bool isThereNearbyFood = false;
         directions.previousDirection = _fish.CurrentDirection;
         directions.optimalDepthDirection = SearchForOptimalDepth();
-        foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
-            if (_mathTools.GetDistanceBetweenVectors(transform.position, item.Value.transform.position) < 1f)
-            {
-                schooling = true;
+        //foreach (KeyValuePair<int, FishBehaviour> item in nearbyFish) {
+        //    if (_mathTools.GetDistanceBetweenVectors(transform.position, item.Value.transform.position) < 1f)
+        //    {
+        //        schooling = true;
 
-                break;
-            }
-        }
+        //        break;
+        //    }
+        //}
         if (knownFoodSpots.Count < 0) {
             isThereNearbyFood = true;
         }
@@ -592,15 +656,13 @@ public class FishBehaviour : MonoBehaviour
             {
                 directions.findFoodDirection = canSeeFood();
                 _fish.CurrentDirection = directions.previousDirection * lambdaAlone.prevDirectionLambda + directions.findFoodDirection * lambdaAlone.findFoodLambda
-                    + directions.swimWithOrToFish * lambdaAlone.findOtherFishLambda + directions.dodgeCollisionDirection * lambdaAlone.collisionDodgeLambda + directions.optimalDepthDirection * lambdaAlone.optimalDepthLambda
-                    ;
+                    + directions.swimWithOrToFish * lambdaAlone.findOtherFishLambda + directions.dodgeCollisionDirection * lambdaAlone.collisionDodgeLambda + directions.optimalDepthDirection * lambdaAlone.optimalDepthLambda;
             }
             else 
             {
                 directions.findFoodDirection = cantSeeFood();
-                _fish.CurrentDirection = directions.previousDirection * lambdaAlone.prevDirectionLambda + directions.findFoodDirection * lambdaAlone.findFoodLambda 
-                    + directions.swimWithOrToFish * lambdaAlone.findOtherFishLambda + directions.dodgeCollisionDirection * lambdaAlone.collisionDodgeLambda + directions.optimalDepthDirection * lambdaAlone.optimalDepthLambda
-                    ;
+                _fish.CurrentDirection = directions.previousDirection * lambdaAlone.prevDirectionLambda + directions.findFoodDirection * lambdaAlone.findFoodLambda
+                    + directions.swimWithOrToFish * lambdaAlone.findOtherFishLambda + directions.dodgeCollisionDirection * lambdaAlone.collisionDodgeLambda + directions.optimalDepthDirection * lambdaAlone.optimalDepthLambda;
             }
         }
         if (!_isObstacleDetected)
@@ -610,6 +672,16 @@ public class FishBehaviour : MonoBehaviour
 
         schooling = false;
         return _fish.CurrentDirection;
+    }
+
+    private bool IsSchooling()
+    {
+        foreach (FishBehaviour fish in _nearbyFish)
+        {
+            if (_mathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) < 1f)
+                return true;
+        }
+        return false;
     }
     #endregion
 
