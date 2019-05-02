@@ -75,7 +75,7 @@ public abstract class Fish
             FishObject.transform.rotation = Quaternion.LookRotation(newdir);
 
             FishObject.GetComponent<Rigidbody>().velocity = (direction - FishObject.transform.position).normalized * 0.5f;
-            Debug.Log("Velocity: " + FishObject.GetComponent<Rigidbody>().velocity);
+            //Debug.Log("Velocity: " + FishObject.GetComponent<Rigidbody>().velocity);
             //FishObject.transform.position += (direction - FishObject.transform.position).normalized * Time.deltaTime * 0.5f;
             //FishObject.transform.Translate((direction - FishObject.transform.position).normalized * Time.deltaTime * 0.5f, Space.Self);
         }
