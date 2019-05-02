@@ -15,7 +15,7 @@ namespace Tests
         //Rainbowtrout TestFish = new Rainbowtrout(0, 0.1f, ); //Vi skal lige finde ud af hvordan vi får en ny regnbueørred at teste med.
         
         // A Test behaves as an ordinary method
-        [Test]
+        /*[Test]
         public void TestOfcanSeeFood()
         {
             GameObject fishbehavourobject = new GameObject();
@@ -26,7 +26,7 @@ namespace Tests
             scriptTest.knownFoodSpots[2] = new Vector3(10,12,13);
             scriptTest.knownFoodSpots[3] = new Vector3(30,20,10);
             Assert.AreEqual(scriptTest.knownFoodSpots[1], scriptTest.canSeeFood());
-        }
+        }*/
         [Test]
         public void TestOfcantSeeFoodWithoutPreviouslySeenFood()
         {

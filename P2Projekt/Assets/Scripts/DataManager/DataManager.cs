@@ -94,7 +94,7 @@ public class DataManager : MonoBehaviour
         for (int i = 0; i < howManyToAdd; i++)
         {
             fishCounter++;
-            fishList.Add(new Rainbowtrout(fishCounter, 0.1f, RainbowPreFab));
+            fishList.Add(new Rainbowtrout(fishCounter, 1f, RainbowPreFab));
         }
     }
 
@@ -186,8 +186,19 @@ public class DataManager : MonoBehaviour
             Debug.Log("StressSum : " + _stressSum);
         }
     }
+    
+    private float getNewRandomDirection;
+    public Vector3 randomPoint;
     public void Update()
     {
         SaveHungerAndStress();
+
+
+        getNewRandomDirection += Time.deltaTime;
+        if (getNewRandomDirection > 5)
+        {
+            getNewRandomDirection = 0;
+            randomPoint = new Vector3(UnityEngine.Random.value * 5 + 5f, UnityEngine.Random.value * 5+5f, UnityEngine.Random.value * 5 +5f);
+        }
     }
 }
