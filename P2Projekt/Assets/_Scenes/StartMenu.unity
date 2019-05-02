@@ -1092,7 +1092,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 4 - 999
+  m_Text: 0 - 999
 --- !u!222 &412741452
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1238,7 +1238,7 @@ GameObject:
   - component: {fileID: 495507793}
   - component: {fileID: 495507792}
   m_Layer: 0
-  m_Name: Variables
+  m_Name: DefaultVariables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1256,7 +1256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b6f92108de46b34888192453add7131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultAmountOfFish: 4
+  defaultAmountOfFish: 2
   defaultHungerLimit: 999
   defaultStressLimit: 999
   defaultDepthOfCage: 15
