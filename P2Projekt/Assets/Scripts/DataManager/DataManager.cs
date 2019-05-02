@@ -98,6 +98,16 @@ public class DataManager : MonoBehaviour
             fishList.Add(new Rainbowtrout(fishCounter, 1f, RainbowPreFab));
         }
     }
+    public void ActivateFishFromPool(double amountToActivate)
+    {
+        for (int i = 0; i < amountToActivate; i++)
+        {
+            fishPool[i].FishObject.SetActive(true);
+            fishPool[i].FishObject.transform.position = new Vector3(0, 0, 0); //Default spawn position
+            fishList.Add(fishPool[i]);
+            fishPool.Remove(fishPool[i]);
+        }
+    }
 
     public void AddFoodToNet(int howManyToAdd, int amountOfFood)
     {
@@ -128,16 +138,6 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void ActivateFishFromPool(double amountToActivate)
-    {
-        for (int i = 0; i < amountToActivate; i++)
-        {
-            fishPool[i].FishObject.SetActive(true);
-            fishPool[i].FishObject.transform.position = new Vector3(0, 0, 0); //Default spawn position
-            fishList.Add(fishPool[i]);
-            fishPool.Remove(fishPool[i]);
-        }
-    }
 
     public void GetAmountOfFishToAddOrRemove(float totalAmountOfFish)
     {
