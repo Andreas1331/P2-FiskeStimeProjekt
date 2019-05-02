@@ -65,9 +65,9 @@ public class FishBehaviour : MonoBehaviour
     private void Update()
     {
         //_fish.MoveTowards(GetNewDirection());
-        UpdateStress();
-        UpdateHunger();
-        AnimateDeath();
+        //UpdateStress();
+        //UpdateHunger();
+        //AnimateDeath();
 
         //Debug.DrawRay(transform.position, _fish.CurrentDirection - transform.position, Color.green);
         //txt.text = "Direction: " + _fish.CurrentDirection;
@@ -75,8 +75,8 @@ public class FishBehaviour : MonoBehaviour
         //    Debug.Log("Madpunkt" + knownFoodSpots[item.Key]);
         //}
         //txt2.text = "Madcount" + knownFoodSpots.Count + " | position af maden: " + knownFoodSpots[0];
-        randomPoint = _dataManager.randomPoint;
-        _fish.MoveTowards(_fish.CurrentDirection);
+        //randomPoint = _dataManager.randomPoint;
+        //_fish.MoveTowards(_fish.CurrentDirection);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -136,8 +136,9 @@ public class FishBehaviour : MonoBehaviour
         else if (other.tag.Equals("Obstacle") || (other.tag.Equals("Net")))
         {
             Vector3 closestPos = other.ClosestPoint(transform.position);
+            Debug.Log(other.ClosestPoint(transform.position));
             //Debug.DrawRay(transform.position, closestPos, Color.red, 60f);
-            if (_mathTools.GetDistanceBetweenVectors(transform.position, closestPos) < 1)
+            if (_mathTools.GetDistanceBetweenVectors(transform.position, closestPos) < 2)
             {
                 if (_isObstacleDetected = IsHeadingTowardsPoint(closestPos))
                 {
@@ -178,8 +179,8 @@ public class FishBehaviour : MonoBehaviour
         //float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, pos);
         //test med ny vinkel
         float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection.normalized, testpos.normalized);
-        Debug.Log("angle between vectors = "+angle);
-        Debug.Log("min retning= " + _fish.CurrentDirection + " den nærmeste retning til klods:" + testpos);
+        //Debug.Log("angle between vectors = "+angle);
+        //Debug.Log("min retning= " + _fish.CurrentDirection + " den nærmeste retning til klods:" + testpos);
         float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection.normalized, testpos.normalized);
         float catheter = _mathTools.GetOpposingCatheter(angle, dist);
         Debug.DrawRay(transform.position,transform.position,Color.black,60f);
@@ -193,6 +194,7 @@ public class FishBehaviour : MonoBehaviour
 
     private Vector3 FindFreeDir(Vector3 pos, ref int offset)
     {
+        Debug.Log("pos = " + pos);
         Vector3 posOne = new Vector3(pos.x + offset, pos.y, pos.z) - transform.position;
         Vector3 posTwo = new Vector3(pos.x - offset, pos.y, pos.z) - transform.position;
 
@@ -200,9 +202,11 @@ public class FishBehaviour : MonoBehaviour
         Debug.DrawRay(transform.position, posTwo, Color.red, 10);
 
         RaycastHit hit;
+        
         if (!Physics.Raycast(transform.position, posOne, out hit, 10, LayerMask.GetMask("Obstacle")))
         {
             Debug.Log("raycast posOne ramte");
+            Debug.Log(hit.point);
             return posOne;
 
         }
