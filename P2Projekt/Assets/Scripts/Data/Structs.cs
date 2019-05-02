@@ -74,7 +74,7 @@ public struct depthFactorLambdaSchool
 }
 public struct directionVectors
 {
-    public Vector3 previousDirection { get; set; }
+    public Vector3 previousPoint { get; set; }
     public Vector3 findFoodDirection { get; set; }
     public Vector3 swimWithOrToFish { get; set; }
     public Vector3 dodgeCollisionDirection { get; set; }

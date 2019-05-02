@@ -58,7 +58,7 @@ namespace Tests
             otherFishObject.AddComponent<FishBehaviour>();
             FishBehaviour otherFish = otherFishObject.GetComponent<FishBehaviour>();
             otherFish.transform.position = new Vector3(2, 0, 8);
-            scriptTest.nearbyFish.Add(0, otherFish);
+            //scriptTest.nearbyFish.Add(0, otherFish);
             Assert.AreEqual(new Vector3(4*Mathf.Sqrt(17),0,16*Mathf.Sqrt(17)), scriptTest.SwimTowardsOtherFish());
         }
 
@@ -89,9 +89,9 @@ namespace Tests
 
 
             //adding the fish to the dictionary
-            scriptTest.nearbyFish.Add(0, otherFish);
-            scriptTest.nearbyFish.Add(1, otherFish1);
-            scriptTest.nearbyFish.Add(2, otherFish2);
+            //scriptTest.nearbyFish.Add(0, otherFish);
+            //scriptTest.nearbyFish.Add(1, otherFish1);
+            //scriptTest.nearbyFish.Add(2, otherFish2);
             Assert.True(comparer.Equals(new Vector3((4 * Mathf.Sqrt(17))/3+(16*Mathf.Sqrt(5))/3+(60)/3, 0, 16 * (Mathf.Sqrt(17))/3+32*(Mathf.Sqrt(5))/3+(80.0f/3.0f)), scriptTest.SwimTowardsOtherFish()));
         }
 
