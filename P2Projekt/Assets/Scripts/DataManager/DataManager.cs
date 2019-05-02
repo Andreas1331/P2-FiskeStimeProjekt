@@ -71,10 +71,11 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void AddFishToNet(int howManyToAdd)
+    public void AddFishToNet(double howManyToAdd)
     {
-        int fishInFishPool = fishPool.Count;
-        int fishToGenerate = howManyToAdd - fishInFishPool;
+        Debug.Log("AddFishToNet with: " + howManyToAdd);
+        double fishInFishPool = fishPool.Count;
+        double fishToGenerate = howManyToAdd - fishInFishPool;
 
         if (fishInFishPool == 0)
         {
@@ -89,7 +90,7 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void SpawnNewFish(int howManyToAdd)
+    public void SpawnNewFish(double howManyToAdd)
     {
         for (int i = 0; i < howManyToAdd; i++)
         {
@@ -115,7 +116,7 @@ public class DataManager : MonoBehaviour
         }
     }
     
-    public void RemoveFishFromNet(int amountToRemove)
+    public void RemoveFishFromNet(double amountToRemove)
     {
         for (int i = 0; i < amountToRemove; i++)
         {
@@ -127,7 +128,7 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void ActivateFishFromPool(int amountToActivate)
+    public void ActivateFishFromPool(double amountToActivate)
     {
         for (int i = 0; i < amountToActivate; i++)
         {
@@ -138,10 +139,11 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void GetAmountOfFishToAddOrRemove(int totalAmountOfFish)
+    public void GetAmountOfFishToAddOrRemove(float totalAmountOfFish)
     {
-        int currentAmountOfFish = fishList.Count;
-        int newAmountOfFish = totalAmountOfFish - currentAmountOfFish;
+        Debug.Log("Gets called getamountoffish");
+        double currentAmountOfFish = fishList.Count;
+        double newAmountOfFish = totalAmountOfFish - currentAmountOfFish;
 
         if(newAmountOfFish > 0)
         {

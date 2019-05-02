@@ -5,7 +5,7 @@ using UnityEngine;
 public class DontDestroyOnLoadVariables : MonoBehaviour
 {
     //Start menu settings
-    public float defaultAmountOfFish = 4;
+    public float defaultAmountOfFish = 23;
     public float defaultHungerLimit = 999;
     public float defaultStressLimit = 999;
     public float defaultDepthOfCage = 15;

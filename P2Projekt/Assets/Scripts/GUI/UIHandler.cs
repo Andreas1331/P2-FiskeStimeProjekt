@@ -56,10 +56,10 @@ public class UIHandler : MonoBehaviour
         //Start-menu and Main Scene objects
         if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 1)
         {
-            FishHealthtxt = GameObject.Find("FishHungerTxt").GetComponent<Text>();
-            FishStresstxt = GameObject.Find("FishStresstxt").GetComponent<Text>();
-            FishDepthtxt = GameObject.Find("FishDepthtxt").GetComponent<Text>();
-            SimSpeedtxt = GameObject.Find("SimSpeedTxt").GetComponent<Text>();
+            FishHealthtxt   = GameObject.Find("FishHungerTxt").GetComponent<Text>();
+            FishStresstxt   = GameObject.Find("FishStresstxt").GetComponent<Text>();
+            FishDepthtxt    = GameObject.Find("FishDepthtxt").GetComponent<Text>();
+            SimSpeedtxt     = GameObject.Find("SimSpeedTxt").GetComponent<Text>();
         }
 
         //General objects
@@ -83,7 +83,7 @@ public class UIHandler : MonoBehaviour
     {
         //_radiusOfCage = DM.DefaultRadiusOfCage;
         //_depthOfCage = DM.DefaultDepthOfCage;
-        //SetSimSpeed(DM.DefaultSimSpeed);
+        //SetSimSpeed(DM.DefaultSimSpeed);if (SceneManager.GetActiveScene().buildIndex == 0)
     }
 
     void Update()
@@ -216,16 +216,17 @@ public class UIHandler : MonoBehaviour
 
     public void InitializeButtonValues()
     {
-            AmountOfFishSlider.value = DDOLV.defaultAmountOfFish;
-            DepthOfCageSlider.value = DDOLV.defaultDepthOfCage;
-            DM.ChangeHungerLimit(DDOLV.defaultHungerLimit);
-            DM.ChangeStressLimit(DDOLV.defaultStressLimit);
-            SetSimSpeed(DDOLV.defaultSimSpeed);
+        AmountOfFishSlider.value = DDOLV.defaultAmountOfFish;
+        DepthOfCageSlider.value = DDOLV.defaultDepthOfCage;
+        DM.ChangeHungerLimit(DDOLV.defaultHungerLimit);
+        DM.ChangeStressLimit(DDOLV.defaultStressLimit);
+        SetSimSpeed(DDOLV.defaultSimSpeed);
     }
 
     public void SetAmountOfFishInSimulationFromSlider()
     {
-        DM.GetAmountOfFishToAddOrRemove((int)AmountOfFishSlider.value);
+        float amountFromSlider = AmountOfFishSlider.value;
+        DM.GetAmountOfFishToAddOrRemove(amountFromSlider);
         AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishSlider.value;
     }
     public void SetAmountOfFishInSimulationFromInput(Text inputText)
