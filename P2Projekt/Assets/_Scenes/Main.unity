@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3500668, g: 0.44915104, b: 0.5880307, a: 1}
+  m_IndirectSpecularColor: {r: 0.3500695, g: 0.4492445, b: 0.58802646, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3732,7 +3732,6 @@ MonoBehaviour:
   CagePrefab: {fileID: 7093261861641521035, guid: 2a6a22725c45c6a45a99f0bcd3dc9abc,
     type: 3}
   defaultRadiusOfCage: 12
-  defaultDepthOfCage: 15
 --- !u!4 &1009735442
 Transform:
   m_ObjectHideFlags: 0
@@ -5779,7 +5778,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -0.000030517, y: -200}
+  m_AnchoredPosition: {x: -0.000030517, y: 126}
   m_SizeDelta: {x: 800, y: 642.6}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1748610986
