@@ -164,7 +164,6 @@ public class DataManager : MonoBehaviour
 
     public void SaveHungerAndStress()
     {
-
         _timer += Time.deltaTime;
 
         if(_timer >= _timerThreshold)
@@ -181,9 +180,6 @@ public class DataManager : MonoBehaviour
             }
             _timer = 0;
 
-
-            Debug.Log("HungerSum : " + _hungerSum);
-            Debug.Log("StressSum : " + _stressSum);
         }
     }
     
