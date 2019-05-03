@@ -7,7 +7,7 @@ public class FoodBehavior : MonoBehaviour
     private Food _food;
     public Food Food { get {  return _food; } set { if (value != null) _food = value; } }
     private DataManager _dataManager;
-    public DataManager DataManager { set { if (value != null) _dataManager = value; } }
+    private DataManager DataManager { set { if (value != null) _dataManager = value; } }
     // Start is called before the first frame update
     void Start()
     {
@@ -32,7 +32,20 @@ public class FoodBehavior : MonoBehaviour
     public void BeingEaten()
     {
         _food.Health--;
-        _dataManager.RemoveFood(_food);
-        transform.gameObject.SetActive(false);
+
+        if(_food.Health <= 0)
+        {
+            _dataManager.RemoveFood(_food);
+            transform.gameObject.SetActive(false);
+
+            foreach(Fish fish in _dataManager.fishList)
+            {
+                FishBehaviour fishBehav = fish.FishObject.GetComponent<FishBehaviour>();
+                if(fishBehav != null)
+                {
+                    fishBehav.EatFood(this);
+                }
+            }
+        }
     }
 }

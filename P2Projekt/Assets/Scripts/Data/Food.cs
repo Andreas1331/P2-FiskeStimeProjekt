@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Food
 {
+
     public int Health { get; set; }
     public int Id { get; set; }
     public GameObject FoodObject { get; set; }
