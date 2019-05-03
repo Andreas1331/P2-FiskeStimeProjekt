@@ -58,7 +58,13 @@ public abstract class Fish
         MaxSpeed = maxSpeed;
         Width = width;
         Stress = 0;
-        Hunger = 500;
+
+        do
+        {
+            Hunger = Random.value * maxHunger;
+        }
+        while (Hunger <= (maxHunger / 2f));
+
         TypeOfFish = typeOfFish;
         DesiredPoint = new Vector3(0, 0, 1);
         FishObject = GameObject.Instantiate(preFab, new Vector3(Random.value*10,Random.value*2,Random.value*5), Quaternion.identity, GameObject.FindGameObjectWithTag("FishContainer").transform);
