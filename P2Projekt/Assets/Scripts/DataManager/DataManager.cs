@@ -200,6 +200,15 @@ public class DataManager : MonoBehaviour
     public Vector3 randomPoint;
     public void Update()
     {
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            SpawnNewFish(10);
+            Debug.LogWarning("Amount: " + fishList.Count);
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+            foreach (Fish fish in fishList)
+                fish.FishObject.GetComponent<FishBehaviour>().draw = !fish.FishObject.GetComponent<FishBehaviour>().draw;
+
         SaveHungerAndStress();
 
 

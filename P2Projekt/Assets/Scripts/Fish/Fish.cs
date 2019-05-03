@@ -42,9 +42,10 @@ public abstract class Fish
         }
     }
     public float Size { get; set; }
-    public Vector3 CurrentDirection { get; set; }
+    public Vector3 DesiredPoint { get; set; }
     public FishType TypeOfFish { get; set; }
     public GameObject FishObject { get; set; }
+    private Rigidbody _rb;
 
     public Fish(int id, float weight, float movementSpeed, float maxSpeed, float width, FishType typeOfFish, GameObject preFab)
     {
@@ -59,20 +60,25 @@ public abstract class Fish
         Stress = 0;
         Hunger = 600;
         TypeOfFish = typeOfFish;
-        CurrentDirection = new Vector3(5, 0, 0);
+        DesiredPoint = new Vector3(0, 0, 1);
         FishObject = GameObject.Instantiate(preFab, new Vector3(Random.value*10,Random.value*2,Random.value*5), Quaternion.identity, GameObject.FindGameObjectWithTag("FishContainer").transform);
         FishObject.GetComponent<FishBehaviour>().Fish = this;
+        _rb = FishObject.GetComponent<Rigidbody>();
     }
 
     public virtual void MoveTowards(Vector3 direction)
     {
         if (!IsDead)
         {
-            CurrentDirection += direction.normalized;
-            FishObject.transform.position = Vector3.MoveTowards(FishObject.transform.position, direction, 0.5f * Time.deltaTime);
+            DesiredPoint += (direction - FishObject.transform.position).normalized;
+            //FishObject.transform.position = Vector3.MoveTowards(FishObject.transform.position, direction, 0.5f * Time.deltaTime);
+
             Vector3 newdir = Vector3.RotateTowards(FishObject.transform.forward, direction - FishObject.transform.position, Time.deltaTime * 5, 2.5f);
             FishObject.transform.rotation = Quaternion.LookRotation(newdir);
-            //FishObject.transform.Translate(direction.normalized * Time.deltaTime, Space.Self);
+
+            _rb.velocity = (direction - FishObject.transform.position) * 0.5f;
+            //FishObject.transform.position += (direction - FishObject.transform.position).normalized * Time.deltaTime * 0.5f;
+            //FishObject.transform.Translate((direction - FishObject.transform.position).normalized * Time.deltaTime * 0.5f, Space.Self);
         }
     }
 }
