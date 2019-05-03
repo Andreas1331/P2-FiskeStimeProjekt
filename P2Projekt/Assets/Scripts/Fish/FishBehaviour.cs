@@ -101,11 +101,6 @@ public class FishBehaviour : MonoBehaviour
                 knownFoodSpots.Remove(othersId);
                 Debug.Log("Jeg fjernede maden i collider exit");
             }
-            if (inInnerCollider.ContainsKey(othersId))
-            {
-                inInnerCollider.Remove(othersId);
-                knownFoodSpots.Add(othersId, other.transform.position);
-            }
         }
         else if (other.tag.Equals("Fish"))
         {
@@ -115,10 +110,6 @@ public class FishBehaviour : MonoBehaviour
                 if (_mathTools.GetDistanceBetweenVectors(other.gameObject.transform.position, transform.position) > 9)
                     nearbyFish.Remove(othersId);
             }
-            //if (innerColliderFish.ContainsKey(othersId)) {
-            //    innerColliderFish.Remove(othersId);
-            //    nearbyFish.Add(othersId, other.GetComponent<FishBehaviour>());
-            //}
         }
     }
 
@@ -135,11 +126,7 @@ public class FishBehaviour : MonoBehaviour
             {
                 nearbyFish.Add(fishBehav.Fish.Id, fishBehav);
             }
-
-            //else {
-            //    nearbyFish.Remove(fishBehav.Fish.Id);
-            //    innerColliderFish.Add(fishBehav.Fish.Id, fishBehav);
-            //}
+            
         }
         else if (other.tag.Equals("Obstacle") || (other.tag.Equals("Net")))
         {
@@ -174,7 +161,6 @@ public class FishBehaviour : MonoBehaviour
                 //grimt workaround
                 knownFoodSpots.Remove(othersFoodBehavior.Food.Id);
                 Debug.Log("Jeg har fjernet maden");
-                //inInnerCollider.Add(othersFoodBehavior.Food.Id, other.transform.position);
             }
         }
     }
@@ -619,14 +605,6 @@ public class FishBehaviour : MonoBehaviour
         return _fish.CurrentDirection;
     }
     #endregion
-
-    private Vector3 collidingwithcagemovementtest(){
-        if (_isObstacleDetected) {
-            _fish.CurrentDirection = directions.dodgeCollisionDirection;
-        }
-
-        return _fish.CurrentDirection;
-    }
 
 
 }
