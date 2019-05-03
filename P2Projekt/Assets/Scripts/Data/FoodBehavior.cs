@@ -16,7 +16,7 @@ public class FoodBehavior : MonoBehaviour
         bool yPos = (Random.value < 0.5f);
         bool zPos = (Random.value < 0.5f);
         
-        transform.position = new Vector3(Random.value*10, Random.value * (-5), Random.value * 10);
+        transform.position = new Vector3(Random.value* _dataManager.UI.Cage.gameObject.transform.lossyScale.x / 3.75f, Random.value * _dataManager.UI.Cage.gameObject.transform.lossyScale.y / 3.75f, Random.value * _dataManager.UI.Cage.gameObject.transform.lossyScale.z / 3.75f);
         if (xPos)
             transform.position = new Vector3(-transform.position.x, transform.position.y, transform.position.z);
         if (yPos)
