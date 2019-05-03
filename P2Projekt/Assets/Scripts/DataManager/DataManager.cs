@@ -53,27 +53,23 @@ public class DataManager : MonoBehaviour
         return false;
     }
 
-    public void RemoveFish(Fish fishToRemove)
+    public void GetAmountOfFishToAddOrRemove(float totalAmountOfFish)
     {
-        if (fishList.Contains(fishToRemove)) {
-            fishPool.Add(fishToRemove);
-            fishList.Remove(fishToRemove);
-            deathCounter++;
-        }
-    }
+        double currentAmountOfFish = fishList.Count;
+        double newAmountOfFish = totalAmountOfFish - currentAmountOfFish;
 
-    public void RemoveFood(Food foodToRemove)
-    {
-        if (foodList.Contains(foodToRemove))
+        if (newAmountOfFish > 0)
         {
-            foodPool.Add(foodToRemove);
-            foodList.Remove(foodToRemove);         
+            AddFishToNet(newAmountOfFish);
+        }
+        else
+        {
+            RemoveFishFromNet(-1 * newAmountOfFish);
         }
     }
 
     public void AddFishToNet(double howManyToAdd)
     {
-        Debug.Log("AddFishToNet with: " + howManyToAdd);
         double fishInFishPool = fishPool.Count;
         double fishToGenerate = howManyToAdd - fishInFishPool;
 
@@ -102,10 +98,61 @@ public class DataManager : MonoBehaviour
     {
         for (int i = 0; i < amountToActivate; i++)
         {
-            fishPool[i].FishObject.SetActive(true);
-            fishPool[i].FishObject.transform.position = new Vector3(0, 0, 0); //Default spawn position
-            fishList.Add(fishPool[i]);
-            fishPool.Remove(fishPool[i]);
+            fishPool[0].FishObject.SetActive(true);
+            fishPool[0].FishObject.transform.position = new Vector3(0, 0, 0); //Default spawn position
+            fishList.Add(fishPool[0]);
+            fishPool.Remove(fishPool[0]);
+        }
+    }
+    public void RemoveFishFromNet(double amountToRemove)
+    {
+        int maxAmountOfFishInList = fishList.Count;
+        for (int i = maxAmountOfFishInList-1; i >= maxAmountOfFishInList - amountToRemove; i--)
+        {
+            fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
+            fishList[i].FishObject.SetActive(false);
+
+            fishPool.Add(fishList[i]);
+            fishList.Remove(fishList[i]);
+        }
+    }
+    //public void RemoveFishFromNet(double amountToRemove)
+    //{
+    //    int maxAmountOfFishInList = fishList.Count;
+    //    for (int i = 0; i < amountToRemove; i++)
+    //    {
+    //        fishList[0].FishObject.transform.position = new Vector3(0, 10000, 0);
+    //        fishList[0].FishObject.SetActive(false);
+
+    //        fishPool.Add(fishList[0]);
+    //        fishList.Remove(fishList[0]);
+    //    }
+    //}
+
+    public void KillFish(int amountToKill)
+    {
+        for (int i = 0; i < amountToKill; i++)
+        {
+            fishList[i].IsDead = true;
+        }
+    }
+
+    public void RemoveFish(Fish fishToRemove)
+    {
+        if (fishList.Contains(fishToRemove))
+        {
+            fishPool.Add(fishToRemove);
+            fishList.Remove(fishToRemove);
+            deathCounter++;
+        }
+    }
+
+    public void RemoveFood(Food foodToRemove)
+    {
+        if (foodList.Contains(foodToRemove))
+        {
+            foodPool.Add(foodToRemove);
+            foodList.Remove(foodToRemove);
         }
     }
 
@@ -117,43 +164,7 @@ public class DataManager : MonoBehaviour
             foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood));
         }
     }
-
-    public void KillFish(int amountToKill)
-    {
-        for (int i = 0; i < amountToKill; i++)
-        {
-            fishList[i].IsDead = true;
-        }
-    }
     
-    public void RemoveFishFromNet(double amountToRemove)
-    {
-        for (int i = 0; i < amountToRemove; i++)
-        {
-            fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
-            fishList[i].FishObject.SetActive(false);
-
-            fishPool.Add(fishList[i]);
-            fishList.Remove(fishList[i]);
-        }
-    }
-
-
-    public void GetAmountOfFishToAddOrRemove(float totalAmountOfFish)
-    {
-        Debug.Log("Gets called getamountoffish");
-        double currentAmountOfFish = fishList.Count;
-        double newAmountOfFish = totalAmountOfFish - currentAmountOfFish;
-
-        if(newAmountOfFish > 0)
-        {
-            AddFishToNet(newAmountOfFish);
-        } else
-        {
-            RemoveFishFromNet(Math.Abs(newAmountOfFish));
-        }   
-    }
-
     public void ChangeHungerLimit(float newMaxHunger)
     {
         Fish.maxHunger = newMaxHunger;

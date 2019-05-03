@@ -91,7 +91,7 @@ public class FishBehaviour : MonoBehaviour
             int othersId = other.GetComponent<FoodBehavior>().Food.Id;
             if (knownFoodSpots.ContainsKey(othersId) && _mathTools.GetDistanceBetweenVectors(other.transform.position, transform.position) < 4.5f)
             { knownFoodSpots.Remove(othersId);
-                Debug.Log("Jeg fjernede maden i collider exit");
+                //Debug.Log("Jeg fjernede maden i collider exit");
             }
             if (inInnerCollider.ContainsKey(othersId))
             {
@@ -155,16 +155,16 @@ public class FishBehaviour : MonoBehaviour
             {
                 knownFoodSpots.Add(othersFoodBehavior.Food.Id, other.transform.position);
                 lastKnownFoodSpots.Add(other.transform.position);
-                Debug.Log("Jeg har tilføjet maden til dictionary og listen");
+                //Debug.Log("Jeg har tilføjet maden til dictionary og listen");
             }
             else if (_mathTools.GetDistanceBetweenVectors(other.transform.position, transform.position) < 1.5f)
             {
                 _fish.Hunger = Fish.maxHunger;
-                Debug.Log("Jeg spiste maden");
+                //Debug.Log("Jeg spiste maden");
                 othersFoodBehavior.BeingEaten();
                 //grimt workaround
                 knownFoodSpots.Remove(othersFoodBehavior.Food.Id);
-                Debug.Log("Jeg har fjernet maden");
+                //Debug.Log("Jeg har fjernet maden");
                 //inInnerCollider.Add(othersFoodBehavior.Food.Id, other.transform.position);
             }
         }
@@ -178,13 +178,13 @@ public class FishBehaviour : MonoBehaviour
         //float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection, pos);
         //test med ny vinkel
         float angle = _mathTools.GetAngleBetweenVectors(_fish.CurrentDirection.normalized, testpos.normalized);
-        Debug.Log("angle between vectors = "+angle);
-        Debug.Log("min retning= " + _fish.CurrentDirection + " den nærmeste retning til klods:" + testpos);
+        //Debug.Log("angle between vectors = "+angle);
+        //Debug.Log("min retning= " + _fish.CurrentDirection + " den nærmeste retning til klods:" + testpos);
         float dist = _mathTools.GetDistanceBetweenVectors(_fish.CurrentDirection.normalized, testpos.normalized);
         float catheter = _mathTools.GetOpposingCatheter(angle, dist);
         Debug.DrawRay(transform.position,transform.position,Color.black,60f);
         catheter = pos.x / testpos.normalized.x*catheter*10f;
-        Debug.Log("test = "+ catheter);
+        //Debug.Log("test = "+ catheter);
         //test
         return true;
         //gamle
@@ -202,19 +202,19 @@ public class FishBehaviour : MonoBehaviour
         RaycastHit hit;
         if (!Physics.Raycast(transform.position, posOne, out hit, 10, LayerMask.GetMask("Obstacle")))
         {
-            Debug.Log("raycast posOne ramte");
+            //Debug.Log("raycast posOne ramte");
             return posOne;
 
         }
         else if (!Physics.Raycast(transform.position, posTwo, out hit, 10, LayerMask.GetMask("Obstacle")))
         {
-            Debug.Log("Raycast posTwo ramte");
+            //Debug.Log("Raycast posTwo ramte");
             return posTwo;
 
         }
 
         offset++;
-        Debug.Log("offset = " + offset);
+        //Debug.Log("offset = " + offset);
         return FindFreeDir(pos, ref offset);
     }
 
@@ -514,7 +514,7 @@ public class FishBehaviour : MonoBehaviour
         {
             return new Vector3(0, 0, 0);
         }
-        Debug.Log("Jeg kan ikke se mad");
+        //Debug.Log("Jeg kan ikke se mad");
         foreach (Vector3 vec in lastKnownFoodSpots)
         {
             factor = (1 / (_mathTools.GetDistanceBetweenVectors(vec, this.transform.position)));
@@ -660,7 +660,7 @@ public class FishBehaviour : MonoBehaviour
         {
             directions.dodgeCollisionDirection = new Vector3(0, 0, 0);
         }
-        Debug.Log(_fish.CurrentDirection);
+        //Debug.Log(_fish.CurrentDirection);
         //Debug.Log(Vector3.Normalize(_fish.CurrentDirection));
         //schooling = false;
         return _fish.CurrentDirection;
@@ -670,7 +670,7 @@ public class FishBehaviour : MonoBehaviour
     private Vector3 collidingwithcagemovementtest(){
         if (_isObstacleDetected) {
             _fish.CurrentDirection = directions.dodgeCollisionDirection;
-            Debug.Log("collisionsdodge = " + directions.dodgeCollisionDirection);
+            //Debug.Log("collisionsdodge = " + directions.dodgeCollisionDirection);
         }
 
         return _fish.CurrentDirection;
