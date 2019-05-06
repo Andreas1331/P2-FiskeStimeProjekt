@@ -9,8 +9,7 @@ namespace Mathtools
             float xDifference = (vec2.x - vec1.x);
             float yDifference = (vec2.y - vec1.y);
             float zDifference = (vec2.z - vec1.z);
-            float distanceBetweenVectors = Mathf.Sqrt(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
-            return distanceBetweenVectors;
+            return Mathf.Sqrt(xDifference * xDifference + yDifference * yDifference + zDifference * zDifference);
         }
 
         public float GetAngleBetweenVectors(Vector3 vec1, Vector3 vec2)
