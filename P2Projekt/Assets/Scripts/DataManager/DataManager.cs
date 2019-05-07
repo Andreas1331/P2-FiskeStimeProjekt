@@ -23,7 +23,6 @@ public class DataManager : MonoBehaviour
     private float _hungerSum;
     private float _stressSum;
 
-    
     // Start is called before the first frame update
     public void Start()
     {

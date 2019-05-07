@@ -70,11 +70,12 @@ public abstract class Fish
         _rb = FishObject.GetComponent<Rigidbody>();
     }
 
-    public virtual void MoveTowards(Vector3 position)
+    public virtual void Swim()
     {
         if (!IsDead)
         {
-            Vector3 dir = MathTools.GetDirectionVector3(FishObject.transform.position, position);
+            Vector3 dir = MathTools.GetDirectionVector3(FishObject.transform.position, DesiredPoint);
+            //Vector3 dir = MathTools.GetDirectionVector3(FishObject.transform.position, position);
 
             DesiredPoint += dir.normalized;
 
