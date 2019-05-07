@@ -49,6 +49,7 @@ public abstract class Fish
 
     public Fish(int id, float weight, float movementSpeed, float maxSpeed, float width, FishType typeOfFish, GameObject preFab)
     {
+        //Set variables and generate random hunger level. 
         maxHunger = 1000;
         maxStress = 1000;
         Id = id;
@@ -58,30 +59,36 @@ public abstract class Fish
         MaxSpeed = maxSpeed;
         Width = width;
         Stress = 0;
-
+        TypeOfFish = typeOfFish;    
         do
         {
             Hunger = Random.value * maxHunger;
         }
         while (Hunger <= (maxHunger / 2f));
 
-        TypeOfFish = typeOfFish;
-        DesiredPoint = new Vector3(0, 0, 1);
+        // Instantiate the physical GameObject in the world and find the needed components.
         FishObject = GameObject.Instantiate(preFab, new Vector3(Random.value*10,Random.value*2,Random.value*5), Quaternion.identity, GameObject.FindGameObjectWithTag("FishContainer").transform);
         FishObject.GetComponent<FishBehaviour>().Fish = this;
         _rb = FishObject.GetComponent<Rigidbody>();
     }
 
-    public virtual void MoveTowards(Vector3 direction)
+    public virtual void MoveTowards(Vector3 position)
     {
         if (!IsDead)
         {
-            DesiredPoint += (direction - FishObject.transform.position).normalized;
+            Vector3 dir = MathTools.GetDirectionVector3(FishObject.transform.position, position);
 
-            Vector3 newdir = Vector3.RotateTowards(FishObject.transform.forward, direction - FishObject.transform.position, Time.deltaTime * 5, 2.5f);
-            FishObject.transform.rotation = Quaternion.LookRotation(newdir);
+            DesiredPoint += dir.normalized;
 
-            _rb.velocity = (direction - FishObject.transform.position).normalized * 0.5f;
+            RotateTowards(dir);
+
+            _rb.velocity = (dir.normalized * MovementSpeed);
         }
+    }
+
+    private void RotateTowards(Vector3 direction)
+    {
+        Vector3 newRotDir = Vector3.RotateTowards(FishObject.transform.forward, direction, Time.deltaTime * 5, 2.5f);
+        FishObject.transform.rotation = Quaternion.LookRotation(newRotDir);
     }
 }

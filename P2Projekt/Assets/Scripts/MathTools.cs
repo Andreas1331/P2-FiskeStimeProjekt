@@ -30,4 +30,9 @@ public static class MathTools
     {
         return Mathf.PI * angle / 180;
     }
+
+    public static Vector3 GetDirectionVector3(Vector3 positionFrom, Vector3 positionTo)
+    {
+        return (positionTo - positionFrom);
+    }
 }
