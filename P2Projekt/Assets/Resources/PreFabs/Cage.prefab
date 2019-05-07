@@ -102,7 +102,7 @@ GameObject:
   - component: {fileID: 158686132}
   m_Layer: 8
   m_Name: Cage
-  m_TagString: Net
+  m_TagString: Cage
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

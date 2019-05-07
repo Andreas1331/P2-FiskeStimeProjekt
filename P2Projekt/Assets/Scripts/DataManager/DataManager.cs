@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.Data;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -24,7 +23,6 @@ public class DataManager : MonoBehaviour
     private float _hungerSum;
     private float _stressSum;
 
-    
     // Start is called before the first frame update
     public void Start()
     {
@@ -60,15 +58,15 @@ public class DataManager : MonoBehaviour
 
         if (newAmountOfFish > 0)
         {
-            AddFishToNet(newAmountOfFish);
+            AddFishToCage(newAmountOfFish);
         }
         else
         {
-            RemoveFishFromNet(-1 * newAmountOfFish);
+            RemoveFishFromCage(-1 * newAmountOfFish);
         }
     }
 
-    public void AddFishToNet(double howManyToAdd)
+    public void AddFishToCage(double howManyToAdd)
     {
         double fishInFishPool = fishPool.Count;
         double fishToGenerate = howManyToAdd - fishInFishPool;
@@ -94,6 +92,7 @@ public class DataManager : MonoBehaviour
             fishList.Add(new Rainbowtrout(fishCounter, 1f, RainbowPreFab));
         }
     }
+
     public void ActivateFishFromPool(double amountToActivate)
     {
         for (int i = 0; i < amountToActivate; i++)
@@ -104,7 +103,7 @@ public class DataManager : MonoBehaviour
             fishPool.Remove(fishPool[0]);
         }
     }
-    public void RemoveFishFromNet(double amountToRemove)
+    public void RemoveFishFromCage(double amountToRemove)
     {
         int maxAmountOfFishInList = fishList.Count;
         for (int i = maxAmountOfFishInList-1; i >= maxAmountOfFishInList - amountToRemove; i--)
@@ -156,7 +155,7 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void AddFoodToNet(int howManyToAdd, int amountOfFood)
+    public void AddFoodToCage(int howManyToAdd, int amountOfFood)
     {
         for (int i = 0; i < howManyToAdd; i++)
         {
@@ -196,8 +195,6 @@ public class DataManager : MonoBehaviour
         }
     }
     
-    private float getNewRandomDirection;
-    public Vector3 randomPoint;
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))
@@ -205,18 +202,7 @@ public class DataManager : MonoBehaviour
             SpawnNewFish(10);
             Debug.LogWarning("Amount: " + fishList.Count);
         }
-        else if (Input.GetKeyDown(KeyCode.O))
-            foreach (Fish fish in fishList)
-                fish.FishObject.GetComponent<FishBehaviour>().draw = !fish.FishObject.GetComponent<FishBehaviour>().draw;
 
         SaveHungerAndStress();
-
-
-        getNewRandomDirection += Time.deltaTime;
-        if (getNewRandomDirection > 5)
-        {
-            getNewRandomDirection = 0;
-            randomPoint = new Vector3(UnityEngine.Random.value * 5 + 5f, UnityEngine.Random.value * 5+5f, UnityEngine.Random.value * 5 +5f);
-        }
     }
 }

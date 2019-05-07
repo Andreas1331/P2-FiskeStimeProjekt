@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Assets.Scripts.Data;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -41,7 +40,6 @@ namespace Tests
             GameObject fishbehavourobject = new GameObject();
             fishbehavourobject.AddComponent<FishBehaviour>();
             FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
-            scriptTest.MathTools = new Mathtools.MathTools();
             //scriptTest.lastKnownFoodSpots.Add(new Vector3(3, 0, 0));
             //scriptTest.lastKnownFoodSpots.Add(new Vector3(1, 0, 0));
             //scriptTest.lastKnownFoodSpots.Add(new Vector3(7, 0, 0));
@@ -53,7 +51,6 @@ namespace Tests
             GameObject fishbehavourobject = new GameObject();
             fishbehavourobject.AddComponent<FishBehaviour>();
             FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
-            scriptTest.MathTools = new Mathtools.MathTools();
             GameObject otherFishObject = new GameObject();
             otherFishObject.AddComponent<FishBehaviour>();
             FishBehaviour otherFish = otherFishObject.GetComponent<FishBehaviour>();
@@ -70,7 +67,6 @@ namespace Tests
             GameObject fishbehavourobject = new GameObject();
             fishbehavourobject.AddComponent<FishBehaviour>();
             FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
-            scriptTest.MathTools = new Mathtools.MathTools();
             //adding other fish
             GameObject otherFishObject = new GameObject();
             otherFishObject.AddComponent<FishBehaviour>();

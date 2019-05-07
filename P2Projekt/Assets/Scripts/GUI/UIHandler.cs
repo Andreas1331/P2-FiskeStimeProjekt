@@ -93,7 +93,7 @@ public class UIHandler : MonoBehaviour
             TogglePauseMenuInGame();
         }
         if (Input.GetKeyUp(KeyCode.K)) {
-            DM.AddFoodToNet(2,5);
+            DM.AddFoodToCage(2,5);
         }
     }
 
