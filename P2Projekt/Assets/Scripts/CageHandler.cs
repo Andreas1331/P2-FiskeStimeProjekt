@@ -37,7 +37,7 @@ public class CageHandler : MonoBehaviour
             GameObject obj = Instantiate(prefabCollider, coords[i], Quaternion.identity, transform);
             obj.transform.localScale = new Vector3(0.3f, 0.5f, 0.15f); //new Vector3(0.275f, 0.5f, 0.15f);
             obj.transform.LookAt(this.transform);
-            obj.transform.tag = "Net";
+            obj.transform.tag = "Cage";
         }
     }
 }

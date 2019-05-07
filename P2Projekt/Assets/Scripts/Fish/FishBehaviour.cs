@@ -137,7 +137,7 @@ public class FishBehaviour : MonoBehaviour
             if (!_nearbyFish.Contains(fishBehav))
                 _nearbyFish.Add(fishBehav);
         }
-        else if (other.tag.Equals("Obstacle") || (other.tag.Equals("Net")))
+        else if (other.tag.Equals("Obstacle") || (other.tag.Equals("Cage")))
         {
             Vector3 closestPos = other.ClosestPoint(transform.position);
 
