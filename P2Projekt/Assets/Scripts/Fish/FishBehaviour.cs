@@ -12,26 +12,26 @@ public class FishBehaviour : MonoBehaviour
     private DataManager _dataManager;
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
 
-    private GameObject _net;
-    public GameObject Net { set { if (value != null) _net = value; } }
+    private GameObject _cage;
+    public GameObject Cage { set { if (value != null) _cage = value; } }
 
     private bool _isObstacleDetected = false;
     private List<Vector3> lastKnownFoodSpots = new List<Vector3>();
     private Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
 
-    public List<FishBehaviour> _nearbyFish = new List<FishBehaviour>();
-    public List<FoodBehavior> _nearbyFood = new List<FoodBehavior>();
+    private List<FishBehaviour> _nearbyFish = new List<FishBehaviour>();
+    private List<FoodBehavior> _nearbyFood = new List<FoodBehavior>();
 
     private SphereCollider _outerCollider;
     private SphereCollider _innerCollider;
 
-    //Stress
+    // Stress variables
     private float timerToDie = 0;
     private float timerToResetTimer = 0;
-    private const float _stressMultiplier = 1.5f; //tidligere 1,5
+    private const float _stressMultiplier = 1.5f; 
 
-    private float removePointTimer;
-    public List<Vector3> savedKnownFoodSpots = new List<Vector3>();
+    private float _removePointTimer;
+    private List<Vector3> _savedKnownFoodSpots = new List<Vector3>();
     #region Lambda structs
     private LambdaAlone lambdaAlone = new LambdaAlone();
     private LambdaSchool lambdaSchool = new LambdaSchool();
@@ -47,30 +47,30 @@ public class FishBehaviour : MonoBehaviour
     private Material _mat;
     private Color _defaultColor = new Color(191 / 255f, 249 / 255f, 249 / 255f, 255 / 255f);
 
-    private Vector3 uniqueOffset;
+    private Vector3 _uniqueOffset;
 
     private void Start()
     {
+        // Set the references to the DataManager and cage found in the scene
         DataManager = FindObjectOfType<DataManager>();
+        Cage = GameObject.FindGameObjectWithTag("Cage");
 
-        Net = GameObject.FindGameObjectWithTag("Net");
-
-        GetComponent<SphereCollider>().radius = 5f;
-
+        // Find both the colliders attached to the GameObject
         _outerCollider = GetComponents<SphereCollider>()[0];
+        _outerCollider.radius = 5f;
         _innerCollider = GetComponents<SphereCollider>()[1];
 
         // Generate randomly last known food positions
         for (int i = 0; i < 5; i++)
-           lastKnownFoodSpots.Add(new Vector3(Random.value * (_net.gameObject.transform.lossyScale.x / 3.75f), Random.value * (_net.gameObject.transform.lossyScale.y / 3.75f), Random.value * (_net.gameObject.transform.lossyScale.z / 3.75f)));
+           lastKnownFoodSpots.Add(new Vector3(Random.value * (_cage.gameObject.transform.lossyScale.x / 3.75f), Random.value * (_cage.gameObject.transform.lossyScale.y / 3.75f), Random.value * (_cage.gameObject.transform.lossyScale.z / 3.75f)));
 
         GenerateRandomOffset();
     }
 
     private void GenerateRandomOffset()
     {
-        uniqueOffset = new Vector3(GetRandomFloat(), GetRandomFloat(), GetRandomFloat());
-        uniqueOffset *= 1.5f;
+        _uniqueOffset = new Vector3(GetRandomFloat(), GetRandomFloat(), GetRandomFloat());
+        _uniqueOffset *= 1.5f;
     }
 
     private float GetRandomFloat()
@@ -81,7 +81,7 @@ public class FishBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        _fish.MoveTowards(GetNewDirection());
+        _fish.MoveTowards(GetNewPosition());
         UpdateStress();
         UpdateHunger();
         AnimateDeath();
@@ -176,11 +176,11 @@ public class FishBehaviour : MonoBehaviour
         if(_nearbyFood.Contains(food))
             _nearbyFood.Remove(food);
 
-        foreach (Vector3 point in savedKnownFoodSpots)
+        foreach (Vector3 point in _savedKnownFoodSpots)
         {
             lastKnownFoodSpots.Add(point);
         }
-        savedKnownFoodSpots.Clear();
+        _savedKnownFoodSpots.Clear();
     }
 
     private bool IsHeadingTowardsPoint(Vector3 pos)
@@ -394,7 +394,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void setDepthFactorsAlone()
     {
-        depthFactorsAlone.OptimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
+        depthFactorsAlone.OptimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_cage.transform.lossyScale.y / 2 - transform.position.y), 2))) / _cage.transform.lossyScale.y / 2;
         float theRest = (1 - depthFactorsAlone.OptimalDepthDepth) / 4;
         depthFactorsAlone.PrevDirectionDepth = theRest;
         depthFactorsAlone.FindFoodDepth = theRest;
@@ -404,7 +404,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void setDepthFactorsSchool()
     {
-        depthFactorsSchool.OptimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_net.transform.lossyScale.y / 2 - transform.position.y), 2))) / _net.transform.lossyScale.y / 2;
+        depthFactorsSchool.OptimalDepthDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_cage.transform.lossyScale.y / 2 - transform.position.y), 2))) / _cage.transform.lossyScale.y / 2;
         //find bedre navn gidder ikke lige nu
         float theRest = (1 - depthFactorsSchool.OptimalDepthDepth) / 5;
         depthFactorsSchool.PrevDirectionDepth = theRest;
@@ -481,21 +481,21 @@ public class FishBehaviour : MonoBehaviour
             sumVecD3 = GetclosestPoint(lastKnownFoodSpots);
 
         if (MathTools.GetDistanceBetweenVectors(sumVecD3, transform.position) < 1f) {
-            removePointTimer += Time.deltaTime;
+            _removePointTimer += Time.deltaTime;
         }
-        if (removePointTimer > 4) {
-            removePointTimer = 0;
+        if (_removePointTimer > 4) {
+            _removePointTimer = 0;
             lastKnownFoodSpots.Remove(sumVecD3);
-            savedKnownFoodSpots.Add(sumVecD3);
+            _savedKnownFoodSpots.Add(sumVecD3);
         }
 
         if(lastKnownFoodSpots.Count <= 0)
         {
-            foreach (Vector3 point in savedKnownFoodSpots)
+            foreach (Vector3 point in _savedKnownFoodSpots)
             {
                 lastKnownFoodSpots.Add(point);
             }
-            savedKnownFoodSpots.Clear();
+            _savedKnownFoodSpots.Clear();
         }
 
         return sumVecD3;
@@ -578,22 +578,17 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region Get new direction
-    private Vector3 GetNewDirection()
+    private Vector3 GetNewPosition()
     {
         if (_fish.IsDead)
-        {
-            return new Vector3(0, 0, 0);
-        }
-        bool isSchooling = IsSchooling();
-        bool isThereNearbyFood = false;
+            return new Vector3();
 
-        directions.PreviousPoint = _fish.DesiredPoint + uniqueOffset;
+        bool isSchooling = IsSchooling();
+        bool isThereNearbyFood = _nearbyFood.Count > 0;
+
+        directions.PreviousPoint = (_fish.DesiredPoint + _uniqueOffset);
 
         directions.OptimalDepthDirection = SearchForOptimalDepth();
-
-        if (_nearbyFood.Count > 0) {
-            isThereNearbyFood = true;
-        }
         
         if (isSchooling)
         {
@@ -636,10 +631,9 @@ public class FishBehaviour : MonoBehaviour
         }
         if (!_isObstacleDetected)
         {
-            directions.DodgeCollisionDirection = new Vector3(0, 0, 0);
+            directions.DodgeCollisionDirection = new Vector3();
         }
 
-        schooling = false;
         return _fish.DesiredPoint;
     }
 

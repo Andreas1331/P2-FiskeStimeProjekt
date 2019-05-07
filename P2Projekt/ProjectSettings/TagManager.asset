@@ -7,10 +7,11 @@ TagManager:
   - Obstacle
   - Fish
   - Food
-  - Net
   - FoodContainer
   - FishContainer
   - Terrain
+  - Cage
+  - Net
   layers:
   - Default
   - TransparentFX
