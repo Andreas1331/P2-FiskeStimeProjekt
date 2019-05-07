@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,18 +8,19 @@ public class FishBehaviour : MonoBehaviour
 {
     private Fish _fish;
     public Fish Fish { get { return _fish; } set { if (value != null) _fish = value; } }
+
     private DataManager _dataManager;
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
+
     private GameObject _net;
     public GameObject Net { set { if (value != null) _net = value; } }
-    private bool _isObstacleDetected = false;
 
-    public List<Vector3> lastKnownFoodSpots = new List<Vector3>(); // { new Vector3(3, 3, 3), new Vector3(5, 6, 3), new Vector3(-5, -2, 4) };
-    public Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
+    private bool _isObstacleDetected = false;
+    private List<Vector3> lastKnownFoodSpots = new List<Vector3>();
+    private Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
 
     public List<FishBehaviour> _nearbyFish = new List<FishBehaviour>();
     public List<FoodBehavior> _nearbyFood = new List<FoodBehavior>();
-    private float _schoolDst = 0.25f;
 
     private SphereCollider _outerCollider;
     private SphereCollider _innerCollider;
@@ -30,7 +30,6 @@ public class FishBehaviour : MonoBehaviour
     private float timerToResetTimer = 0;
     private const float _stressMultiplier = 1.5f; //tidligere 1,5
 
-    //removePoint timer
     private float removePointTimer;
     public List<Vector3> savedKnownFoodSpots = new List<Vector3>();
     #region Lambda structs
@@ -48,14 +47,7 @@ public class FishBehaviour : MonoBehaviour
     private Material _mat;
     private Color _defaultColor = new Color(191 / 255f, 249 / 255f, 249 / 255f, 255 / 255f);
 
-    Text txt2;
-    Text txt;
-
-
-    public bool draw = false;
-    public bool useRandom = true;
-
-    public Vector3 randomPos;
+    private Vector3 unqOffset;
 
     private void Start()
     {
@@ -65,9 +57,6 @@ public class FishBehaviour : MonoBehaviour
 
         GetComponent<SphereCollider>().radius = 5f;
 
-        //txt = GameObject.Find("FishDirectionTxt").GetComponent<Text>();
-        //txt2 = GameObject.Find("FishNormalizedTxt").GetComponent<Text>();
-
         _outerCollider = GetComponents<SphereCollider>()[0];
         _innerCollider = GetComponents<SphereCollider>()[1];
 
@@ -75,9 +64,13 @@ public class FishBehaviour : MonoBehaviour
         for (int i = 0; i < 5; i++)
            lastKnownFoodSpots.Add(new Vector3(Random.value * (_net.gameObject.transform.lossyScale.x / 3.75f), Random.value * (_net.gameObject.transform.lossyScale.y / 3.75f), Random.value * (_net.gameObject.transform.lossyScale.z / 3.75f)));
 
-        randomPos = new Vector3(GetRandomFloat(), GetRandomFloat(), GetRandomFloat());
+        GenerateRandomOffset();
+    }
 
-        randomPos *= 1.5f;
+    private void GenerateRandomOffset()
+    {
+        unqOffset = new Vector3(GetRandomFloat(), GetRandomFloat(), GetRandomFloat());
+        unqOffset *= 1.5f;
     }
 
     private float GetRandomFloat()
@@ -92,17 +85,6 @@ public class FishBehaviour : MonoBehaviour
         UpdateStress();
         UpdateHunger();
         AnimateDeath();
-
-        if(draw)
-            Debug.DrawRay(transform.position, ((_fish.DesiredPoint - transform.position).normalized / 2), Color.green);
-        //txt.text = "Direction: " + (_fish.DesiredPoint - transform.position);
-        //txt2.text = "Count : " + lastKnownFoodSpots.Count;
-
-        //foreach (KeyValuePair<int, Vector3> item in knownFoodSpots) {
-        //    Debug.Log("Madpunkt" + knownFoodSpots[item.Key]);
-        //}
-        //randomPoint = _dataManager.randomPoint;
-        //_fish.MoveTowards(_fish.DesiredPoint);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -233,7 +215,6 @@ public class FishBehaviour : MonoBehaviour
         offset++;
         return FindFreeDir(pos, ref offset);
     }
-
 
     private void UpdateHunger()
     {
@@ -606,10 +587,7 @@ public class FishBehaviour : MonoBehaviour
         bool schooling = IsSchooling();
         bool isThereNearbyFood = false;
 
-        if (useRandom)
-            directions.previousPoint = _fish.DesiredPoint + randomPos;
-        else
-            directions.previousPoint = _fish.DesiredPoint;
+        directions.previousPoint = _fish.DesiredPoint + unqOffset;
 
         directions.optimalDepthDirection = SearchForOptimalDepth();
 

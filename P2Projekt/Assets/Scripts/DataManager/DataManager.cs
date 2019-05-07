@@ -94,6 +94,7 @@ public class DataManager : MonoBehaviour
             fishList.Add(new Rainbowtrout(fishCounter, 1f, RainbowPreFab));
         }
     }
+
     public void ActivateFishFromPool(double amountToActivate)
     {
         for (int i = 0; i < amountToActivate; i++)
@@ -196,8 +197,6 @@ public class DataManager : MonoBehaviour
         }
     }
     
-    private float getNewRandomDirection;
-    public Vector3 randomPoint;
     public void Update()
     {
         if (Input.GetKeyDown(KeyCode.X))
@@ -205,21 +204,7 @@ public class DataManager : MonoBehaviour
             SpawnNewFish(10);
             Debug.LogWarning("Amount: " + fishList.Count);
         }
-        else if (Input.GetKeyDown(KeyCode.O))
-            foreach (Fish fish in fishList)
-                fish.FishObject.GetComponent<FishBehaviour>().draw = !fish.FishObject.GetComponent<FishBehaviour>().draw;
-        else if (Input.GetKeyDown(KeyCode.P))
-            foreach (Fish fish in fishList)
-                fish.FishObject.GetComponent<FishBehaviour>().useRandom = !fish.FishObject.GetComponent<FishBehaviour>().useRandom;
 
         SaveHungerAndStress();
-
-
-        getNewRandomDirection += Time.deltaTime;
-        if (getNewRandomDirection > 5)
-        {
-            getNewRandomDirection = 0;
-            randomPoint = new Vector3(UnityEngine.Random.value * 5 + 5f, UnityEngine.Random.value * 5+5f, UnityEngine.Random.value * 5 +5f);
-        }
     }
 }
