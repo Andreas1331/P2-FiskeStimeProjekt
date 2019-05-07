@@ -1,5 +1,4 @@
-﻿using Mathtools;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,7 +13,6 @@ public class FishBehaviour : MonoBehaviour
     public DataManager DataManager { set { if (value != null) _dataManager = value; } }
     private GameObject _net;
     public GameObject Net { set { if (value != null) _net = value; } }
-    public MathTools MathTools { set { if (value != null) _mathTools = value; } }
     private bool _isObstacleDetected = false;
 
     public List<Vector3> lastKnownFoodSpots = new List<Vector3>(); // { new Vector3(3, 3, 3), new Vector3(5, 6, 3), new Vector3(-5, -2, 4) };
@@ -47,8 +45,6 @@ public class FishBehaviour : MonoBehaviour
     private directionVectors directions = new directionVectors();
     #endregion
 
-    private MathTools _mathTools = new MathTools();
-
     private Material _mat;
     private Color _defaultColor = new Color(191 / 255f, 249 / 255f, 249 / 255f, 255 / 255f);
 
@@ -57,6 +53,10 @@ public class FishBehaviour : MonoBehaviour
 
 
     public bool draw = false;
+    public bool useRandom = true;
+
+    public Vector3 randomPos;
+
     private void Start()
     {
         DataManager = FindObjectOfType<DataManager>();
@@ -65,8 +65,8 @@ public class FishBehaviour : MonoBehaviour
 
         GetComponent<SphereCollider>().radius = 5f;
 
-        txt = GameObject.Find("FishDirectionTxt").GetComponent<Text>();
-        txt2 = GameObject.Find("FishNormalizedTxt").GetComponent<Text>();
+        //txt = GameObject.Find("FishDirectionTxt").GetComponent<Text>();
+        //txt2 = GameObject.Find("FishNormalizedTxt").GetComponent<Text>();
 
         _outerCollider = GetComponents<SphereCollider>()[0];
         _innerCollider = GetComponents<SphereCollider>()[1];
@@ -74,6 +74,15 @@ public class FishBehaviour : MonoBehaviour
         // Generate randomly last known food positions
         for (int i = 0; i < 5; i++)
            lastKnownFoodSpots.Add(new Vector3(Random.value * (_net.gameObject.transform.lossyScale.x / 3.75f), Random.value * (_net.gameObject.transform.lossyScale.y / 3.75f), Random.value * (_net.gameObject.transform.lossyScale.z / 3.75f)));
+
+        randomPos = new Vector3(GetRandomFloat(), GetRandomFloat(), GetRandomFloat());
+
+        randomPos *= 1.5f;
+    }
+
+    private float GetRandomFloat()
+    {
+        return Random.value > 0.5f ? Random.value : -Random.value;
     }
 
     // Update is called once per frame
@@ -87,7 +96,7 @@ public class FishBehaviour : MonoBehaviour
         if(draw)
             Debug.DrawRay(transform.position, ((_fish.DesiredPoint - transform.position).normalized / 2), Color.green);
         //txt.text = "Direction: " + (_fish.DesiredPoint - transform.position);
-        txt2.text = "Count : " + lastKnownFoodSpots.Count;
+        //txt2.text = "Count : " + lastKnownFoodSpots.Count;
 
         //foreach (KeyValuePair<int, Vector3> item in knownFoodSpots) {
         //    Debug.Log("Madpunkt" + knownFoodSpots[item.Key]);
@@ -105,7 +114,7 @@ public class FishBehaviour : MonoBehaviour
     {
         if (other.tag.Equals("Food"))
         {
-            if(_mathTools.GetDistanceBetweenVectors(transform.position, other.ClosestPoint(transform.position)) > _innerCollider.radius)
+            if(MathTools.GetDistanceBetweenVectors(transform.position, other.ClosestPoint(transform.position)) > _innerCollider.radius)
             {
                 FoodBehavior foodBehav = other.GetComponent<FoodBehavior>();
                 if (foodBehav == null)
@@ -118,7 +127,7 @@ public class FishBehaviour : MonoBehaviour
         else if (other.tag.Equals("Fish"))
         {
 
-            if (_mathTools.GetDistanceBetweenVectors(transform.position, other.gameObject.transform.position) >= _innerCollider.radius)
+            if (MathTools.GetDistanceBetweenVectors(transform.position, other.gameObject.transform.position) >= _innerCollider.radius)
                 return;
 
             FishBehaviour fishBehav = other.GetComponent<FishBehaviour>();
@@ -135,7 +144,7 @@ public class FishBehaviour : MonoBehaviour
         // Check if the object detected is another fish, or an obstacle.
         if (other.tag.Equals("Fish"))
         {
-            if (_mathTools.GetDistanceBetweenVectors(transform.position, other.gameObject.transform.position) <= _innerCollider.radius)
+            if (MathTools.GetDistanceBetweenVectors(transform.position, other.gameObject.transform.position) <= _innerCollider.radius)
                 return;
 
             FishBehaviour fishBehav = other.GetComponent<FishBehaviour>();
@@ -150,7 +159,7 @@ public class FishBehaviour : MonoBehaviour
         {
             Vector3 closestPos = other.ClosestPoint(transform.position);
 
-            if (_mathTools.GetDistanceBetweenVectors(transform.position, closestPos) <= _innerCollider.radius)
+            if (MathTools.GetDistanceBetweenVectors(transform.position, closestPos) <= _innerCollider.radius)
             {
                 if (_isObstacleDetected = IsHeadingTowardsPoint(closestPos))
                 {
@@ -165,7 +174,7 @@ public class FishBehaviour : MonoBehaviour
             if (othersFoodBehavior == null)
                 return;
 
-            if (_mathTools.GetDistanceBetweenVectors(transform.position, other.ClosestPoint(transform.position)) <= _innerCollider.radius)
+            if (MathTools.GetDistanceBetweenVectors(transform.position, other.ClosestPoint(transform.position)) <= _innerCollider.radius)
             {
                 _fish.Hunger = Fish.maxHunger;
                 othersFoodBehavior.BeingEaten();
@@ -194,14 +203,14 @@ public class FishBehaviour : MonoBehaviour
 
     private bool IsHeadingTowardsPoint(Vector3 pos)
     {
-        float angle = _mathTools.GetAngleBetweenVectors((_fish.DesiredPoint - _fish.FishObject.transform.position), (pos - transform.position));
+        float angle = MathTools.GetAngleBetweenVectors((_fish.DesiredPoint - _fish.FishObject.transform.position), (pos - transform.position));
 
         Vector3 posOne = _fish.DesiredPoint - transform.position;
         Vector3 posTwo = pos - transform.position;
         Debug.DrawRay(transform.position, posOne.normalized, Color.red, 30);
 
-        float dist = _mathTools.GetDistanceBetweenVectors(transform.position, pos);
-        float catheter = _mathTools.GetOpposingCatheter(angle, dist);
+        float dist = MathTools.GetDistanceBetweenVectors(transform.position, pos);
+        float catheter = MathTools.GetOpposingCatheter(angle, dist);
 
         return catheter <= _fish.Width / 2f;
     }
@@ -296,7 +305,6 @@ public class FishBehaviour : MonoBehaviour
         if (hungerFactorsAlone.findFoodHunger > 2f)
             hungerFactorsAlone.findFoodHunger = 2f;
         float leftOfHungerFactor = 2f - hungerFactorsAlone.findFoodHunger;
-        txt.text = "HUNGER Lambda : " + hungerFactorsAlone.findFoodHunger;
 
         //if there is no object in the way
         if (!_isObstacleDetected)
@@ -352,7 +360,7 @@ public class FishBehaviour : MonoBehaviour
         if (stressFactorsAlone.findFoodStress > 2f)
             stressFactorsAlone.findFoodStress = 2f;
         float leftOfStressFactor = 2f - stressFactorsAlone.findFoodStress;
-        txt2.text = "stress : " + stressFactorsAlone.findFoodStress;
+        //txt2.text = "stress : " + stressFactorsAlone.findFoodStress;
        
         //if there is no object in the way
         if (!_isObstacleDetected)
@@ -471,8 +479,8 @@ public class FishBehaviour : MonoBehaviour
         //Iterate through list of food nearby, and choose the closest one. 
         foreach (FoodBehavior food in _nearbyFood)
         {
-            if (_mathTools.GetDistanceBetweenVectors(food.transform.position, transform.position)
-                < _mathTools.GetDistanceBetweenVectors(transform.position, closestFood))
+            if (MathTools.GetDistanceBetweenVectors(food.transform.position, transform.position)
+                < MathTools.GetDistanceBetweenVectors(transform.position, closestFood))
             {
                 closestFood = food.transform.position;
             }
@@ -491,7 +499,7 @@ public class FishBehaviour : MonoBehaviour
         else 
             sumVecD3 = GetclosestPoint(lastKnownFoodSpots);
 
-        if (_mathTools.GetDistanceBetweenVectors(sumVecD3, transform.position) < 1f) {
+        if (MathTools.GetDistanceBetweenVectors(sumVecD3, transform.position) < 1f) {
             removePointTimer += Time.deltaTime;
         }
         if (removePointTimer > 4) {
@@ -516,8 +524,8 @@ public class FishBehaviour : MonoBehaviour
         Vector3 closestPoint = arrayOfPoints[0];
         foreach (Vector3 point in arrayOfPoints)
         {
-            if (_mathTools.GetDistanceBetweenVectors(point, transform.position)
-                < _mathTools.GetDistanceBetweenVectors(transform.position, closestPoint))
+            if (MathTools.GetDistanceBetweenVectors(point, transform.position)
+                < MathTools.GetDistanceBetweenVectors(transform.position, closestPoint))
             {
                 closestPoint = point;
             }
@@ -533,7 +541,7 @@ public class FishBehaviour : MonoBehaviour
         float distanceBetweenFish;
         foreach (FishBehaviour fish in _nearbyFish)
         {
-            distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) / _nearbyFish.Count;
+            distanceBetweenFish = MathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) / _nearbyFish.Count;
             D_3.x += distanceBetweenFish * (fish.transform.position.x - transform.position.x);
             D_3.y += distanceBetweenFish * (fish.transform.position.y - transform.position.y);
             D_3.z += distanceBetweenFish * (fish.transform.position.z - transform.position.z);
@@ -562,7 +570,7 @@ public class FishBehaviour : MonoBehaviour
         Vector3 GoCloser = new Vector3(0, 0, 0);
         foreach (FishBehaviour item in _nearbyFish)
         {
-            float distanceBetweenFish = _mathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
+            float distanceBetweenFish = MathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
             float distanceFactor = (1 / Mathf.Sin(3 * distanceBetweenFish)) - 1;
             if (distanceBetweenFish < 0.52f)
             {
@@ -597,7 +605,12 @@ public class FishBehaviour : MonoBehaviour
         }
         bool schooling = IsSchooling();
         bool isThereNearbyFood = false;
-        directions.previousPoint = _fish.DesiredPoint;
+
+        if (useRandom)
+            directions.previousPoint = _fish.DesiredPoint + randomPos;
+        else
+            directions.previousPoint = _fish.DesiredPoint;
+
         directions.optimalDepthDirection = SearchForOptimalDepth();
 
         if (_nearbyFood.Count > 0) {
@@ -656,7 +669,7 @@ public class FishBehaviour : MonoBehaviour
     {
         foreach (FishBehaviour fish in _nearbyFish)
         {
-            if (_mathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) < 1f)
+            if (MathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) < 1f)
                 return true;
         }
         return false;

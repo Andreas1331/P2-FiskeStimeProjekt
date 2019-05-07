@@ -208,6 +208,9 @@ public class DataManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.O))
             foreach (Fish fish in fishList)
                 fish.FishObject.GetComponent<FishBehaviour>().draw = !fish.FishObject.GetComponent<FishBehaviour>().draw;
+        else if (Input.GetKeyDown(KeyCode.P))
+            foreach (Fish fish in fishList)
+                fish.FishObject.GetComponent<FishBehaviour>().useRandom = !fish.FishObject.GetComponent<FishBehaviour>().useRandom;
 
         SaveHungerAndStress();
 

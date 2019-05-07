@@ -16,27 +16,15 @@ public class CageHandler : MonoBehaviour
         //UI.SetCageSizeAfterCageLoad();
         //this.transform.localScale = new Vector3(5, 16, 5);
         this.transform.localScale = new Vector3(10, 37.5f, 10);
-
-    }
-
-    private void Update()
-    {
-        //foreach (var item in coords)
-        //{
-        //    Vector3 dir = item - transform.position;
-        //    Debug.DrawRay(transform.position, dir, Color.yellow);
-        //}
     }
 
     private void GetColliderCoordinates()
     {
         for (int i = 0; i < 20; i++)
         {
-            Mathtools.MathTools tools = new Mathtools.MathTools();
-
             float v = (360 / 20) * (i + 0.5f);
-            float x = Mathf.Cos(tools.DegreeToRadian(v));
-            float y = Mathf.Sin(tools.DegreeToRadian(v));
+            float x = Mathf.Cos(MathTools.DegreeToRadian(v));
+            float y = Mathf.Sin(MathTools.DegreeToRadian(v));
 
             coords.Add(new Vector3(x, this.gameObject.transform.position.y, y));
         }

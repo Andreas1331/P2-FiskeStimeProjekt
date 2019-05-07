@@ -77,14 +77,11 @@ public abstract class Fish
         if (!IsDead)
         {
             DesiredPoint += (direction - FishObject.transform.position).normalized;
-            //FishObject.transform.position = Vector3.MoveTowards(FishObject.transform.position, direction, 0.5f * Time.deltaTime);
 
             Vector3 newdir = Vector3.RotateTowards(FishObject.transform.forward, direction - FishObject.transform.position, Time.deltaTime * 5, 2.5f);
             FishObject.transform.rotation = Quaternion.LookRotation(newdir);
 
-            _rb.velocity = (direction - FishObject.transform.position) * 0.5f;
-            //FishObject.transform.position += (direction - FishObject.transform.position).normalized * Time.deltaTime * 0.5f;
-            //FishObject.transform.Translate((direction - FishObject.transform.position).normalized * Time.deltaTime * 0.5f, Space.Self);
+            _rb.velocity = (direction - FishObject.transform.position).normalized * 0.5f;
         }
     }
 }
