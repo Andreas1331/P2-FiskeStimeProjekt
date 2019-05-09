@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class CameraZoom : MonoBehaviour
 {
-    private GameObject _net;
-    public GameObject Net { set { if (value != null) _net = value; } }
+    private GameObject _cage;
+    public GameObject Cage { set { if (value != null) _cage = value; } }
     float scale = 0.2f;
     public bool _inMenu = false;
     // Start is called before the first frame update
     private void Awake()
     {
-        Net = GameObject.FindGameObjectWithTag("Net");
+        Cage = GameObject.FindGameObjectWithTag("Cage");
     }
 
     // Update is called once per frame
@@ -30,7 +30,7 @@ public class CameraZoom : MonoBehaviour
             }
             if (Input.GetKeyDown("r"))
             {
-                transform.localPosition = new Vector3(0, 0, _net.transform.lossyScale.z);
+                transform.localPosition = new Vector3(0, 0, _cage.transform.lossyScale.z);
             }
             if (Input.GetKey("e"))
             {

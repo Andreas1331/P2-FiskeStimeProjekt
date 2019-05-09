@@ -9,13 +9,13 @@ public class CameraControls : MonoBehaviour
     float cameraSpeed = 0.6f;
     float normalCameraSpeed = 0.8f;
     // Start is called before the first frame update
-    private GameObject _net;
-    public GameObject Net { set { if (value != null) _net = value; } }
+    private GameObject _cage;
+    public GameObject Cage { set { if (value != null) _cage = value; } }
     public bool inMenu = false;
     private GameObject _seaBottom;
     void Start()
     {
-        Net = GameObject.FindGameObjectWithTag("Net");
+        Cage = GameObject.FindGameObjectWithTag("Cage");
         //transform.position = new Vector3(_net.transform.position.x, _net.transform.position.y, _net.transform.position.z);
         _seaBottom = GameObject.FindGameObjectWithTag("Terrain");
     }
@@ -47,7 +47,7 @@ public class CameraControls : MonoBehaviour
             if (Input.GetKeyDown("r"))
             {
 
-                transform.rotation = Quaternion.Euler(new Vector3(-_net.transform.lossyScale.x, _net.transform.lossyScale.y, -_net.transform.lossyScale.z));
+                transform.rotation = Quaternion.Euler(new Vector3(-_cage.transform.lossyScale.x, _cage.transform.lossyScale.y, -_cage.transform.lossyScale.z));
             }
             if (Input.GetKey("left shift"))
             {
