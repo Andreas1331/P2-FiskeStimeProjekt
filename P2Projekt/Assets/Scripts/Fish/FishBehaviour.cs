@@ -48,7 +48,10 @@ public class FishBehaviour : MonoBehaviour
 
     private Material _mat;
     private Color _defaultColor = new Color(191 / 255f, 249 / 255f, 249 / 255f, 255 / 255f);
-
+    private float _holdDistanceScale = 3;
+    private float _aloneScale = 40;
+    private float _schoolScale = 50;
+    
     private Vector3 _uniqueOffset;
 
     private void Start()
@@ -294,7 +297,7 @@ public class FishBehaviour : MonoBehaviour
 
     #region Hunger factors
     private void CalculateHungerFactorsAlone() {
-        hungerFactorsAlone.FindFood = 40f / (_fish.Hunger / Fish.maxHunger * 100f);
+        hungerFactorsAlone.FindFood = _aloneScale / (_fish.Hunger / Fish.maxHunger * 100f);
 
         if (hungerFactorsAlone.FindFood > 2f)
             hungerFactorsAlone.FindFood = 2f;
@@ -319,7 +322,7 @@ public class FishBehaviour : MonoBehaviour
     }
     private void CalculateHungerFactorsSchool()
     {
-        hungerFactorsSchool.Factors.FindFood = 25 / (_fish.Hunger / Fish.maxHunger * 100);
+        hungerFactorsSchool.Factors.FindFood = _schoolScale / (_fish.Hunger / Fish.maxHunger * 100);
 
         if (hungerFactorsSchool.Factors.FindFood > 2.5f)
             hungerFactorsSchool.Factors.FindFood = 2.5f;
@@ -348,7 +351,7 @@ public class FishBehaviour : MonoBehaviour
 
     #region stress Factors
     public void CalculateStressFactorsAlone() {
-        stressFactorsAlone.FindFood = 40f / (_fish.Hunger / Fish.maxHunger * 100f);
+        stressFactorsAlone.FindFood = _aloneScale / (_fish.Hunger / Fish.maxHunger * 100f);
 
 
         if (stressFactorsAlone.FindFood > 2f)
@@ -375,7 +378,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void CalculateStressFactorsSchool()
     {
-        stressFactorsSchool.Factors.FindFood = 25 / (_fish.Hunger / Fish.maxHunger * 100);
+        stressFactorsSchool.Factors.FindFood = _schoolScale / (_fish.Hunger / Fish.maxHunger * 100);
 
         if (stressFactorsSchool.Factors.FindFood > 2.5f)
             stressFactorsSchool.Factors.FindFood = 2.5f;
@@ -581,22 +584,21 @@ public class FishBehaviour : MonoBehaviour
             if (MathTools.GetDistanceBetweenVectors(transform.position, item.transform.position) <
                          MathTools.GetDistanceBetweenVectors(transform.position, HoldDistanceVector))
             {
-                HoldDistanceVector = item._fish.DesiredPoint;
                 float distanceBetweenFish = MathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
-                float distanceFactor = (1 / Mathf.Sin(3 * distanceBetweenFish)) - 1;
-                if (distanceBetweenFish < 0.52f)
+                if (distanceBetweenFish < 0.52f) // too close so it makes it go away.
                 {
+                    float distanceFactor = (1 / Mathf.Sin(_holdDistanceScale * distanceBetweenFish)) - 1;
                     float negativeDistanceFactor = (-1) * (distanceFactor);
-                    HoldDistanceVector.x += negativeDistanceFactor * (item.transform.position.x - transform.position.x);
-                    HoldDistanceVector.y += negativeDistanceFactor * (item.transform.position.y - transform.position.y);
-                    HoldDistanceVector.z += negativeDistanceFactor * (item.transform.position.z - transform.position.z);
-                    
+                    HoldDistanceVector.x = negativeDistanceFactor * (item.transform.position.x - transform.position.x);
+                    HoldDistanceVector.y = negativeDistanceFactor * (item.transform.position.y - transform.position.y);
+                    HoldDistanceVector.z = negativeDistanceFactor * (item.transform.position.z - transform.position.z);
                 }
-                else if (distanceBetweenFish < 0.86f)
+                else if (distanceBetweenFish < 0.86f) //too far away so it makes it go closer.
                 {
-                    HoldDistanceVector.x += (distanceFactor) * (item.transform.position.x - transform.position.x) ;
-                    HoldDistanceVector.y += (distanceFactor) * (item.transform.position.y - transform.position.y) ;
-                    HoldDistanceVector.z += (distanceFactor) * (item.transform.position.z - transform.position.z) ;
+                    float distanceFactor = (1 / Mathf.Sin(_holdDistanceScale * distanceBetweenFish)) - 1;
+                    HoldDistanceVector.x = (distanceFactor) * (item.transform.position.x - transform.position.x) ;
+                    HoldDistanceVector.y = (distanceFactor) * (item.transform.position.y - transform.position.y) ;
+                    HoldDistanceVector.z = (distanceFactor) * (item.transform.position.z - transform.position.z) ;
                 }
             }
         }

@@ -155,12 +155,12 @@ public class DataManager : MonoBehaviour
         }
     }
 
-    public void AddFoodToCage(int howManyToAdd, int amountOfFood)
+    public void AddFoodToCage(int howManyToAdd, int amountOfFood, Vector2 position)
     {
         for (int i = 0; i < howManyToAdd; i++)
         {
             foodCounter++;
-            foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood));
+            foodList.Add(new Food(foodCounter, FoodPreFab, amountOfFood, position));
         }
     }
     
