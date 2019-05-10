@@ -545,41 +545,80 @@ public class FishBehaviour : MonoBehaviour
 
     #region Swim with fish
     private Vector3 SwimWithFriends() {
-        Vector3 D_3 = new Vector3(0, 0, 0);
-        foreach (FishBehaviour fish in _nearbyFish)
-        {
-            D_3.x += Fish.DesiredPoint.x / _nearbyFish.Count;
-            D_3.y += Fish.DesiredPoint.y / _nearbyFish.Count;
-            D_3.z += Fish.DesiredPoint.z / _nearbyFish.Count;
+        //nye version hvor de kun ser på den nærmeste ( ser skrald ud)
+        Vector3 followClosest = new Vector3();
+        if (_nearbyFish.Count != 0)
+            followClosest = _nearbyFish[0].transform.position;
+
+        foreach (FishBehaviour fish in _nearbyFish) {
+            if (MathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) <
+                MathTools.GetDistanceBetweenVectors(transform.position, followClosest))
+                followClosest = fish._fish.DesiredPoint;
         }
-        return D_3;
+        return followClosest;
+        //gamle version
+        //Vector3 D_3 = new Vector3(0, 0, 0);
+        //foreach (FishBehaviour fish in _nearbyFish)
+        //{
+        //    D_3.x += Fish.DesiredPoint.x / _nearbyFish.Count;
+        //    D_3.y += Fish.DesiredPoint.y / _nearbyFish.Count;
+        //    D_3.z += Fish.DesiredPoint.z / _nearbyFish.Count;
+        //}
+        //return D_3;
     }
     #endregion
 
     #region Hold distance to fish
     private Vector3 HoldDistanceToFish()
     {
-        Vector3 GoAway = new Vector3(0, 0, 0);
-        Vector3 GoCloser = new Vector3(0, 0, 0);
+        //Vector3 GoAway = new Vector3(0, 0, 0);
+        //Vector3 GoCloser = new Vector3(0, 0, 0);
+        Vector3 HoldDistanceVector = new Vector3();
+        if (_nearbyFish.Count != 0)
+            HoldDistanceVector = _nearbyFish[0].transform.position;
         foreach (FishBehaviour item in _nearbyFish)
         {
-            float distanceBetweenFish = MathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
-            float distanceFactor = (1 / Mathf.Sin(3 * distanceBetweenFish)) - 1;
-            if (distanceBetweenFish < 0.52f)
+            if (MathTools.GetDistanceBetweenVectors(transform.position, item.transform.position) <
+                         MathTools.GetDistanceBetweenVectors(transform.position, HoldDistanceVector))
             {
-                float negativeDistanceFactor = (-1) * (distanceFactor);
-                GoAway.x += negativeDistanceFactor * (item.transform.position.x - transform.position.x) / _nearbyFish.Count;
-                GoAway.y += negativeDistanceFactor * (item.transform.position.y - transform.position.y) / _nearbyFish.Count;
-                GoAway.z += negativeDistanceFactor * (item.transform.position.z - transform.position.z) / _nearbyFish.Count;
-            }
-            else if (distanceBetweenFish < 0.86f)
-            {
-                GoCloser.x += (distanceFactor) * (item.transform.position.x - transform.position.x) / _nearbyFish.Count;
-                GoCloser.y += (distanceFactor) * (item.transform.position.y - transform.position.y) / _nearbyFish.Count;
-                GoCloser.z += (distanceFactor) * (item.transform.position.z - transform.position.z) / _nearbyFish.Count;
+                HoldDistanceVector = item._fish.DesiredPoint;
+                float distanceBetweenFish = MathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
+                float distanceFactor = (1 / Mathf.Sin(3 * distanceBetweenFish)) - 1;
+                if (distanceBetweenFish < 0.52f)
+                {
+                    float negativeDistanceFactor = (-1) * (distanceFactor);
+                    HoldDistanceVector.x += negativeDistanceFactor * (item.transform.position.x - transform.position.x);
+                    HoldDistanceVector.y += negativeDistanceFactor * (item.transform.position.y - transform.position.y);
+                    HoldDistanceVector.z += negativeDistanceFactor * (item.transform.position.z - transform.position.z);
+                    
+                }
+                else if (distanceBetweenFish < 0.86f)
+                {
+                    HoldDistanceVector.x += (distanceFactor) * (item.transform.position.x - transform.position.x) ;
+                    HoldDistanceVector.y += (distanceFactor) * (item.transform.position.y - transform.position.y) ;
+                    HoldDistanceVector.z += (distanceFactor) * (item.transform.position.z - transform.position.z) ;
+                }
             }
         }
-        return GoAway + GoCloser;
+        return HoldDistanceVector;
+            //gamle version
+        //    float distanceBetweenFish = MathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
+        //    float distanceFactor = (1 / Mathf.Sin(3 * distanceBetweenFish)) - 1;
+        //    if (distanceBetweenFish < 0.52f)
+        //    {
+        //        float negativeDistanceFactor = (-1) * (distanceFactor);
+        //        GoAway.x += negativeDistanceFactor * (item.transform.position.x - transform.position.x) / _nearbyFish.Count;
+        //        GoAway.y += negativeDistanceFactor * (item.transform.position.y - transform.position.y) / _nearbyFish.Count;
+        //        GoAway.z += negativeDistanceFactor * (item.transform.position.z - transform.position.z) / _nearbyFish.Count;
+        //    }
+        //    else if (distanceBetweenFish < 0.86f)
+        //    {
+        //        GoCloser.x += (distanceFactor) * (item.transform.position.x - transform.position.x) / _nearbyFish.Count;
+        //        GoCloser.y += (distanceFactor) * (item.transform.position.y - transform.position.y) / _nearbyFish.Count;
+        //        GoCloser.z += (distanceFactor) * (item.transform.position.z - transform.position.z) / _nearbyFish.Count;
+        //    }
+        //}
+        //return GoAway + GoCloser;
     }
     #endregion
 
