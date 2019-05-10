@@ -51,18 +51,18 @@ public class DataManager : MonoBehaviour
         return false;
     }
 
-    public void GetAmountOfFishToAddOrRemove(float totalAmountOfFish)
+    public void GetAmountOfFishToAddOrRemove(float TotalAmountOfFish)
     {
         double currentAmountOfFish = fishList.Count;
-        double newAmountOfFish = totalAmountOfFish - currentAmountOfFish;
+        double deviationAmountOfFish = TotalAmountOfFish - currentAmountOfFish;
 
-        if (newAmountOfFish > 0)
+        if (deviationAmountOfFish > 0)
         {
-            AddFishToCage(newAmountOfFish);
+            AddFishToCage(deviationAmountOfFish);
         }
         else
         {
-            RemoveFishFromCage(-1 * newAmountOfFish);
+            RemoveFishFromCage(-1 * deviationAmountOfFish);
         }
     }
 
