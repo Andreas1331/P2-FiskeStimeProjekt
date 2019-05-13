@@ -277,8 +277,7 @@ public class FishBehaviour : MonoBehaviour
             if (timerToDie > 30)
                 KillFish();
         }
-        else if (_fish.Stress < 0.9 * Fish.maxStress && timerToDie != 0)
-        {
+        else if (_fish.Stress < 0.9 * Fish.maxStress && timerToDie != 0) {
             SetColor(_defaultColor);
 
 
@@ -521,13 +520,11 @@ public class FishBehaviour : MonoBehaviour
         //    sumVecD3 = GetclosestPointVec2(lastKnownFoodSpotsVec2);
         //}
 
-        if (MathTools.GetDistanceBetweenVectors(sumVecD3, transform.position) < 1f)
-        {
+
+        if (MathTools.GetDistanceBetweenVectors(sumVecD3, transform.position) < 1f) {
             _removePointTimer += Time.deltaTime;
         }
-
-        if (_removePointTimer > 4)
-        {
+        if (_removePointTimer > 4) {
             _removePointTimer = 0;
             lastKnownFoodSpots.Remove(sumVecD3);
             _savedKnownFoodSpots.Add(sumVecD3);
@@ -539,7 +536,6 @@ public class FishBehaviour : MonoBehaviour
             foreach (Vector3 point in _savedKnownFoodSpots)
             {
                 lastKnownFoodSpots.Add(point);
-
             }
             _savedKnownFoodSpots.Clear();
         }
@@ -760,5 +756,7 @@ public class FishBehaviour : MonoBehaviour
         return false;
     }
     #endregion
-    
+
+
+
 }
