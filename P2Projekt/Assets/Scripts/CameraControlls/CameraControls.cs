@@ -5,6 +5,7 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     Vector3 cameraPosition = new Vector3(0.0f, 0.0f, 0.0f);
+    Vector3 v = new Vector3();
     float maxCameraSpeed = 1.2f;
     float cameraSpeed = 0.6f;
     float normalCameraSpeed = 0.8f;
@@ -56,6 +57,11 @@ public class CameraControls : MonoBehaviour
             else
             {
                 cameraSpeed = normalCameraSpeed;
+            }
+            if (transform.rotation.z != 0)
+            {
+                v = transform.rotation.eulerAngles;
+                transform.rotation = Quaternion.Euler(v.x, v.y, 0);
             }
             //_seaBottom.transform.position = new Vector3(0, -_net.transform.lossyScale.y - 5, 0);
         }
