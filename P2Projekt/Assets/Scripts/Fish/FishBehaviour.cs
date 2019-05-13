@@ -530,7 +530,6 @@ public class FishBehaviour : MonoBehaviour
             lastKnownFoodSpotsVec2.Remove(new Vector2(sumVecD3.x, sumVecD3.z));
         }
         // gammel version
-
         if (lastKnownFoodSpots.Count <= 0)
         {
             foreach (Vector3 point in _savedKnownFoodSpots)
