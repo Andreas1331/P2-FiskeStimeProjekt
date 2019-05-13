@@ -1305,7 +1305,6 @@ MonoBehaviour:
   PauseMenuUI: {fileID: 0}
   Cage: {fileID: 0}
   CagePrefab: {fileID: 0}
-  defaultRadiusOfCage: 12
 --- !u!1 &495507791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1338,7 +1337,8 @@ MonoBehaviour:
   defaultAmountOfFish: 5
   defaultHungerLimit: 999
   defaultStressLimit: 999
-  defaultDepthOfCage: 15
+  defaultDepthOfCage: 4
+  defaultRadiusOfCage: 3
   defaultSimSpeed: 1
 --- !u!4 &495507793
 Transform:

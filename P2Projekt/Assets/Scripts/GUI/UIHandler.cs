@@ -33,8 +33,6 @@ public class UIHandler : MonoBehaviour
     private Slider DepthOfCageSlider;
 
     //Cage sizes
-    //public float defaultRadiusOfCage = 12;
-    public float defaultRadiusOfCage = 3;
     private float _radiusOfCage;
     private float _depthOfCage;
 
@@ -47,13 +45,13 @@ public class UIHandler : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             FishAmounttxt = GameObject.Find("FishAmounttxt").GetComponent<Text>();
+            FishDepthtxt = GameObject.Find("FishDepthtxt").GetComponent<Text>();
+            SimSpeedtxt = GameObject.Find("SimSpeedTxt").GetComponent<Text>();
         }
 
         //Start-menu and Main Scene objects
         FishHealthtxt   = GameObject.Find("FishHungerTxt").GetComponent<Text>();
         FishStresstxt   = GameObject.Find("FishStresstxt").GetComponent<Text>();
-        FishDepthtxt    = GameObject.Find("FishDepthtxt").GetComponent<Text>();
-        SimSpeedtxt     = GameObject.Find("SimSpeedTxt").GetComponent<Text>();
 
         //General objects
         if (SceneManager.GetActiveScene().buildIndex == 1)
@@ -76,8 +74,12 @@ public class UIHandler : MonoBehaviour
 
     private void Start()
     {
+        if (SceneManager.GetActiveScene().buildIndex == 1)
+        {
+            AmountOfFishSlider.value = DDOLV.defaultAmountOfFish;
+        }
+        SetSimSpeed(DDOLV.defaultSimSpeed);
     }
-
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -88,7 +90,7 @@ public class UIHandler : MonoBehaviour
 
     public void SetCageSizeAfterCageLoad() //Gets called after CageManager
     {
-        SizeOfCageSlider.value = defaultRadiusOfCage;
+        SizeOfCageSlider.value = DDOLV.defaultRadiusOfCage;
         DepthOfCageSlider.value = DDOLV.defaultDepthOfCage;
 
         if (SceneManager.GetActiveScene().buildIndex == 1)
@@ -105,7 +107,6 @@ public class UIHandler : MonoBehaviour
     public void LoadMainScene()
     {
         SceneManager.LoadScene("Main", LoadSceneMode.Single);
-        //AmountOfFishSlider.value = _defaultFishAmount;
     }
 
     public void ApplicationQuit()
@@ -176,40 +177,33 @@ public class UIHandler : MonoBehaviour
         {
             DDOLV.defaultStressLimit = float.Parse(FishStresstxt.text);
         }
-
-        if (FishDepthtxt.text != "")
-        {
-            DDOLV.defaultDepthOfCage = float.Parse(FishDepthtxt.text);
-        }
-
-        if(SimSpeedtxt.text != "")
-        {
-            DDOLV.defaultSimSpeed = float.Parse(SimSpeedtxt.text);
-            //SetSimSpeed(float.Parse(SimSpeedtxt.text));
-        } else
-        {
-            SetSimSpeed(DDOLV.defaultSimSpeed);
-        }
-
+        
+        //Da disse værdier kun kan ændres i hovedmenuen, tjekkes der om vi er der. 
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             if (FishAmounttxt.text != "")
             {
                 DDOLV.defaultAmountOfFish = float.Parse(FishAmounttxt.text);
             }
+            if (FishDepthtxt.text != "")
+            {
+                DDOLV.defaultDepthOfCage = float.Parse(FishDepthtxt.text);
+            } 
+            if (SimSpeedtxt.text != "")
+            {
+                DDOLV.defaultSimSpeed = float.Parse(SimSpeedtxt.text);
+                SetSimSpeed(DDOLV.defaultSimSpeed);
+            }
         } else
         {
             InitializeButtonValues();
         }
     }
-
-    public void InitializeButtonValues()
+    
+    public void InitializeButtonValues() //Bliver kun kaldt hvis main scene er aktiv. 
     {
-        AmountOfFishSlider.value = DDOLV.defaultAmountOfFish;
-        DepthOfCageSlider.value = DDOLV.defaultDepthOfCage;
         DM.ChangeHungerLimit(DDOLV.defaultHungerLimit);
         DM.ChangeStressLimit(DDOLV.defaultStressLimit);
-        SetSimSpeed(DDOLV.defaultSimSpeed);
     }
 
     public void SetAmountOfFishInSimulationFromSlider()
