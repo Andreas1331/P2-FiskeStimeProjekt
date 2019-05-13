@@ -258,13 +258,12 @@ public class FishBehaviour : MonoBehaviour
     private void UpdateStress()
     {
         // Increase or lower the stress based on the fish hunger.
-        if (_fish.Hunger <= 0.5 * Fish.maxHunger && _fish.Hunger > 0.3 * Fish.maxHunger)
+        if (_fish.Hunger <= 0.9 * Fish.maxHunger && _fish.Hunger > 0.3 * Fish.maxHunger)
             _fish.Stress += 1 * _stressMultiplier * Time.deltaTime;
         else if (_fish.Hunger <= 0.3 * Fish.maxHunger)
             _fish.Stress += 1 * (_stressMultiplier * 2) * Time.deltaTime;
         else if (_fish.Stress > 0)
             _fish.Stress -= 1 * Time.deltaTime;
-
         // Start the timer if the fish is stressed.
         if (_fish.Stress >= 0.9 * Fish.maxStress)
         {
