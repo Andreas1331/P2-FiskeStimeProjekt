@@ -530,10 +530,7 @@ public class FishBehaviour : MonoBehaviour
             lastKnownFoodSpotsVec2.Remove(new Vector2(sumVecD3.x, sumVecD3.z));
         }
         // gammel version
-<<<<<<< HEAD
-        //if(lastKnownFoodSpots.Count <= 0)
-        //{
-=======
+
         if (lastKnownFoodSpots.Count <= 0)
         {
             foreach (Vector3 point in _savedKnownFoodSpots)
@@ -547,7 +544,6 @@ public class FishBehaviour : MonoBehaviour
 
 
         //if (lastKnownFoodSpotsVec2.Count <=0) {
->>>>>>> parent of cee19fd... Revert "Merge branch 'master' of https://github.com/Andreas1331/P2-FiskeStimeProjekt"
         //    foreach (Vector3 point in _savedKnownFoodSpots)
         //    {
         //        lastKnownFoodSpots.Add(point);
