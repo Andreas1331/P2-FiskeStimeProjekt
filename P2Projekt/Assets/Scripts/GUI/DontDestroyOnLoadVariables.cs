@@ -16,10 +16,4 @@ public class DontDestroyOnLoadVariables : MonoBehaviour
     {
         DontDestroyOnLoad(this);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

@@ -30,17 +30,11 @@ public class UIHandler : MonoBehaviour
     private Slider SizeOfCageSlider;
     private Slider DepthOfCageSlider;
 
+    //Cage sizes
+    //public float defaultRadiusOfCage = 12;
+    public float defaultRadiusOfCage = 3;
     private float _radiusOfCage;
     private float _depthOfCage;
-
-    //Start menu settings
-
-    //private float _defaultFishAmount = 7;
-    //private float _defaultHungerLimit = 999;
-    //private float _defaultStressLimit = 999;
-    public float defaultRadiusOfCage = 12;
-    //public float defaultDepthOfCage = 15;
-    //private float _defaultSimSpeed = 1;
 
     private void Awake()
     {
@@ -54,13 +48,10 @@ public class UIHandler : MonoBehaviour
         }
 
         //Start-menu and Main Scene objects
-        if (SceneManager.GetActiveScene().buildIndex == 0 || SceneManager.GetActiveScene().buildIndex == 1)
-        {
-            FishHealthtxt   = GameObject.Find("FishHungerTxt").GetComponent<Text>();
-            FishStresstxt   = GameObject.Find("FishStresstxt").GetComponent<Text>();
-            FishDepthtxt    = GameObject.Find("FishDepthtxt").GetComponent<Text>();
-            SimSpeedtxt     = GameObject.Find("SimSpeedTxt").GetComponent<Text>();
-        }
+        FishHealthtxt   = GameObject.Find("FishHungerTxt").GetComponent<Text>();
+        FishStresstxt   = GameObject.Find("FishStresstxt").GetComponent<Text>();
+        FishDepthtxt    = GameObject.Find("FishDepthtxt").GetComponent<Text>();
+        SimSpeedtxt     = GameObject.Find("SimSpeedTxt").GetComponent<Text>();
 
         //General objects
         if (SceneManager.GetActiveScene().buildIndex == 1)
@@ -81,9 +72,6 @@ public class UIHandler : MonoBehaviour
 
     private void Start()
     {
-        //_radiusOfCage = DM.DefaultRadiusOfCage;
-        //_depthOfCage = DM.DefaultDepthOfCage;
-        //SetSimSpeed(DM.DefaultSimSpeed);if (SceneManager.GetActiveScene().buildIndex == 0)
     }
 
     void Update()
@@ -91,9 +79,6 @@ public class UIHandler : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             TogglePauseMenuInGame();
-        }
-        if (Input.GetKeyUp(KeyCode.K)) {
-            DM.AddFoodToCage(2, 5, new Vector2(2, 2));
         }
     }
 
