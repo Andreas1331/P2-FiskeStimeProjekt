@@ -658,7 +658,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 435307335}
   m_Direction: 0
   m_MinValue: 0
-  m_MaxValue: 50
+  m_MaxValue: 150
   m_WholeNumbers: 1
   m_Value: 0
   m_OnValueChanged:
@@ -2351,7 +2351,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 180, y: 30}
+  m_SizeDelta: {x: 220, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &760016693
 MonoBehaviour:
@@ -2906,10 +2906,10 @@ MonoBehaviour:
   m_FillRect: {fileID: 880912412}
   m_HandleRect: {fileID: 492788098}
   m_Direction: 0
-  m_MinValue: 5
+  m_MinValue: 1
   m_MaxValue: 30
   m_WholeNumbers: 1
-  m_Value: 5
+  m_Value: 10
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
@@ -2997,7 +2997,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 25}
-  m_SizeDelta: {x: 180, y: 30}
+  m_SizeDelta: {x: 220, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &815182880
 MonoBehaviour:
@@ -6431,7 +6431,7 @@ MonoBehaviour:
   m_FillRect: {fileID: 9063335}
   m_HandleRect: {fileID: 2033966811}
   m_Direction: 0
-  m_MinValue: 1
+  m_MinValue: 2
   m_MaxValue: 20
   m_WholeNumbers: 1
   m_Value: 10

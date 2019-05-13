@@ -24,6 +24,8 @@ public class UIHandler : MonoBehaviour
     private Text FishHealthtxt;
     private Text FishStresstxt;
     private Text FishDepthtxt;
+    private Text CageRadiustxt;
+    private Text CageDepthtxt;
     private Text AmountOfFishtxt;
     private Text AmountOfFishFromInputtxt;
     private Slider AmountOfFishSlider;
@@ -61,6 +63,8 @@ public class UIHandler : MonoBehaviour
             //Find sliders and textfields when Main-scene is loaded
             AmountOfFishSlider       = GameObject.Find("AmountOfFishSlider").GetComponent<Slider>();
             SizeOfCageSlider         = GameObject.Find("SizeOfCageSlider").GetComponent<Slider>();
+            CageRadiustxt            = GameObject.Find("SizeOfCageText").GetComponent<Text>();
+            CageDepthtxt             = GameObject.Find("DepthOfCageText").GetComponent<Text>();
             DepthOfCageSlider        = GameObject.Find("DepthOfCageSlider").GetComponent<Slider>();
             AmountOfFishFromInputtxt = GameObject.Find("AmountOfFishFromInputtxt").GetComponent<Text>();
             AmountOfFishtxt          = GameObject.Find("AmountOfFishText").GetComponent<Text>();
@@ -216,30 +220,93 @@ public class UIHandler : MonoBehaviour
     }
     public void SetAmountOfFishInSimulationFromInput(Text inputText)
     {
-        AmountOfFishSlider.value = float.Parse(inputText.text);
+        float amountFromInput = float.Parse(inputText.text);
+        
+        if (amountFromInput < 0)
+        {
+            AmountOfFishtxt.text = "Incorrect amount";
+        } else
+        {
+            AmountOfFishtxt.text = "Amount of fish: " + amountFromInput;
+            DM.GetAmountOfFishToAddOrRemove(amountFromInput);
+
+            if (AmountOfFishSlider.minValue <= amountFromInput && amountFromInput <= AmountOfFishSlider.maxValue)
+            {
+                AmountOfFishSlider.enabled = true;
+            }
+            else
+            {
+                AmountOfFishSlider.enabled = false;
+            }
+        }
     }
     
     public void ChangeCageSize()
     {
         _radiusOfCage = SizeOfCageSlider.value;
-        GameObject.Find("SizeOfCageText").GetComponent<Text>().text = "CAGE RADIUS: " + SizeOfCageSlider.value;
+        CageRadiustxt.text = "CAGE RADIUS: " + SizeOfCageSlider.value;
         ApplySizeOfCage();
     }
+
     public void ChangeCageSizeFromInput(Text inputText)
     {
-        SizeOfCageSlider.value = float.Parse(inputText.text);
+        float amountFromInput = float.Parse(inputText.text);
+
+        if (amountFromInput < 0)
+        {
+            CageRadiustxt.text = "Incorrect amount";
+        }
+        else
+        {
+            CageRadiustxt.text = "CAGE RADIUS: " + amountFromInput;
+            _radiusOfCage = amountFromInput;
+
+            if (SizeOfCageSlider.minValue <= amountFromInput && amountFromInput <= SizeOfCageSlider.maxValue)
+            {
+                SizeOfCageSlider.enabled = true;
+            }
+            else
+            {
+                SizeOfCageSlider.enabled = false;
+            }
+            ApplySizeOfCage();
+        }
     }
+
     public void ChangeCageDepth()
     {
         _depthOfCage = DepthOfCageSlider.value;
-        GameObject.Find("DepthOfCageText").GetComponent<Text>().text = "CAGE DEPTH: " + DepthOfCageSlider.value;
+        CageDepthtxt.text = "CAGE DEPTH: " + DepthOfCageSlider.value;
         ApplySizeOfCage();
     }
     public void ChangeCageDepthFromInput(Text inputText)
     {
-        if (inputText.text != null && inputText.text.Length > 0)
-            DepthOfCageSlider.value = float.Parse(inputText.text);
+        float amountFromInput = float.Parse(inputText.text);
+
+        if (amountFromInput < 0)
+        {
+            CageDepthtxt.text = "Incorrect amount";
+        }
+        else
+        {
+            CageDepthtxt.text = "CAGE DEPTH: " + amountFromInput;
+            _depthOfCage = amountFromInput;
+
+            if (DepthOfCageSlider.minValue <= amountFromInput && amountFromInput <= DepthOfCageSlider.maxValue)
+            {
+                DepthOfCageSlider.enabled = true;
+            }
+            else
+            {
+                DepthOfCageSlider.enabled = false;
+            }
+            ApplySizeOfCage();
+        }
     }
+
+
+
+
     public void ApplySizeOfCage()
     {
         Cage.transform.localScale = new Vector3(_radiusOfCage, 2.5f * _depthOfCage, _radiusOfCage);
