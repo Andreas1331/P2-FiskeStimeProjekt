@@ -22,7 +22,7 @@ public class DataManager : MonoBehaviour
     private readonly float _timerThreshold = 5;
     private float _hungerSum;
     private float _stressSum;
-    private StresOMeter _stressOMeter;
+    //private StresOMeter _stressOMeter;
 
     // Start is called before the first frame update
     public void Start()

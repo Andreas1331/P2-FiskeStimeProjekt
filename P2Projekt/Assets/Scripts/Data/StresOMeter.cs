@@ -11,6 +11,6 @@ public class StresOMeter : MonoBehaviour
     //    myRectangle = this.GetComponent<RectTransform>();
     //}
     public void UpdateStressOMeter(float sizeOfMeter) {
-        this.GetComponent<RectTransform>().sizeDelta = new Vector2(30, sizeOfMeter);           
+        //this.GetComponent<RectTransform>().sizeDelta = new Vector2(30, sizeOfMeter);           
     }
 }
