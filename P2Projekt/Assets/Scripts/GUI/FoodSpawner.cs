@@ -20,13 +20,14 @@ public class FoodSpawner : MonoBehaviour
     }
     public void GetPointClicked() {
         Vector2 cursorPosition = Input.mousePosition;
-        cursorPosition.y -= 980;
+        cursorPosition.y -= 1030;
+        cursorPosition.x -= 50;
         SpawnFoodAtPoint(cursorPosition);
-        Debug.Log(cursorPosition);
+
     }
 
     public void SpawnFoodAtPoint(Vector2 point) {
-        _DM.AddFoodToCage(2,5, point);
+        _DM.AddFoodToCage(1,20, point);
     }
 
 }

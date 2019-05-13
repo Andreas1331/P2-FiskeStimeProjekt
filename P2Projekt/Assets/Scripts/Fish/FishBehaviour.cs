@@ -16,7 +16,12 @@ public class FishBehaviour : MonoBehaviour
     public GameObject Cage { set { if (value != null) _cage = value; } }
 
     private bool _isObstacleDetected = false;
+
+    //Gamle version med lastknownfoodspots.
     private List<Vector3> lastKnownFoodSpots = new List<Vector3>();
+    //nye version hvor det er en vector2
+    private List<Vector2> lastKnownFoodSpotsVec2 = new List<Vector2>();
+
     private Dictionary<int, Vector3> inInnerCollider = new Dictionary<int, Vector3>();
 
     private List<FishBehaviour> _nearbyFish = new List<FishBehaviour>();
@@ -67,7 +72,11 @@ public class FishBehaviour : MonoBehaviour
 
         // Generate randomly last known food positions
         for (int i = 0; i < 5; i++)
-           lastKnownFoodSpots.Add(new Vector3(Random.value * (_cage.gameObject.transform.lossyScale.x / 3.75f), Random.value * (_cage.gameObject.transform.lossyScale.y / 3.75f), Random.value * (_cage.gameObject.transform.lossyScale.z / 3.75f)));
+        {
+            lastKnownFoodSpots.Add(new Vector3(Random.value * (_cage.gameObject.transform.lossyScale.x / 3.75f), Random.value * (_cage.gameObject.transform.lossyScale.y / 3.75f), Random.value * (_cage.gameObject.transform.lossyScale.z / 3.75f)));
+            lastKnownFoodSpotsVec2.Add(new Vector2(Random.value * (_cage.gameObject.transform.lossyScale.x / 3.75f), Random.value * (_cage.gameObject.transform.lossyScale.z / 3.75f)));
+
+        }
 
         GenerateRandomOffset();
     }
@@ -180,8 +189,11 @@ public class FishBehaviour : MonoBehaviour
             {
                 if(!_nearbyFood.Contains(othersFoodBehavior))
                     _nearbyFood.Add(othersFoodBehavior);
-                if(!lastKnownFoodSpots.Contains(other.transform.position))
-                    lastKnownFoodSpots.Add(other.ClosestPoint(transform.position));
+                //gamle version med vector3
+                //if(!lastKnownFoodSpots.Contains(other.transform.position))
+                //lastKnownFoodSpots.Add(other.ClosestPoint(transform.position));
+                if (!lastKnownFoodSpotsVec2.Contains(new Vector2(other.transform.position.x, other.transform.position.z)))
+                    lastKnownFoodSpotsVec2.Add(new Vector2 (other.transform.position.x, other.transform.position.z));
             }
         }
     }
@@ -190,10 +202,11 @@ public class FishBehaviour : MonoBehaviour
     {
         if(_nearbyFood.Contains(food))
             _nearbyFood.Remove(food);
-
         foreach (Vector3 point in _savedKnownFoodSpots)
         {
+            
             lastKnownFoodSpots.Add(point);
+            lastKnownFoodSpotsVec2.Add(new Vector2(point.x, point.z));
         }
         _savedKnownFoodSpots.Clear();
     }
@@ -487,28 +500,47 @@ public class FishBehaviour : MonoBehaviour
     public Vector3 cantSeeFood()
     {
         Vector3 sumVecD3 = new Vector3();
-
-        if (lastKnownFoodSpots.Count == 0)
+        //gamle version
+        //if (lastKnownFoodSpots.Count == 0)
+        //{
+        //    return new Vector3(0, 0, 0);
+        //}
+        //else 
+        //    sumVecD3 = GetclosestPoint(lastKnownFoodSpots);
+        if (lastKnownFoodSpotsVec2.Count == 0)
         {
             return new Vector3(0, 0, 0);
         }
-        else 
-            sumVecD3 = GetclosestPoint(lastKnownFoodSpots);
+        else
+        {
+            sumVecD3 = GetclosestPointVec2(lastKnownFoodSpotsVec2);
+        }
+
 
         if (MathTools.GetDistanceBetweenVectors(sumVecD3, transform.position) < 1f) {
             _removePointTimer += Time.deltaTime;
         }
         if (_removePointTimer > 4) {
             _removePointTimer = 0;
-            lastKnownFoodSpots.Remove(sumVecD3);
+            //lastKnownFoodSpots.Remove(sumVecD3);
             _savedKnownFoodSpots.Add(sumVecD3);
+            lastKnownFoodSpotsVec2.Remove(new Vector2(sumVecD3.x, sumVecD3.z));
         }
-
-        if(lastKnownFoodSpots.Count <= 0)
-        {
+        // gammel version
+        //if(lastKnownFoodSpots.Count <= 0)
+        //{
+        //    foreach (Vector3 point in _savedKnownFoodSpots)
+        //    {
+        //        lastKnownFoodSpots.Add(point);
+        //    }
+        //    _savedKnownFoodSpots.Clear();
+        //}
+        // ny version
+        if (lastKnownFoodSpotsVec2.Count <=0) {
             foreach (Vector3 point in _savedKnownFoodSpots)
             {
-                lastKnownFoodSpots.Add(point);
+                lastKnownFoodSpotsVec2.Add(new Vector2 (point.x, point.z));
+
             }
             _savedKnownFoodSpots.Clear();
         }
@@ -524,6 +556,22 @@ public class FishBehaviour : MonoBehaviour
                 < MathTools.GetDistanceBetweenVectors(transform.position, closestPoint))
             {
                 closestPoint = point;
+            }
+        }
+        return closestPoint;
+    }
+
+    private Vector3 GetclosestPointVec2(List<Vector2> arrayOfPoints)
+    {
+        Vector3 closestPoint = arrayOfPoints[0];
+        Vector3 placeholderpoint = new Vector3();
+        foreach (Vector2 point in arrayOfPoints)
+        {
+            placeholderpoint = new Vector3(point.x, transform.position.y, point.y);
+            if (MathTools.GetDistanceBetweenVectors(placeholderpoint, transform.position)
+                < MathTools.GetDistanceBetweenVectors(transform.position, closestPoint))
+            {
+                closestPoint = placeholderpoint;
             }
         }
         return closestPoint;
