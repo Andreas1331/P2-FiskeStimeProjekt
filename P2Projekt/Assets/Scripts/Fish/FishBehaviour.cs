@@ -33,7 +33,7 @@ public class FishBehaviour : MonoBehaviour
     // Stress variables
     private float timerToDie = 0;
     private float timerToResetTimer = 0;
-    private const float _stressMultiplier = 1.5f;
+    private const float _stressMultiplier = 1.5f; 
 
     private float _removePointTimer;
     private List<Vector3> _savedKnownFoodSpots = new List<Vector3>();
@@ -56,9 +56,7 @@ public class FishBehaviour : MonoBehaviour
     private float _holdDistanceScale = 3;
     private float _aloneScale = 40;
     private float _schoolScale = 50;
-    private float _lambdaAloneFactor = 5f;
-    private float _lambdaSchoolingFactor = 6f;
-    private float _depthScale = 4;
+    
     private Vector3 _uniqueOffset;
 
     private void Start()
@@ -122,7 +120,7 @@ public class FishBehaviour : MonoBehaviour
     {
         if (other.tag.Equals("Food"))
         {
-            if (MathTools.GetDistanceBetweenVectors(transform.position, other.ClosestPoint(transform.position)) > _innerCollider.radius)
+            if(MathTools.GetDistanceBetweenVectors(transform.position, other.ClosestPoint(transform.position)) > _innerCollider.radius)
             {
                 FoodBehavior foodBehav = other.GetComponent<FoodBehavior>();
                 if (foodBehav == null)
@@ -189,24 +187,24 @@ public class FishBehaviour : MonoBehaviour
             }
             else
             {
-                if (!_nearbyFood.Contains(othersFoodBehavior))
+                if(!_nearbyFood.Contains(othersFoodBehavior))
                     _nearbyFood.Add(othersFoodBehavior);
                 //gamle version med vector3
-                if(!lastKnownFoodSpots.Contains(other.transform.position))
-                lastKnownFoodSpots.Add(other.ClosestPoint(transform.position));
-                //if (!lastKnownFoodSpotsVec2.Contains(new Vector2(other.transform.position.x, other.transform.position.z)))
-                //    lastKnownFoodSpotsVec2.Add(new Vector2(other.transform.position.x, other.transform.position.z));
+                //if(!lastKnownFoodSpots.Contains(other.transform.position))
+                //lastKnownFoodSpots.Add(other.ClosestPoint(transform.position));
+                if (!lastKnownFoodSpotsVec2.Contains(new Vector2(other.transform.position.x, other.transform.position.z)))
+                    lastKnownFoodSpotsVec2.Add(new Vector2 (other.transform.position.x, other.transform.position.z));
             }
         }
     }
 
     public void EatFood(FoodBehavior food)
     {
-        if (_nearbyFood.Contains(food))
+        if(_nearbyFood.Contains(food))
             _nearbyFood.Remove(food);
         foreach (Vector3 point in _savedKnownFoodSpots)
         {
-
+            
             lastKnownFoodSpots.Add(point);
             lastKnownFoodSpotsVec2.Add(new Vector2(point.x, point.z));
         }
@@ -236,7 +234,7 @@ public class FishBehaviour : MonoBehaviour
         Debug.DrawRay(transform.position, posTwo, Color.red, 10);
 
         RaycastHit hit;
-
+        
         if (!Physics.Raycast(transform.position, posOne, out hit, 10, LayerMask.GetMask("Obstacle")))
             return posOne;
         else if (!Physics.Raycast(transform.position, posTwo, out hit, 10, LayerMask.GetMask("Obstacle")))
@@ -290,7 +288,7 @@ public class FishBehaviour : MonoBehaviour
     #region Lambda
     private void CalculateLambdaAlone() {
         //CS = constant value
-        float CS = 1.0f / _lambdaAloneFactor;
+        float CS = 1.0f / 5.0f;
         lambdaAlone.PrevDirection = CS * (stressFactorsAlone.PrevDirection + hungerFactorsAlone.PrevDirection + depthFactorsAlone.PrevDirection);
         lambdaAlone.FindFood = CS * (stressFactorsAlone.FindFood + hungerFactorsAlone.FindFood + depthFactorsAlone.FindFood);
         lambdaAlone.SwimWithOrToFish = CS * (stressFactorsAlone.SwimWithOrToFish + hungerFactorsAlone.SwimWithOrToFish + depthFactorsAlone.SwimWithOrToFish);
@@ -298,11 +296,10 @@ public class FishBehaviour : MonoBehaviour
         lambdaAlone.OptimalDepth = CS * (stressFactorsAlone.OptimalDepth + hungerFactorsAlone.OptimalDepth + depthFactorsAlone.OptimalDepth);
 
     }
-   
 
     private void CalculateLambdaSchool() {
         //CS = constant value
-        float CS = 1.0f / _lambdaSchoolingFactor;
+        float CS = 1.0f / 6.0f;
         lambdaSchool.Factors.PrevDirection = CS * (stressFactorsSchool.Factors.PrevDirection + hungerFactorsSchool.Factors.PrevDirection + depthFactorsSchool.Factors.PrevDirection);
         lambdaSchool.Factors.FindFood = CS * (stressFactorsSchool.Factors.FindFood + hungerFactorsSchool.Factors.FindFood + depthFactorsSchool.Factors.FindFood);
         lambdaSchool.Factors.SwimWithOrToFish = CS * (stressFactorsSchool.Factors.SwimWithOrToFish + hungerFactorsSchool.Factors.SwimWithOrToFish + depthFactorsSchool.Factors.SwimWithOrToFish);
@@ -426,7 +423,7 @@ public class FishBehaviour : MonoBehaviour
     private void SetDepthFactorsAlone()
     {
         depthFactorsAlone.OptimalDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_cage.transform.lossyScale.y / 2 - transform.position.y), 2))) / _cage.transform.lossyScale.y / 2;
-        float theRest = (1 - depthFactorsAlone.OptimalDepth) / _depthScale;
+        float theRest = (1 - depthFactorsAlone.OptimalDepth) / 4;
         depthFactorsAlone.PrevDirection = theRest;
         depthFactorsAlone.FindFood = theRest;
         depthFactorsAlone.SwimWithOrToFish = theRest;
@@ -504,21 +501,20 @@ public class FishBehaviour : MonoBehaviour
     {
         Vector3 sumVecD3 = new Vector3();
         //gamle version
-        if (lastKnownFoodSpots.Count == 0)
+        //if (lastKnownFoodSpots.Count == 0)
+        //{
+        //    return new Vector3(0, 0, 0);
+        //}
+        //else 
+        //    sumVecD3 = GetclosestPoint(lastKnownFoodSpots);
+        if (lastKnownFoodSpotsVec2.Count == 0)
         {
             return new Vector3(0, 0, 0);
         }
         else
-            sumVecD3 = GetclosestPoint(lastKnownFoodSpots);
-        // nye version
-        //if (lastKnownFoodSpotsVec2.Count == 0)
-        //{
-        //    return new Vector3(0, 0, 0);
-        //}
-        //else
-        //{
-        //    sumVecD3 = GetclosestPointVec2(lastKnownFoodSpotsVec2);
-        //}
+        {
+            sumVecD3 = GetclosestPointVec2(lastKnownFoodSpotsVec2);
+        }
 
 
         if (MathTools.GetDistanceBetweenVectors(sumVecD3, transform.position) < 1f) {
@@ -526,30 +522,28 @@ public class FishBehaviour : MonoBehaviour
         }
         if (_removePointTimer > 4) {
             _removePointTimer = 0;
-            lastKnownFoodSpots.Remove(sumVecD3);
+            //lastKnownFoodSpots.Remove(sumVecD3);
             _savedKnownFoodSpots.Add(sumVecD3);
-            //lastKnownFoodSpotsVec2.Remove(new Vector2(sumVecD3.x, sumVecD3.z));
+            lastKnownFoodSpotsVec2.Remove(new Vector2(sumVecD3.x, sumVecD3.z));
         }
         // gammel version
-        if (lastKnownFoodSpots.Count <= 0)
-        {
-            foreach (Vector3 point in _savedKnownFoodSpots)
-            {
-                lastKnownFoodSpots.Add(point);
-            }
-            _savedKnownFoodSpots.Clear();
-        }
-        // ny version
-
-
-        //if (lastKnownFoodSpotsVec2.Count <=0) {
+        //if(lastKnownFoodSpots.Count <= 0)
+        //{
         //    foreach (Vector3 point in _savedKnownFoodSpots)
         //    {
-        //        lastKnownFoodSpotsVec2.Add(new Vector2 (point.x, point.z));
-
+        //        lastKnownFoodSpots.Add(point);
         //    }
         //    _savedKnownFoodSpots.Clear();
         //}
+        // ny version
+        if (lastKnownFoodSpotsVec2.Count <=0) {
+            foreach (Vector3 point in _savedKnownFoodSpots)
+            {
+                lastKnownFoodSpotsVec2.Add(new Vector2 (point.x, point.z));
+
+            }
+            _savedKnownFoodSpots.Clear();
+        }
 
         return sumVecD3;
     }

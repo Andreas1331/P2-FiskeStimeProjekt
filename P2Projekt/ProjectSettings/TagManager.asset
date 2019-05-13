@@ -12,7 +12,6 @@ TagManager:
   - Terrain
   - Cage
   - Net
-  - StressOMeter
   layers:
   - Default
   - TransparentFX

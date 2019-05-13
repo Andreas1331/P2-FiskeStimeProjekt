@@ -48,6 +48,8 @@ public abstract class Fish
     public Fish(int id, float weight, float movementSpeed, float maxSpeed, float width, FishType typeOfFish, GameObject preFab)
     {
         //Set variables and generate random hunger level. 
+        maxHunger = 1000;
+        maxStress = 1000;
         Id = id;
         IsDead = false;
         Weight = weight;

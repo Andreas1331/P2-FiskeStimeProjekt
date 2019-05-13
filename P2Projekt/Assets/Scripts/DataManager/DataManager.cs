@@ -22,14 +22,12 @@ public class DataManager : MonoBehaviour
     private readonly float _timerThreshold = 5;
     private float _hungerSum;
     private float _stressSum;
-    private StresOMeter _stressOMeter;
 
     // Start is called before the first frame update
     public void Start()
     {
         UI = FindObjectOfType<UIHandler>();
         UI.Cage = Instantiate(UI.CagePrefab, new Vector3(), Quaternion.identity);
-        //_stressOMeter = FindObjectOfType<StresOMeter>();
     }
 
     public bool SaveStatistics(Statistic stats)
@@ -191,8 +189,6 @@ public class DataManager : MonoBehaviour
                 }
                 _hungerSum /= fishList.Count;
                 _stressSum /= fishList.Count;
-                //_stressOMeter.UpdateStressOMeter(_stressSum);
-                
             }
             _timer = 0;
 
