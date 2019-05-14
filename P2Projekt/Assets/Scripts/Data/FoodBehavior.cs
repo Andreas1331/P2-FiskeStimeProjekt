@@ -19,6 +19,11 @@ public class FoodBehavior : MonoBehaviour
     private void Update()
     {
         transform.position = new Vector3(transform.position.x, transform.position.y-0.2f*Time.deltaTime, transform.position.z);
+        if(transform.position.y < -20)
+        {
+            _dataManager.RemoveFood(_food);
+            transform.gameObject.SetActive(false);
+        }
     }
     public void BeingEaten()
     {
