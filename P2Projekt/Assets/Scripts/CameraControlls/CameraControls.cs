@@ -58,11 +58,11 @@ public class CameraControls : MonoBehaviour
             {
                 cameraSpeed = normalCameraSpeed;
             }
-            if (transform.rotation.z != 0)
+            /*if (transform.rotation.z != 0)
             {
                 v = transform.rotation.eulerAngles;
                 transform.rotation = Quaternion.Euler(v.x, v.y, 0);
-            }
+            }*/
             //_seaBottom.transform.position = new Vector3(0, -_net.transform.lossyScale.y - 5, 0);
         }
     }
