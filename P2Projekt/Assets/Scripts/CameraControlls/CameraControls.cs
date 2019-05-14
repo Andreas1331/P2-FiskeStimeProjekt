@@ -16,6 +16,7 @@ public class CameraControls : MonoBehaviour
     private GameObject _seaBottom;
     void Start()
     {
+        inMenu = false;
         Cage = GameObject.FindGameObjectWithTag("Cage");
         //transform.position = new Vector3(_net.transform.position.x, _net.transform.position.y, _net.transform.position.z);
         _seaBottom = GameObject.FindGameObjectWithTag("Terrain");
@@ -24,6 +25,7 @@ public class CameraControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(inMenu);
         if (Input.GetKeyUp(KeyCode.Escape))
         {
             InMenuChange();
@@ -68,6 +70,7 @@ public class CameraControls : MonoBehaviour
     }
     public void InMenuChange()
     {
+        Debug.Log("pausemenuen startes");
         if (inMenu)
         {
             inMenu = false;

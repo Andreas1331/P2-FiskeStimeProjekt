@@ -11,6 +11,7 @@ public class CameraZoom : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        _inMenu = false;
         Cage = GameObject.FindGameObjectWithTag("Cage");
     }
 
