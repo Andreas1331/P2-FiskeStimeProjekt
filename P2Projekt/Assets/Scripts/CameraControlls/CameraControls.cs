@@ -5,13 +5,14 @@ using UnityEngine;
 public class CameraControls : MonoBehaviour
 {
     Vector3 cameraPosition = new Vector3(0.0f, 0.0f, 0.0f);
+    Vector3 v = new Vector3();
     float maxCameraSpeed = 1.2f;
     float cameraSpeed = 0.6f;
     float normalCameraSpeed = 0.8f;
     // Start is called before the first frame update
     private GameObject _cage;
     public GameObject Cage { set { if (value != null) _cage = value; } }
-    public bool inMenu = false;
+    private bool _inMenu = false;
     private GameObject _seaBottom;
     void Start()
     {
@@ -27,7 +28,8 @@ public class CameraControls : MonoBehaviour
         {
             InMenuChange();
         }
-        if (!inMenu) {
+        if (!_inMenu)
+        {
             if (Input.GetKey("a"))
             {
                 transform.Rotate(0, cameraSpeed, 0);
@@ -57,20 +59,26 @@ public class CameraControls : MonoBehaviour
             {
                 cameraSpeed = normalCameraSpeed;
             }
+            if (transform.rotation.z != 0)
+            {
+                v = transform.rotation.eulerAngles;
+                transform.rotation = Quaternion.Euler(v.x, v.y, 0);
+            }
             //_seaBottom.transform.position = new Vector3(0, -_net.transform.lossyScale.y - 5, 0);
         }
     }
     public void InMenuChange()
     {
-        if (inMenu)
+        Debug.Log("pausemenuen startes");
+        if (_inMenu)
         {
-            inMenu = false;
-            GetComponentInChildren<CameraZoom>()._inMenu = false;
+            _inMenu = false;
+            GetComponentInChildren<CameraZoom>().InMenu = false;
         }
         else
         {
-            inMenu = true;
-            GetComponentInChildren<CameraZoom>()._inMenu = true;
+            _inMenu = true;
+            GetComponentInChildren<CameraZoom>().InMenu = true;
         }
         
 

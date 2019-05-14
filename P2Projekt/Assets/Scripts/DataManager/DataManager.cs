@@ -22,6 +22,7 @@ public class DataManager : MonoBehaviour
     private readonly float _timerThreshold = 5;
     private float _hungerSum;
     private float _stressSum;
+    public float StressSum { get { return _stressSum; } }
 
     // Start is called before the first frame update
     public void Start()
@@ -98,7 +99,9 @@ public class DataManager : MonoBehaviour
         for (int i = 0; i < amountToActivate; i++)
         {
             fishPool[0].FishObject.SetActive(true);
-            fishPool[0].FishObject.transform.position = new Vector3(0, 0, 0); //Default spawn position
+            fishPool[0].IsDead = false;
+            fishPool[0].FishObject.GetComponent<FishBehaviour>().Spawnpoint();
+            //fishPool[0].FishObject.transform.position = new Vector3(0, 0, 0); //Default spawn position
             fishList.Add(fishPool[0]);
             fishPool.Remove(fishPool[0]);
         }
@@ -180,8 +183,10 @@ public class DataManager : MonoBehaviour
 
         if(_timer >= _timerThreshold)
         {
-            if (fishList.Count < 0)
+            if (fishList.Count > 0)
             {
+                _hungerSum = 0;
+                _stressSum = 0;
                 foreach (Fish item in fishList)
                 {
                     _hungerSum += item.Hunger;
@@ -205,4 +210,6 @@ public class DataManager : MonoBehaviour
 
         SaveHungerAndStress();
     }
+
+    
 }

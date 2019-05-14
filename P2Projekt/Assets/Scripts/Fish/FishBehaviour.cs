@@ -58,13 +58,14 @@ public class FishBehaviour : MonoBehaviour
     private float _schoolScale = 50;
     
     private Vector3 _uniqueOffset;
+    private float _reactiontimer;
 
     private void Start()
     {
         // Set the references to the DataManager and cage found in the scene
         DataManager = FindObjectOfType<DataManager>();
         Cage = GameObject.FindGameObjectWithTag("Cage");
-
+        Spawnpoint();
         // Find both the colliders attached to the GameObject
         _outerCollider = GetComponents<SphereCollider>()[0];
         _outerCollider.radius = 5f;
@@ -97,6 +98,7 @@ public class FishBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        _reactiontimer += Time.deltaTime;
         // Only calculate a new position every 0.05 second
         _counter += Time.deltaTime;
         if (_counter > _interval)
@@ -264,7 +266,6 @@ public class FishBehaviour : MonoBehaviour
             _fish.Stress += 1 * (_stressMultiplier * 2) * Time.deltaTime;
         else if (_fish.Stress > 0)
             _fish.Stress -= 1 * Time.deltaTime;
-
         // Start the timer if the fish is stressed.
         if (_fish.Stress >= 0.9 * Fish.maxStress)
         {
@@ -530,31 +531,31 @@ public class FishBehaviour : MonoBehaviour
             lastKnownFoodSpotsVec2.Remove(new Vector2(sumVecD3.x, sumVecD3.z));
         }
         // gammel version
-        if (lastKnownFoodSpots.Count <= 0)
-        {
-            foreach (Vector3 point in _savedKnownFoodSpots)
-            {
-                lastKnownFoodSpots.Add(point);
+        //if (lastKnownFoodSpots.Count <= 0)
+        //{
+        //    foreach (Vector3 point in _savedKnownFoodSpots)
+        //    {
+        //        lastKnownFoodSpots.Add(point);
 
-            }
-            _savedKnownFoodSpots.Clear();
-        }
-        // ny version
+        //    }
+        //    _savedKnownFoodSpots.Clear();
+        //}
 
-
-        //if (lastKnownFoodSpotsVec2.Count <=0) {
+        // gammel version
+        //if (lastKnownFoodSpotsVec2.Count <= 0)
+        //{
         //    foreach (Vector3 point in _savedKnownFoodSpots)
         //    {
         //        lastKnownFoodSpots.Add(point);
         //    }
         //    _savedKnownFoodSpots.Clear();
         //}
+
         // ny version
         if (lastKnownFoodSpotsVec2.Count <=0) {
             foreach (Vector3 point in _savedKnownFoodSpots)
             {
                 lastKnownFoodSpotsVec2.Add(new Vector2 (point.x, point.z));
-
             }
             _savedKnownFoodSpots.Clear();
         }
@@ -639,13 +640,15 @@ public class FishBehaviour : MonoBehaviour
         //Vector3 GoAway = new Vector3(0, 0, 0);
         //Vector3 GoCloser = new Vector3(0, 0, 0);
         Vector3 HoldDistanceVector = new Vector3();
+        Vector3 closestFish = new Vector3();
         if (_nearbyFish.Count != 0)
-            HoldDistanceVector = _nearbyFish[0].transform.position;
+            closestFish = _nearbyFish[0].transform.position;
         foreach (FishBehaviour item in _nearbyFish)
         {
             if (MathTools.GetDistanceBetweenVectors(transform.position, item.transform.position) <
-                         MathTools.GetDistanceBetweenVectors(transform.position, HoldDistanceVector))
+                         MathTools.GetDistanceBetweenVectors(transform.position, closestFish))
             {
+                closestFish = item.transform.position;
                 float distanceBetweenFish = MathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
                 if (distanceBetweenFish < 0.52f) // too close so it makes it go away.
                 {
@@ -751,7 +754,11 @@ public class FishBehaviour : MonoBehaviour
         }
 
         //return _fish.DesiredPoint;
-        return returnVector;
+        if(_reactiontimer > 0.7f)
+        {
+            return returnVector;
+        }
+        return directions.PreviousPoint;
     }
 
     private bool IsSchooling()
@@ -764,5 +771,15 @@ public class FishBehaviour : MonoBehaviour
         return false;
     }
     #endregion
-    
+
+
+    public void Spawnpoint() {
+        transform.position = new Vector3(Random.value * Mathf.Sin(MathTools.DegreeToRadian(45))*_cage.transform.lossyScale.x , Random.value * _cage.transform.lossyScale.y/4f, Random.value * Mathf.Cos(MathTools.DegreeToRadian(45)) * _cage.transform.lossyScale.z);
+        if (Random.value < 0.5f)
+            transform.position = new Vector3(transform.position.x * (-1), transform.position.y, transform.position.z);
+        if (Random.value < 0.5f)
+            transform.position = new Vector3(transform.position.x, transform.position.y * (-1), transform.position.z);
+        if (Random.value < 0.5f)
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z * (-1));
+    }
 }

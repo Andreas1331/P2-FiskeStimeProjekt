@@ -7,7 +7,8 @@ public class CameraZoom : MonoBehaviour
     private GameObject _cage;
     public GameObject Cage { set { if (value != null) _cage = value; } }
     float scale = 0.2f;
-    public bool _inMenu = false;
+    private bool _inMenu = false;
+    public bool InMenu { set { _inMenu = value; } }
     // Start is called before the first frame update
     private void Awake()
     {
@@ -34,7 +35,10 @@ public class CameraZoom : MonoBehaviour
             }
             if (Input.GetKey("e"))
             {
-                transform.localPosition = new Vector3(0, 0, transform.localPosition.z + 0.3f);
+                if (!(transform.localPosition.z > -0.5))
+                {
+                    transform.localPosition = new Vector3(0, 0, transform.localPosition.z + 0.3f);
+                }
             }
             if (Input.GetKey("q"))
             {
