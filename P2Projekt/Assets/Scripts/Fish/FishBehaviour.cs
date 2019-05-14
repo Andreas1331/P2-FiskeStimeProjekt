@@ -538,23 +538,22 @@ public class FishBehaviour : MonoBehaviour
         //    }
         //    _savedKnownFoodSpots.Clear();
         //}
-        // ny version
 
+        // gammel version
+        //if (lastKnownFoodSpotsVec2.Count <= 0)
+        //{
+        //    foreach (Vector3 point in _savedKnownFoodSpots)
+        //    {
+        //        lastKnownFoodSpots.Add(point);
+        //    }
+        //    _savedKnownFoodSpots.Clear();
+        //}
 
-        if (lastKnownFoodSpotsVec2.Count <= 0)
-        {
-            foreach (Vector3 point in _savedKnownFoodSpots)
-            {
-                lastKnownFoodSpots.Add(point);
-            }
-            _savedKnownFoodSpots.Clear();
-        }
         // ny version
         if (lastKnownFoodSpotsVec2.Count <=0) {
             foreach (Vector3 point in _savedKnownFoodSpots)
             {
                 lastKnownFoodSpotsVec2.Add(new Vector2 (point.x, point.z));
-
             }
             _savedKnownFoodSpots.Clear();
         }
