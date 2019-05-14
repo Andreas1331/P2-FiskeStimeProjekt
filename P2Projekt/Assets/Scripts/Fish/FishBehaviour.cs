@@ -64,7 +64,7 @@ public class FishBehaviour : MonoBehaviour
         // Set the references to the DataManager and cage found in the scene
         DataManager = FindObjectOfType<DataManager>();
         Cage = GameObject.FindGameObjectWithTag("Cage");
-
+        Spawnpoint();
         // Find both the colliders attached to the GameObject
         _outerCollider = GetComponents<SphereCollider>()[0];
         _outerCollider.radius = 5f;
@@ -258,7 +258,7 @@ public class FishBehaviour : MonoBehaviour
     private void UpdateStress()
     {
         // Increase or lower the stress based on the fish hunger.
-        if (_fish.Hunger <= 0.9 * Fish.maxHunger && _fish.Hunger > 0.3 * Fish.maxHunger)
+        if (_fish.Hunger <= 0.5 * Fish.maxHunger && _fish.Hunger > 0.3 * Fish.maxHunger)
             _fish.Stress += 1 * _stressMultiplier * Time.deltaTime;
         else if (_fish.Hunger <= 0.3 * Fish.maxHunger)
             _fish.Stress += 1 * (_stressMultiplier * 2) * Time.deltaTime;
@@ -764,5 +764,15 @@ public class FishBehaviour : MonoBehaviour
         return false;
     }
     #endregion
-    
+
+
+    public void Spawnpoint() {
+        transform.position = new Vector3(Random.value * Mathf.Sin(MathTools.DegreeToRadian(45))*_cage.transform.lossyScale.x , Random.value * _cage.transform.lossyScale.y/4f, Random.value * Mathf.Cos(MathTools.DegreeToRadian(45)) * _cage.transform.lossyScale.z);
+        if (Random.value < 0.5f)
+            transform.position = new Vector3(transform.position.x * (-1), transform.position.y, transform.position.z);
+        if (Random.value < 0.5f)
+            transform.position = new Vector3(transform.position.x, transform.position.y * (-1), transform.position.z);
+        if (Random.value < 0.5f)
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z * (-1));
+    }
 }
