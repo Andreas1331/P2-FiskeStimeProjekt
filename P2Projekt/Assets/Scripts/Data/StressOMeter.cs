@@ -20,14 +20,14 @@ public class StressOMeter : MonoBehaviour
         {
             updatetimer = 0;
             UpdateStressOMeter();
-            Debug.Log("maxstress = " +Fish.maxStress);
-            Debug.Log(_dataManager.StressSum);
+            //Debug.Log("maxstress = " +Fish.maxStress);
+            //Debug.Log(_dataManager.StressSum);
         }
     }
     // Update is called once per frame
     private void UpdateStressOMeter() {
         if (_dataManager.StressSum != 0)
             this.GetComponent<RectTransform>().sizeDelta = new Vector2(30,(_dataManager.StressSum/Fish.maxStress*100f)- 100.0f);
-        Debug.Log(100.0f - (_dataManager.StressSum / Fish.maxStress * 100f));
+        //Debug.Log(100.0f - (_dataManager.StressSum / Fish.maxStress * 100f));
     }
 }
