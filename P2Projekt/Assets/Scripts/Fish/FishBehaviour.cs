@@ -696,7 +696,7 @@ public class FishBehaviour : MonoBehaviour
     private Vector3 GetNewPosition()
     {
         if (_fish.IsDead)
-            return new Vector3();
+            return new Vector3(0,0,0);
 
         bool isSchooling = IsSchooling();
         bool isThereNearbyFood = _nearbyFood.Count > 0;
