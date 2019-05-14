@@ -639,13 +639,15 @@ public class FishBehaviour : MonoBehaviour
         //Vector3 GoAway = new Vector3(0, 0, 0);
         //Vector3 GoCloser = new Vector3(0, 0, 0);
         Vector3 HoldDistanceVector = new Vector3();
+        Vector3 closestFish = new Vector3();
         if (_nearbyFish.Count != 0)
-            HoldDistanceVector = _nearbyFish[0].transform.position;
+            closestFish = _nearbyFish[0].transform.position;
         foreach (FishBehaviour item in _nearbyFish)
         {
             if (MathTools.GetDistanceBetweenVectors(transform.position, item.transform.position) <
-                         MathTools.GetDistanceBetweenVectors(transform.position, HoldDistanceVector))
+                         MathTools.GetDistanceBetweenVectors(transform.position, closestFish))
             {
+                closestFish = item.transform.position;
                 float distanceBetweenFish = MathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
                 if (distanceBetweenFish < 0.52f) // too close so it makes it go away.
                 {
