@@ -99,7 +99,8 @@ public class DataManager : MonoBehaviour
         for (int i = 0; i < amountToActivate; i++)
         {
             fishPool[0].FishObject.SetActive(true);
-            fishPool[0].FishObject.transform.position = new Vector3(0, 0, 0); //Default spawn position
+            fishPool[0].FishObject.GetComponent<FishBehaviour>().Spawnpoint();
+            //fishPool[0].FishObject.transform.position = new Vector3(0, 0, 0); //Default spawn position
             fishList.Add(fishPool[0]);
             fishPool.Remove(fishPool[0]);
         }
@@ -208,4 +209,6 @@ public class DataManager : MonoBehaviour
 
         SaveHungerAndStress();
     }
+
+    
 }
