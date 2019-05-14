@@ -35,7 +35,10 @@ public class CameraZoom : MonoBehaviour
             }
             if (Input.GetKey("e"))
             {
-                transform.localPosition = new Vector3(0, 0, transform.localPosition.z + 0.3f);
+                if (!(transform.localPosition.z > -0.5))
+                {
+                    transform.localPosition = new Vector3(0, 0, transform.localPosition.z + 0.3f);
+                }
             }
             if (Input.GetKey("q"))
             {
