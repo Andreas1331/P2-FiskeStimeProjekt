@@ -216,22 +216,22 @@ public class UIHandler : MonoBehaviour
     {
         float amountFromInput = float.Parse(inputText.text);
         
-        if (amountFromInput < 0)
+        if (amountFromInput >= 0)
         {
-            AmountOfFishtxt.text = "Incorrect amount";
-        } else
-        {
-            AmountOfFishtxt.text = "Amount of fish: " + amountFromInput;
-            DM.GetAmountOfFishToAddOrRemove(amountFromInput);
-
             if (AmountOfFishSlider.minValue <= amountFromInput && amountFromInput <= AmountOfFishSlider.maxValue)
             {
-                AmountOfFishSlider.enabled = true;
+                //AmountOfFishSlider.enabled = true;
+                AmountOfFishSlider.value = amountFromInput;
             }
             else
             {
-                AmountOfFishSlider.enabled = false;
+                AmountOfFishtxt.text = "Amount of fish: " + amountFromInput;
+                DM.GetAmountOfFishToAddOrRemove(amountFromInput);
+                //AmountOfFishSlider.enabled = false;
             }
+        } else
+        {
+            AmountOfFishtxt.text = "Incorrect amount";
         }
     }
     
@@ -246,24 +246,24 @@ public class UIHandler : MonoBehaviour
     {
         float amountFromInput = float.Parse(inputText.text);
 
-        if (amountFromInput < 0)
+        if (amountFromInput >= 0)
         {
-            CageRadiustxt.text = "Incorrect amount";
-        }
-        else
-        {
-            CageRadiustxt.text = "CAGE RADIUS: " + amountFromInput;
-            _radiusOfCage = amountFromInput;
-
             if (SizeOfCageSlider.minValue <= amountFromInput && amountFromInput <= SizeOfCageSlider.maxValue)
             {
-                SizeOfCageSlider.enabled = true;
+                //SizeOfCageSlider.enabled = true;
+                SizeOfCageSlider.value = amountFromInput;
             }
             else
             {
-                SizeOfCageSlider.enabled = false;
+                CageRadiustxt.text = "CAGE RADIUS: " + amountFromInput;
+                _radiusOfCage = amountFromInput;
+                //SizeOfCageSlider.enabled = false;
             }
             ApplySizeOfCage();
+        }
+        else
+        {
+            CageRadiustxt.text = "Incorrect amount";
         }
     }
 
@@ -277,24 +277,25 @@ public class UIHandler : MonoBehaviour
     {
         float amountFromInput = float.Parse(inputText.text);
 
-        if (amountFromInput < 0)
+        if (amountFromInput >= 0)
         {
-            CageDepthtxt.text = "Incorrect amount";
-        }
-        else
-        {
-            CageDepthtxt.text = "CAGE DEPTH: " + amountFromInput;
-            _depthOfCage = amountFromInput;
-
+            
             if (DepthOfCageSlider.minValue <= amountFromInput && amountFromInput <= DepthOfCageSlider.maxValue)
             {
-                DepthOfCageSlider.enabled = true;
+                //DepthOfCageSlider.enabled = true;
+                DepthOfCageSlider.value = amountFromInput;
             }
             else
             {
-                DepthOfCageSlider.enabled = false;
+                CageDepthtxt.text = "CAGE DEPTH: " + amountFromInput;
+                _depthOfCage = amountFromInput;
+                //DepthOfCageSlider.enabled = false;
             }
             ApplySizeOfCage();
+        }
+        else
+        {
+            CageDepthtxt.text = "Incorrect amount";
         }
     }
 
