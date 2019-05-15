@@ -59,6 +59,10 @@ public class FishBehaviour : MonoBehaviour
     private float _lambdaAloneScale = 5;
     private float _lambdaSchoolScale = 6;
     private float _depthScale = 4;
+    private float _depthDividerAlone = 4;
+    private float _depthDividerSchool = 5;
+
+
 
 
 
@@ -454,8 +458,8 @@ public class FishBehaviour : MonoBehaviour
 
     private void SetDepthFactorsAlone()
     {
-        depthFactorsAlone.OptimalDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_cage.transform.lossyScale.y / 2 - transform.position.y), 2))) / _cage.transform.lossyScale.y / 2;
-        float theRest = (1 - depthFactorsAlone.OptimalDepth) / _depthScale;
+        depthFactorsAlone.OptimalDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_cage.transform.lossyScale.y / _depthScale - transform.position.y), 2))) / _cage.transform.lossyScale.y / _depthScale;
+        float theRest = (1 - depthFactorsAlone.OptimalDepth) / _depthDividerAlone;
         depthFactorsAlone.PrevDirection = theRest;
         depthFactorsAlone.FindFood = theRest;
         depthFactorsAlone.SwimWithOrToFish = theRest;
@@ -464,9 +468,9 @@ public class FishBehaviour : MonoBehaviour
 
     private void SetDepthFactorsSchool()
     {
-        depthFactorsSchool.Factors.OptimalDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_cage.transform.lossyScale.y / 2 - transform.position.y), 2))) / _cage.transform.lossyScale.y / 2;
+        depthFactorsSchool.Factors.OptimalDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_cage.transform.lossyScale.y / _depthScale - transform.position.y), 2))) / _cage.transform.lossyScale.y / _depthScale;
 
-        float theRest = (1 - depthFactorsSchool.Factors.OptimalDepth) / 5;
+        float theRest = (1 - depthFactorsSchool.Factors.OptimalDepth) / _depthDividerSchool;
         depthFactorsSchool.Factors.PrevDirection = theRest;
         depthFactorsSchool.Factors.FindFood = theRest;
         depthFactorsSchool.Factors.SwimWithOrToFish = theRest;
