@@ -56,7 +56,12 @@ public class FishBehaviour : MonoBehaviour
     private float _holdDistanceScale = 3;
     private float _aloneScale = 40;
     private float _schoolScale = 50;
-    
+    private float _lambdaAloneScale = 5;
+    private float _lambdaSchoolScale = 6;
+    private float _depthScale = 4;
+
+
+
     private Vector3 _uniqueOffset;
     private float _reactiontimer;
 
@@ -289,38 +294,24 @@ public class FishBehaviour : MonoBehaviour
 
     #region Lambda
     private void CalculateLambdaAlone() {
+        SetDepthFactorsAlone();
+        CalculateHungerFactorsAlone();
+        CalculateStressFactorsAlone();
         //CS = constant value
-        float CS = 1.0f / 5.0f;
-        lambdaAlone.PrevDirection = 
-            CS * (stressFactorsAlone.PrevDirection + 
-                  hungerFactorsAlone.PrevDirection + 
-                  depthFactorsAlone.PrevDirection);
-
-        lambdaAlone.FindFood = 
-            CS * (stressFactorsAlone.FindFood + 
-                  hungerFactorsAlone.FindFood + 
-                  depthFactorsAlone.FindFood);
-
-        lambdaAlone.SwimWithOrToFish = 
-            CS * (stressFactorsAlone.SwimWithOrToFish + 
-                  hungerFactorsAlone.SwimWithOrToFish + 
-                  depthFactorsAlone.SwimWithOrToFish);
-
-        lambdaAlone.CollisionDodge = 
-            CS * (stressFactorsAlone.CollisionDodge + 
-                  hungerFactorsAlone.CollisionDodge + 
-                  depthFactorsAlone.CollisionDodge);
-
-        lambdaAlone.OptimalDepth = 
-            CS * (stressFactorsAlone.OptimalDepth + 
-                  hungerFactorsAlone.OptimalDepth + 
-                  depthFactorsAlone.OptimalDepth);
-
+        float CS = 1.0f / _lambdaAloneScale;
+        lambdaAlone.PrevDirection = CS * (stressFactorsAlone.PrevDirection + hungerFactorsAlone.PrevDirection + depthFactorsAlone.PrevDirection);
+        lambdaAlone.FindFood = CS * (stressFactorsAlone.FindFood + hungerFactorsAlone.FindFood + depthFactorsAlone.FindFood);
+        lambdaAlone.SwimWithOrToFish = CS * (stressFactorsAlone.SwimWithOrToFish + hungerFactorsAlone.SwimWithOrToFish + depthFactorsAlone.SwimWithOrToFish);
+        lambdaAlone.CollisionDodge = CS * (stressFactorsAlone.CollisionDodge + hungerFactorsAlone.CollisionDodge + depthFactorsAlone.CollisionDodge);
+        lambdaAlone.OptimalDepth = CS * (stressFactorsAlone.OptimalDepth + hungerFactorsAlone.OptimalDepth + depthFactorsAlone.OptimalDepth);
     }
 
     private void CalculateLambdaSchool() {
+        SetDepthFactorsSchool();
+        CalculateHungerFactorsSchool();
+        CalculateStressFactorsSchool();
         //CS = constant value
-        float CS = 1.0f / 6.0f;
+        float CS = 1.0f / _lambdaSchoolScale;
         lambdaSchool.Factors.PrevDirection = CS * (stressFactorsSchool.Factors.PrevDirection + hungerFactorsSchool.Factors.PrevDirection + depthFactorsSchool.Factors.PrevDirection);
         lambdaSchool.Factors.FindFood = CS * (stressFactorsSchool.Factors.FindFood + hungerFactorsSchool.Factors.FindFood + depthFactorsSchool.Factors.FindFood);
         lambdaSchool.Factors.SwimWithOrToFish = CS * (stressFactorsSchool.Factors.SwimWithOrToFish + hungerFactorsSchool.Factors.SwimWithOrToFish + depthFactorsSchool.Factors.SwimWithOrToFish);
@@ -444,7 +435,7 @@ public class FishBehaviour : MonoBehaviour
     private void SetDepthFactorsAlone()
     {
         depthFactorsAlone.OptimalDepth = 1 * (Mathf.Sqrt(Mathf.Pow((_cage.transform.lossyScale.y / 2 - transform.position.y), 2))) / _cage.transform.lossyScale.y / 2;
-        float theRest = (1 - depthFactorsAlone.OptimalDepth) / 4;
+        float theRest = (1 - depthFactorsAlone.OptimalDepth) / _depthScale;
         depthFactorsAlone.PrevDirection = theRest;
         depthFactorsAlone.FindFood = theRest;
         depthFactorsAlone.SwimWithOrToFish = theRest;
@@ -730,9 +721,6 @@ public class FishBehaviour : MonoBehaviour
         
         if (isSchooling)
         {
-            SetDepthFactorsSchool();
-            CalculateHungerFactorsSchool();
-            CalculateStressFactorsSchool();
             CalculateLambdaSchool();
             directions.SwimWithOrToFish = SwimWithFriends();
             directions.HoldDistanceToFishDirection = HoldDistanceToFish();
@@ -749,9 +737,6 @@ public class FishBehaviour : MonoBehaviour
             }
         }
         else {
-            SetDepthFactorsAlone();
-            CalculateHungerFactorsAlone();
-            CalculateStressFactorsAlone();
             CalculateLambdaAlone();
             directions.SwimWithOrToFish = SwimTowardsOtherFish();
             if (isThereNearbyFood)

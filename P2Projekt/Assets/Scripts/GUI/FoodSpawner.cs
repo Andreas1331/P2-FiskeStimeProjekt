@@ -23,9 +23,7 @@ public class FoodSpawner : MonoBehaviour
         cursorPosition.y -= 1030;
         cursorPosition.x -= 50;
         SpawnFoodAtPoint(cursorPosition);
-
     }
-
     public void SpawnFoodAtPoint(Vector2 point) {
         _DM.AddFoodToCage(1,5, point);
     }
