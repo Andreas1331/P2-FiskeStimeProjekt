@@ -297,13 +297,33 @@ public class FishBehaviour : MonoBehaviour
         SetDepthFactorsAlone();
         CalculateHungerFactorsAlone();
         CalculateStressFactorsAlone();
-        //CS = constant value
-        float CS = 1.0f / _lambdaAloneScale;
-        lambdaAlone.PrevDirection = CS * (stressFactorsAlone.PrevDirection + hungerFactorsAlone.PrevDirection + depthFactorsAlone.PrevDirection);
-        lambdaAlone.FindFood = CS * (stressFactorsAlone.FindFood + hungerFactorsAlone.FindFood + depthFactorsAlone.FindFood);
-        lambdaAlone.SwimWithOrToFish = CS * (stressFactorsAlone.SwimWithOrToFish + hungerFactorsAlone.SwimWithOrToFish + depthFactorsAlone.SwimWithOrToFish);
-        lambdaAlone.CollisionDodge = CS * (stressFactorsAlone.CollisionDodge + hungerFactorsAlone.CollisionDodge + depthFactorsAlone.CollisionDodge);
-        lambdaAlone.OptimalDepth = CS * (stressFactorsAlone.OptimalDepth + hungerFactorsAlone.OptimalDepth + depthFactorsAlone.OptimalDepth);
+        
+        float CS = 1.0f / _lambdaAloneScale; //Constant value
+
+        lambdaAlone.PrevDirection = 
+            CS * (stressFactorsAlone.PrevDirection + 
+                  hungerFactorsAlone.PrevDirection + 
+                  depthFactorsAlone.PrevDirection);
+
+        lambdaAlone.FindFood = 
+            CS * (stressFactorsAlone.FindFood + 
+                  hungerFactorsAlone.FindFood + 
+                  depthFactorsAlone.FindFood);
+
+        lambdaAlone.SwimWithOrToFish = 
+            CS * (stressFactorsAlone.SwimWithOrToFish + 
+                  hungerFactorsAlone.SwimWithOrToFish + 
+                  depthFactorsAlone.SwimWithOrToFish);
+
+        lambdaAlone.CollisionDodge = 
+            CS * (stressFactorsAlone.CollisionDodge + 
+                  hungerFactorsAlone.CollisionDodge + 
+                  depthFactorsAlone.CollisionDodge);
+
+        lambdaAlone.OptimalDepth = 
+            CS * (stressFactorsAlone.OptimalDepth + 
+                  hungerFactorsAlone.OptimalDepth + 
+                  depthFactorsAlone.OptimalDepth);
     }
 
     private void CalculateLambdaSchool() {
