@@ -82,7 +82,6 @@ public class FishBehaviour : MonoBehaviour
         {
             lastKnownFoodSpots.Add(new Vector3(Random.value * (_cage.gameObject.transform.lossyScale.x / 3.75f), Random.value * (_cage.gameObject.transform.lossyScale.y / 3.75f), Random.value * (_cage.gameObject.transform.lossyScale.z / 3.75f)));
             lastKnownFoodSpotsVec2.Add(new Vector2(Random.value * (_cage.gameObject.transform.lossyScale.x / 3.75f), Random.value * (_cage.gameObject.transform.lossyScale.z / 3.75f)));
-
         }
 
         GenerateRandomOffset();
@@ -158,6 +157,9 @@ public class FishBehaviour : MonoBehaviour
         // Check if the object detected is another fish, or an obstacle.
         if (other.tag.Equals("Fish"))
         {
+            if (_innerCollider == null)
+                return;
+
             if (MathTools.GetDistanceBetweenVectors(transform.position, other.gameObject.transform.position) <= _innerCollider.radius)
                 return;
 
