@@ -53,10 +53,11 @@ public class FishBehaviour : MonoBehaviour
 
     private Material _mat;
     private Color _defaultColor = new Color(191 / 255f, 249 / 255f, 249 / 255f, 255 / 255f);
-    private float _holdDistanceScale = 3;
-    private float _aloneScale = 40;
-    private float _schoolScale = 50;
-    
+    private const float _holdDistanceScale = 3;
+    private const float _aloneScale = 40;
+    private const float _schoolScale = 50;
+    private const float _pointInterval = 4; // In seconds
+
     private Vector3 _uniqueOffset;
     private float _reactiontimer;
 
@@ -65,7 +66,7 @@ public class FishBehaviour : MonoBehaviour
         // Set the references to the DataManager and cage found in the scene
         DataManager = FindObjectOfType<DataManager>();
         Cage = GameObject.FindGameObjectWithTag("Cage");
-        Spawnpoint();
+        SetPositionOnSpawn();
         // Find both the colliders attached to the GameObject
         _outerCollider = GetComponents<SphereCollider>()[0];
         _outerCollider.radius = 5f;
@@ -523,7 +524,7 @@ public class FishBehaviour : MonoBehaviour
             _removePointTimer += Time.deltaTime;
         }
 
-        if (_removePointTimer > 4)
+        if (_removePointTimer >= _pointInterval)
         {
             _removePointTimer = 0;
             //lastKnownFoodSpots.Remove(sumVecD3);
@@ -552,7 +553,7 @@ public class FishBehaviour : MonoBehaviour
         //}
 
         // ny version
-        if (lastKnownFoodSpotsVec2.Count <=0) {
+        if (lastKnownFoodSpotsVec2.Count <= 0) {
             foreach (Vector3 point in _savedKnownFoodSpots)
             {
                 lastKnownFoodSpotsVec2.Add(new Vector2 (point.x, point.z));
@@ -773,7 +774,7 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
 
-    public void Spawnpoint() {
+    public void SetPositionOnSpawn() {
         transform.position = new Vector3(Random.value * Mathf.Sin(MathTools.DegreeToRadian(45))*_cage.transform.lossyScale.x , Random.value * _cage.transform.lossyScale.y/4f, Random.value * Mathf.Cos(MathTools.DegreeToRadian(45)) * _cage.transform.lossyScale.z);
         if (Random.value < 0.5f)
             transform.position = new Vector3(transform.position.x * (-1), transform.position.y, transform.position.z);
