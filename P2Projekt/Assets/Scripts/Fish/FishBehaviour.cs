@@ -291,11 +291,30 @@ public class FishBehaviour : MonoBehaviour
     private void CalculateLambdaAlone() {
         //CS = constant value
         float CS = 1.0f / 5.0f;
-        lambdaAlone.PrevDirection = CS * (stressFactorsAlone.PrevDirection + hungerFactorsAlone.PrevDirection + depthFactorsAlone.PrevDirection);
-        lambdaAlone.FindFood = CS * (stressFactorsAlone.FindFood + hungerFactorsAlone.FindFood + depthFactorsAlone.FindFood);
-        lambdaAlone.SwimWithOrToFish = CS * (stressFactorsAlone.SwimWithOrToFish + hungerFactorsAlone.SwimWithOrToFish + depthFactorsAlone.SwimWithOrToFish);
-        lambdaAlone.CollisionDodge = CS * (stressFactorsAlone.CollisionDodge + hungerFactorsAlone.CollisionDodge + depthFactorsAlone.CollisionDodge);
-        lambdaAlone.OptimalDepth = CS * (stressFactorsAlone.OptimalDepth + hungerFactorsAlone.OptimalDepth + depthFactorsAlone.OptimalDepth);
+        lambdaAlone.PrevDirection = 
+            CS * (stressFactorsAlone.PrevDirection + 
+                  hungerFactorsAlone.PrevDirection + 
+                  depthFactorsAlone.PrevDirection);
+
+        lambdaAlone.FindFood = 
+            CS * (stressFactorsAlone.FindFood + 
+                  hungerFactorsAlone.FindFood + 
+                  depthFactorsAlone.FindFood);
+
+        lambdaAlone.SwimWithOrToFish = 
+            CS * (stressFactorsAlone.SwimWithOrToFish + 
+                  hungerFactorsAlone.SwimWithOrToFish + 
+                  depthFactorsAlone.SwimWithOrToFish);
+
+        lambdaAlone.CollisionDodge = 
+            CS * (stressFactorsAlone.CollisionDodge + 
+                  hungerFactorsAlone.CollisionDodge + 
+                  depthFactorsAlone.CollisionDodge);
+
+        lambdaAlone.OptimalDepth = 
+            CS * (stressFactorsAlone.OptimalDepth + 
+                  hungerFactorsAlone.OptimalDepth + 
+                  depthFactorsAlone.OptimalDepth);
 
     }
 
