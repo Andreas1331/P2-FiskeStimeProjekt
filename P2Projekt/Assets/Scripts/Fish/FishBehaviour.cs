@@ -58,6 +58,7 @@ public class FishBehaviour : MonoBehaviour
     private float _schoolScale = 50;
     
     private Vector3 _uniqueOffset;
+    private float _reactiontimer;
 
     private void Start()
     {
@@ -97,6 +98,7 @@ public class FishBehaviour : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+        _reactiontimer += Time.deltaTime;
         // Only calculate a new position every 0.05 second
         _counter += Time.deltaTime;
         if (_counter > _interval)
@@ -697,7 +699,7 @@ public class FishBehaviour : MonoBehaviour
     private Vector3 GetNewPosition()
     {
         if (_fish.IsDead)
-            return new Vector3();
+            return new Vector3(0,0,0);
 
         bool isSchooling = IsSchooling();
         bool isThereNearbyFood = _nearbyFood.Count > 0;
@@ -752,7 +754,11 @@ public class FishBehaviour : MonoBehaviour
         }
 
         //return _fish.DesiredPoint;
-        return returnVector;
+        if(_reactiontimer > 0.7f)
+        {
+            return returnVector;
+        }
+        return directions.PreviousPoint;
     }
 
     private bool IsSchooling()
