@@ -69,7 +69,6 @@ public class CameraControls : MonoBehaviour
     }
     public void InMenuChange()
     {
-        Debug.Log("pausemenuen startes");
         if (_inMenu)
         {
             _inMenu = false;

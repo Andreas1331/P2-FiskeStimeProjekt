@@ -80,7 +80,7 @@ public class UIHandler : MonoBehaviour
         }
         SetSimSpeed(DDOLV.defaultSimSpeed);
     }
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -99,14 +99,9 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void LoadStartMenu()
+    public void LoadScene(string scene)
     {
-        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
-    }
-
-    public void LoadMainScene()
-    {
-        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 
     public void ApplicationQuit()
@@ -145,24 +140,20 @@ public class UIHandler : MonoBehaviour
     {
         Time.timeScale = timeFactor;
     }
-    public void SetSpeedButtens(float timefactor)
-    {
-        SetSimSpeed(timefactor);
-    }
 
     public void ToggleGuiVisibility(GameObject overlayPanel)
     {
         HideGui(overlayPanel);
     }
-    public void HideGui(GameObject GuiPanel)
+    public void HideGui(GameObject guiPanel)
     {
-        if (GuiPanel.activeSelf == true)
+        if (guiPanel.activeSelf == true)
         {
-            GuiPanel.SetActive(false);
+            guiPanel.SetActive(false);
         }
         else
         {
-            GuiPanel.SetActive(true);
+            guiPanel.SetActive(true);
         }
     }
 
@@ -298,9 +289,6 @@ public class UIHandler : MonoBehaviour
             CageDepthtxt.text = "Incorrect amount";
         }
     }
-
-
-
 
     public void ApplySizeOfCage()
     {
