@@ -79,6 +79,18 @@ public class UIHandler : MonoBehaviour
             AmountOfFishSlider.value = DDOLV.defaultAmountOfFish;
         }
         SetSimSpeed(DDOLV.defaultSimSpeed);
+
+        Vector3 D1 = new Vector3(7, 3, 6);
+        Vector3 D2 = new Vector3(-6, -5, 3);
+        Vector3 D3 = new Vector3(3, 3, -6);
+        Vector3 D4 = new Vector3(-2, 3, 6);
+        Vector3 D5 = new Vector3(1, -8, 0);
+        Vector3 D6 = new Vector3(4, 2, -6);
+
+        float lambda = 1 / 6;
+
+        Vector3 D = (D1 * lambda) + (D2 * lambda) + (D3 * lambda) + (D4 * lambda) + (D5 * lambda) + (D6 * lambda);
+        Debug.Log(D);
     }
     void Update()
     {
