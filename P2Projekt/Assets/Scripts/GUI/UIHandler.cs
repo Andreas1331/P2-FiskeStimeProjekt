@@ -38,15 +38,6 @@ public class UIHandler : MonoBehaviour
 
     private void Awake()
     {
-        Vector3 D1 = new Vector3(4,0,1);
-        Vector3 D2 = new Vector3(-3,4,1);
-        Vector3 D3 = new Vector3(1.5f,3,-3);
-        Vector3 D4 = new Vector3(-1,-1,-1);
-        Vector3 D5 = new Vector3(3,-4,1);
-        float cs = 0.2f;
-        Vector3 D = (cs * D1) + (cs * D2) + (cs * D3) + (cs * D4) + (cs * D5);
-        Debug.Log("D: " + D);
-
         //Class to store variables to transfor to Main-scene
         DDOLV = FindObjectOfType<DontDestroyOnLoadVariables>();
 
@@ -89,7 +80,7 @@ public class UIHandler : MonoBehaviour
         }
         SetSimSpeed(DDOLV.defaultSimSpeed);
     }
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -108,14 +99,9 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void LoadStartMenu()
+    public void LoadScene(string scene)
     {
-        SceneManager.LoadScene("StartMenu", LoadSceneMode.Single);
-    }
-
-    public void LoadMainScene()
-    {
-        SceneManager.LoadScene("Main", LoadSceneMode.Single);
+        SceneManager.LoadScene(scene, LoadSceneMode.Single);
     }
 
     public void ApplicationQuit()
@@ -154,24 +140,20 @@ public class UIHandler : MonoBehaviour
     {
         Time.timeScale = timeFactor;
     }
-    public void SetSpeedButtens(float timefactor)
-    {
-        SetSimSpeed(timefactor);
-    }
 
     public void ToggleGuiVisibility(GameObject overlayPanel)
     {
         HideGui(overlayPanel);
     }
-    public void HideGui(GameObject GuiPanel)
+    public void HideGui(GameObject guiPanel)
     {
-        if (GuiPanel.activeSelf == true)
+        if (guiPanel.activeSelf == true)
         {
-            GuiPanel.SetActive(false);
+            guiPanel.SetActive(false);
         }
         else
         {
-            GuiPanel.SetActive(true);
+            guiPanel.SetActive(true);
         }
     }
 
@@ -307,9 +289,6 @@ public class UIHandler : MonoBehaviour
             CageDepthtxt.text = "Incorrect amount";
         }
     }
-
-
-
 
     public void ApplySizeOfCage()
     {
