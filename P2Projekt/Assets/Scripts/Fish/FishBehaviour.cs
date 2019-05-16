@@ -674,7 +674,7 @@ public class FishBehaviour : MonoBehaviour
         //Vector3 GoCloser = new Vector3(0, 0, 0);
         Vector3 HoldDistanceVector = new Vector3();
         Vector3 closestFish = new Vector3();
-        if (_nearbyFish.Count != 0)
+        if (_nearbyFish.Count > 0)
             closestFish = _nearbyFish[0].transform.position;
         foreach (FishBehaviour item in _nearbyFish)
         {
@@ -682,25 +682,26 @@ public class FishBehaviour : MonoBehaviour
                          MathTools.GetDistanceBetweenVectors(transform.position, closestFish))
             {
                 closestFish = item.transform.position;
-                float distanceBetweenFish = MathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
-                if (distanceBetweenFish < 0.52f) // too close so it makes it go away.
-                {
-                    float distanceFactor = (1 / Mathf.Sin(_holdDistanceScale * distanceBetweenFish)) - 1;
-                    float negativeDistanceFactor = (-1) * (distanceFactor);
-                    HoldDistanceVector.x = negativeDistanceFactor * (item.transform.position.x - transform.position.x);
-                    HoldDistanceVector.y = negativeDistanceFactor * (item.transform.position.y - transform.position.y);
-                    HoldDistanceVector.z = negativeDistanceFactor * (item.transform.position.z - transform.position.z);
-                }
-                else if (distanceBetweenFish < 0.86f) //too far away so it makes it go closer.
-                {
-                    float distanceFactor = (1 / Mathf.Sin(_holdDistanceScale * distanceBetweenFish)) - 1;
-                    HoldDistanceVector.x = (distanceFactor) * (item.transform.position.x - transform.position.x) ;
-                    HoldDistanceVector.y = (distanceFactor) * (item.transform.position.y - transform.position.y) ;
-                    HoldDistanceVector.z = (distanceFactor) * (item.transform.position.z - transform.position.z) ;
-                }
             }
         }
-        return HoldDistanceVector;
+
+        float distanceBetweenFish = MathTools.GetDistanceBetweenVectors(closestFish, transform.position);
+        if (distanceBetweenFish < 0.52f) // too close so it makes it go away.
+        {
+            float distanceFactor = (1 / Mathf.Sin(_holdDistanceScale * distanceBetweenFish)) - 1;
+            float negativeDistanceFactor = (-1) * (distanceFactor);
+            HoldDistanceVector.x = negativeDistanceFactor * (closestFish.x - transform.position.x);
+            HoldDistanceVector.y = negativeDistanceFactor * (closestFish.y - transform.position.y);
+            HoldDistanceVector.z = negativeDistanceFactor * (closestFish.z - transform.position.z);
+        }
+        else if (distanceBetweenFish < 0.86f) //too far away so it makes it go closer.
+        {
+            float distanceFactor = (1 / Mathf.Sin(_holdDistanceScale * distanceBetweenFish)) - 1;
+            HoldDistanceVector.x = (distanceFactor) * (closestFish.x - transform.position.x) ;
+            HoldDistanceVector.y = (distanceFactor) * (closestFish.y - transform.position.y) ;
+            HoldDistanceVector.z = (distanceFactor) * (closestFish.z - transform.position.z) ;
+        }
+    return HoldDistanceVector;
             //gamle version
         //    float distanceBetweenFish = MathTools.GetDistanceBetweenVectors(item.transform.position, transform.position);
         //    float distanceFactor = (1 / Mathf.Sin(3 * distanceBetweenFish)) - 1;
@@ -792,7 +793,7 @@ public class FishBehaviour : MonoBehaviour
     {
         foreach (FishBehaviour fish in _nearbyFish)
         {
-            if (MathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) < 1f)
+            if (MathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) < 0.86f)
                 return true;
         }
         return false;
