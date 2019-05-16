@@ -38,6 +38,15 @@ public class UIHandler : MonoBehaviour
 
     private void Awake()
     {
+        Vector3 D1 = new Vector3(4,0,1);
+        Vector3 D2 = new Vector3(-3,4,1);
+        Vector3 D3 = new Vector3(1.5f,3,-3);
+        Vector3 D4 = new Vector3(-1,-1,-1);
+        Vector3 D5 = new Vector3(3,-4,1);
+        float cs = 0.2f;
+        Vector3 D = (cs * D1) + (cs * D2) + (cs * D3) + (cs * D4) + (cs * D5);
+        Debug.Log("D: " + D);
+
         //Class to store variables to transfor to Main-scene
         DDOLV = FindObjectOfType<DontDestroyOnLoadVariables>();
 

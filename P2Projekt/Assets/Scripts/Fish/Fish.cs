@@ -75,7 +75,6 @@ public abstract class Fish
         if (!IsDead)
         {
             Vector3 dir = MathTools.GetDirectionVector3(FishObject.transform.position, DesiredPoint);
-            //Vector3 dir = MathTools.GetDirectionVector3(FishObject.transform.position, position);
 
             DesiredPoint += dir.normalized;
 
