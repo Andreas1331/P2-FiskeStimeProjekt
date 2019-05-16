@@ -214,10 +214,6 @@ public class FishBehaviour : MonoBehaviour
     {
         float angle = MathTools.GetAngleBetweenVectors((_fish.DesiredPoint - _fish.FishObject.transform.position), (pos - transform.position));
 
-        Vector3 posOne = _fish.DesiredPoint - transform.position;
-        Vector3 posTwo = pos - transform.position;
-        Debug.DrawRay(transform.position, posOne.normalized, Color.red, 30);
-
         float dist = MathTools.GetDistanceBetweenVectors(transform.position, pos);
         float catheter = MathTools.GetOpposingCatheter(angle, dist);
 
@@ -228,9 +224,6 @@ public class FishBehaviour : MonoBehaviour
     {
         Vector3 posOne = new Vector3(pos.x + offset, pos.y, pos.z) - transform.position;
         Vector3 posTwo = new Vector3(pos.x - offset, pos.y, pos.z) - transform.position;
-
-        Debug.DrawRay(transform.position, posOne, Color.yellow, 10);
-        Debug.DrawRay(transform.position, posTwo, Color.red, 10);
 
         RaycastHit hit;
         
