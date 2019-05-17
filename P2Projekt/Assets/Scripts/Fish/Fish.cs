@@ -39,7 +39,6 @@ public abstract class Fish
                 _hunger = 0;
         }
     }
-    public float Size { get; set; }
     public Vector3 DesiredPoint { get; set; }
     public FishType TypeOfFish { get; set; }
     public GameObject FishObject { get; set; }
