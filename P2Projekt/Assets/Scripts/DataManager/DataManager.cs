@@ -16,6 +16,7 @@ public class DataManager : MonoBehaviour
     public int timesAddedFood = 0;
     private int fishCounter=0;
     private int foodCounter=0;
+    public int wastedFoodCounter = 0;
     public UIHandler UI;
     private CultureInfo culture = CultureInfo.CreateSpecificCulture("da-DK");
     private float _timer;
@@ -31,10 +32,11 @@ public class DataManager : MonoBehaviour
         UI.Cage = Instantiate(UI.CagePrefab, new Vector3(), Quaternion.identity);
     }
 
-    public bool SaveStatistics(Statistic stats)
+    public void SaveStatistics()
     {
+        Statistic stats = new Statistic(deathCounter, _hungerSum, _stressSum, fishCounter, foodCounter*5, wastedFoodCounter);
         if (stats == null)
-            return false;
+            return ;
 
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         if (System.IO.Directory.Exists(path))
@@ -47,9 +49,9 @@ public class DataManager : MonoBehaviour
             string fileName = String.Format(@"\FishStatistics_{0}_{1}.json", date, amount);
 
             System.IO.File.WriteAllText(path + fileName, data);
-            return true;
+            return ;
         }
-        return false;
+        return ;
     }
 
     public void GetAmountOfFishToAddOrRemove(float totalAmountOfFish)

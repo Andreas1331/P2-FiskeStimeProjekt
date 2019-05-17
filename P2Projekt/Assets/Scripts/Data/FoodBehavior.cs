@@ -12,7 +12,6 @@ public class FoodBehavior : MonoBehaviour
         _scalingFactor = transform.lossyScale.x;
         transform.localScale = new Vector3(_scalingFactor *_food.Health, _scalingFactor *_food.Health, _scalingFactor *_food.Health);
         DataManager = FindObjectOfType<DataManager>();
-        //_dataManager.foodList.Add(_food);
         transform.position = new Vector3((_food.position.x*2)/100* _dataManager.UI.Cage.gameObject.transform.lossyScale.x, _dataManager.UI.Cage.gameObject.transform.lossyScale.y / 4, (_food.position.y*2)/100* _dataManager.UI.Cage.gameObject.transform.lossyScale.z);
     }
 
@@ -22,6 +21,7 @@ public class FoodBehavior : MonoBehaviour
         if(transform.position.y < -20)
         {
             _dataManager.RemoveFood(_food);
+            _dataManager.wastedFoodCounter += _food.Health;
             transform.gameObject.SetActive(false);
         }
     }

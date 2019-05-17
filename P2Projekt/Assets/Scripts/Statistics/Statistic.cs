@@ -8,9 +8,11 @@ public class Statistic
     public float AverageStress;
     public int TotalFish;
     public float TotalInsertedFood;
+    public int WastedFood;
 
-    public Statistic(int deadFish, float averageHunger, float averageStress, int totalFish, float totalInsertedFood)
+    public Statistic(int deadFish, float averageHunger, float averageStress, int totalFish, float totalInsertedFood, int wastedFood)
     {
+        this.WastedFood = wastedFood;
         this.AmountOfDeadFish = deadFish;
         this.AverageHunger = averageHunger;
         this.AverageStress = averageStress;

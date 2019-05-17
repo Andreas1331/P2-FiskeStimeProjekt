@@ -26,84 +26,84 @@ namespace Tests
             scriptTest.knownFoodSpots[3] = new Vector3(30,20,10);
             Assert.AreEqual(scriptTest.knownFoodSpots[1], scriptTest.canSeeFood());
         }*/
-        [Test]
-        public void TestOfcantSeeFoodWithoutPreviouslySeenFood()
-        {
-            GameObject fishbehavourobject = new GameObject();
-            fishbehavourobject.AddComponent<FishBehaviour>();
-            FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
-            Assert.AreEqual(new Vector3 (), scriptTest.cantSeeFood());
-        }
-        [Test]
-        public void TestOfcantSeeFoodWithKnownFoodSpots()
-        {
-            GameObject fishbehavourobject = new GameObject();
-            fishbehavourobject.AddComponent<FishBehaviour>();
-            FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
-            //scriptTest.lastKnownFoodSpots.Add(new Vector3(3, 0, 0));
-            //scriptTest.lastKnownFoodSpots.Add(new Vector3(1, 0, 0));
-            //scriptTest.lastKnownFoodSpots.Add(new Vector3(7, 0, 0));
-            Assert.AreEqual(new Vector3(3,0, 0),scriptTest.cantSeeFood());
-        }
+        //[Test]
+        //public void TestOfcantSeeFoodWithoutPreviouslySeenFood()
+        //{
+        //    GameObject fishbehavourobject = new GameObject();
+        //    fishbehavourobject.AddComponent<FishBehaviour>();
+        //    FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
+        //    Assert.AreEqual(new Vector3 (), scriptTest.cantSeeFood());
+        //}
+        //[Test]
+        //public void TestOfcantSeeFoodWithKnownFoodSpots()
+        //{
+        //    GameObject fishbehavourobject = new GameObject();
+        //    fishbehavourobject.AddComponent<FishBehaviour>();
+        //    FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
+        //    //scriptTest.lastKnownFoodSpots.Add(new Vector3(3, 0, 0));
+        //    //scriptTest.lastKnownFoodSpots.Add(new Vector3(1, 0, 0));
+        //    //scriptTest.lastKnownFoodSpots.Add(new Vector3(7, 0, 0));
+        //    Assert.AreEqual(new Vector3(3,0, 0),scriptTest.cantSeeFood());
+        //}
 
-        [Test]
-        public void TestOfSwimTowardsOtherFishWithOnlyOneFish() {
-            GameObject fishbehavourobject = new GameObject();
-            fishbehavourobject.AddComponent<FishBehaviour>();
-            FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
-            GameObject otherFishObject = new GameObject();
-            otherFishObject.AddComponent<FishBehaviour>();
-            FishBehaviour otherFish = otherFishObject.GetComponent<FishBehaviour>();
-            otherFish.transform.position = new Vector3(2, 0, 8);
-            //scriptTest.nearbyFish.Add(0, otherFish);
-            Assert.AreEqual(new Vector3(4*Mathf.Sqrt(17),0,16*Mathf.Sqrt(17)), scriptTest.SwimTowardsOtherFish());
-        }
+        //[Test]
+        //public void TestOfSwimTowardsOtherFishWithOnlyOneFish() {
+        //    GameObject fishbehavourobject = new GameObject();
+        //    fishbehavourobject.AddComponent<FishBehaviour>();
+        //    FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
+        //    GameObject otherFishObject = new GameObject();
+        //    otherFishObject.AddComponent<FishBehaviour>();
+        //    FishBehaviour otherFish = otherFishObject.GetComponent<FishBehaviour>();
+        //    otherFish.transform.position = new Vector3(2, 0, 8);
+        //    //scriptTest.nearbyFish.Add(0, otherFish);
+        //    Assert.AreEqual(new Vector3(4*Mathf.Sqrt(17),0,16*Mathf.Sqrt(17)), scriptTest.SwimTowardsOtherFish());
+        //}
 
-        [Test]
-        public void TestOfSwimTowardsOtherFishWithMultipleFish()
-        {
-            var comparer = new Vector3EqualityComparer(0.0001f);
-            //adding the fish from whoms "view" we are calculating
-            GameObject fishbehavourobject = new GameObject();
-            fishbehavourobject.AddComponent<FishBehaviour>();
-            FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
-            //adding other fish
-            GameObject otherFishObject = new GameObject();
-            otherFishObject.AddComponent<FishBehaviour>();
-            FishBehaviour otherFish = otherFishObject.GetComponent<FishBehaviour>();
-            otherFish.transform.position = new Vector3(2, 0, 8);
+        //[Test]
+        //public void TestOfSwimTowardsOtherFishWithMultipleFish()
+        //{
+        //    var comparer = new Vector3EqualityComparer(0.0001f);
+        //    //adding the fish from whoms "view" we are calculating
+        //    GameObject fishbehavourobject = new GameObject();
+        //    fishbehavourobject.AddComponent<FishBehaviour>();
+        //    FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
+        //    //adding other fish
+        //    GameObject otherFishObject = new GameObject();
+        //    otherFishObject.AddComponent<FishBehaviour>();
+        //    FishBehaviour otherFish = otherFishObject.GetComponent<FishBehaviour>();
+        //    otherFish.transform.position = new Vector3(2, 0, 8);
 
-            GameObject otherFishObject1 = new GameObject();
-            otherFishObject1.AddComponent<FishBehaviour>();
-            FishBehaviour otherFish1 = otherFishObject1.GetComponent<FishBehaviour>();
-            otherFish1.transform.position = new Vector3(4, 0, 8);
+        //    GameObject otherFishObject1 = new GameObject();
+        //    otherFishObject1.AddComponent<FishBehaviour>();
+        //    FishBehaviour otherFish1 = otherFishObject1.GetComponent<FishBehaviour>();
+        //    otherFish1.transform.position = new Vector3(4, 0, 8);
 
-            GameObject otherFishObject2 = new GameObject();
-            otherFishObject2.AddComponent<FishBehaviour>();
-            FishBehaviour otherFish2 = otherFishObject2.GetComponent<FishBehaviour>();
-            otherFish2.transform.position = new Vector3(6, 0, 8);
+        //    GameObject otherFishObject2 = new GameObject();
+        //    otherFishObject2.AddComponent<FishBehaviour>();
+        //    FishBehaviour otherFish2 = otherFishObject2.GetComponent<FishBehaviour>();
+        //    otherFish2.transform.position = new Vector3(6, 0, 8);
 
 
-            //adding the fish to the dictionary
-            //scriptTest.nearbyFish.Add(0, otherFish);
-            //scriptTest.nearbyFish.Add(1, otherFish1);
-            //scriptTest.nearbyFish.Add(2, otherFish2);
-            Assert.True(comparer.Equals(new Vector3((4 * Mathf.Sqrt(17))/3+(16*Mathf.Sqrt(5))/3+(60)/3, 0, 16 * (Mathf.Sqrt(17))/3+32*(Mathf.Sqrt(5))/3+(80.0f/3.0f)), scriptTest.SwimTowardsOtherFish()));
-        }
+        //    //adding the fish to the dictionary
+        //    //scriptTest.nearbyFish.Add(0, otherFish);
+        //    //scriptTest.nearbyFish.Add(1, otherFish1);
+        //    //scriptTest.nearbyFish.Add(2, otherFish2);
+        //    Assert.True(comparer.Equals(new Vector3((4 * Mathf.Sqrt(17))/3+(16*Mathf.Sqrt(5))/3+(60)/3, 0, 16 * (Mathf.Sqrt(17))/3+32*(Mathf.Sqrt(5))/3+(80.0f/3.0f)), scriptTest.SwimTowardsOtherFish()));
+        //}
 
-        [Test]
-        public void TestOfSearchForOptimalDepth() {
-            Vector3 fishOwnVector = new Vector3(5,15,0);
-            GameObject fishbehavourobject = new GameObject();
-            fishbehavourobject.AddComponent<FishBehaviour>();
-            FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
-            scriptTest.transform.position = fishOwnVector;
+        //[Test]
+        //public void TestOfSearchForOptimalDepth() {
+        //    Vector3 fishOwnVector = new Vector3(5,15,0);
+        //    GameObject fishbehavourobject = new GameObject();
+        //    fishbehavourobject.AddComponent<FishBehaviour>();
+        //    FishBehaviour scriptTest = fishbehavourobject.GetComponent<FishBehaviour>();
+        //    scriptTest.transform.position = fishOwnVector;
             
 
-            var comparer = new Vector3EqualityComparer(0.0004f);
-            Debug.Log(scriptTest.SearchForOptimalDepth());
-            Assert.True(comparer.Equals(scriptTest.SearchForOptimalDepth(),new Vector3(5,-15,0)));
-        }
+        //    var comparer = new Vector3EqualityComparer(0.0004f);
+        //    Debug.Log(scriptTest.SearchForOptimalDepth());
+        //    Assert.True(comparer.Equals(scriptTest.SearchForOptimalDepth(),new Vector3(5,-15,0)));
+        //}
 
         //[Test]
         //public void TestOfcalculateStressFactorsAloneNoObjects() {
