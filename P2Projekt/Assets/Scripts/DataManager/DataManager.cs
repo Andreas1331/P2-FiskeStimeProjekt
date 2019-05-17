@@ -52,10 +52,10 @@ public class DataManager : MonoBehaviour
         return false;
     }
 
-    public void GetAmountOfFishToAddOrRemove(float TotalAmountOfFish)
+    public void GetAmountOfFishToAddOrRemove(float totalAmountOfFish)
     {
         double currentAmountOfFish = fishList.Count;
-        double differenceAmountOfFish = TotalAmountOfFish - currentAmountOfFish;
+        double differenceAmountOfFish = totalAmountOfFish - currentAmountOfFish;
 
         if (differenceAmountOfFish > 0)
         {
@@ -117,18 +117,6 @@ public class DataManager : MonoBehaviour
             fishList.Remove(fishList[i]);
         }
     }
-    //public void RemoveFishFromNet(double amountToRemove)
-    //{
-    //    int maxAmountOfFishInList = fishList.Count;
-    //    for (int i = 0; i < amountToRemove; i++)
-    //    {
-    //        fishList[0].FishObject.transform.position = new Vector3(0, 10000, 0);
-    //        fishList[0].FishObject.SetActive(false);
-
-    //        fishPool.Add(fishList[0]);
-    //        fishList.Remove(fishList[0]);
-    //    }
-    //}
 
     public void KillFish(int amountToKill)
     {
@@ -209,6 +197,4 @@ public class DataManager : MonoBehaviour
 
         SaveHungerAndStress();
     }
-
-    
 }
