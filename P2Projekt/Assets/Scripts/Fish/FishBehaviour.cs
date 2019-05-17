@@ -380,7 +380,7 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region stress Factors
-    public void CalculateStressFactorsAlone() {
+    private void CalculateStressFactorsAlone() {
         stressFactorsAlone.FindFood = _aloneScale / (_fish.Hunger / Fish.maxHunger * 100f);
 
 
@@ -475,7 +475,7 @@ public class FishBehaviour : MonoBehaviour
         _dataManager.RemoveFish(_fish);
     }
 
-    public void AnimateDeath()
+    private void AnimateDeath()
     {
         if (!_fish.IsDead)
             return;
@@ -497,7 +497,7 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region Food Methods
-    public Vector3 GetClosestFoodPoint()
+    private Vector3 GetClosestFoodPoint()
     {
         Vector3 closestFood = _nearbyFood[0].transform.position;
 
@@ -513,13 +513,13 @@ public class FishBehaviour : MonoBehaviour
         return closestFood;
     }
 
-    public Vector3 cantSeeFood()
+    private Vector3 cantSeeFood()
     {
         Vector3 D2 = transform.position;
         if (lastKnownFoodSpotsVec2.Count <= 0)
             return new Vector3();
         else
-            D2 = GetclosestPointVec2(lastKnownFoodSpotsVec2);
+            D2 = GetClosestPointVec2(lastKnownFoodSpotsVec2);
 
         if (MathTools.GetDistanceBetweenVectors(D2, transform.position) < 1f)
         {
@@ -544,20 +544,7 @@ public class FishBehaviour : MonoBehaviour
         return (D2 - transform.position);
     }
 
-    private Vector3 GetclosestPoint(List<Vector3> arrayOfPoints) {
-        Vector3 closestPoint = arrayOfPoints[0];
-        foreach (Vector3 point in arrayOfPoints)
-        {
-            if (MathTools.GetDistanceBetweenVectors(point, transform.position)
-                < MathTools.GetDistanceBetweenVectors(transform.position, closestPoint))
-            {
-                closestPoint = point;
-            }
-        }
-        return closestPoint;
-    }
-
-    private Vector3 GetclosestPointVec2(List<Vector2> arrayOfPoints)
+    private Vector3 GetClosestPointVec2(List<Vector2> arrayOfPoints)
     {
         Vector3 closestPoint = arrayOfPoints[0];
         Vector3 placeholderpoint = new Vector3();
@@ -576,7 +563,7 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region Swim towards other fish
-    public Vector3 SwimTowardsOtherFish() {
+    private Vector3 SwimTowardsOtherFish() {
         Vector3 D_3 = new Vector3(0, 0, 0);
         float distanceBetweenFish;
         foreach (FishBehaviour fish in _nearbyFish)
@@ -641,7 +628,7 @@ public class FishBehaviour : MonoBehaviour
     #endregion
 
     #region Search for optimal depth
-    public Vector3 SearchForOptimalDepth() {
+    private Vector3 SearchForOptimalDepth() {
         return new Vector3(transform.position.x, 0 - transform.position.y, transform.position.z);
     }
     #endregion
