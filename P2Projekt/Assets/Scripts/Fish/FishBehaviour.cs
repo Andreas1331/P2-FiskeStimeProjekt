@@ -579,12 +579,16 @@ public class FishBehaviour : MonoBehaviour
     private Vector3 SwimWithFriends() {
         Vector3 followClosest = new Vector3();
         if (_nearbyFish.Count > 0)
-            followClosest = _nearbyFish[0]._fish.DesiredPoint;
-
-        foreach (FishBehaviour fish in _nearbyFish) {
-            if (MathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) <
-                MathTools.GetDistanceBetweenVectors(transform.position, followClosest))
-                followClosest = fish._fish.DesiredPoint;
+        {
+            FishBehaviour closestFish = _nearbyFish[0];
+            foreach (FishBehaviour fish in _nearbyFish) {
+                if (MathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) <
+                    MathTools.GetDistanceBetweenVectors(transform.position, closestFish.transform.position))
+                { 
+                    closestFish = fish;
+                    followClosest = fish._fish.DesiredPoint;
+                }
+            }
         }
         return followClosest;
     }
