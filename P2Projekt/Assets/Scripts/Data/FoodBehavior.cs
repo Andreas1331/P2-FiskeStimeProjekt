@@ -9,6 +9,7 @@ public class FoodBehavior : MonoBehaviour
     private float _scalingFactor;
     private void Start()
     {
+        float cageYDivFactor = 4;
         DataManager = FindObjectOfType<DataManager>();
         _scalingFactor = transform.lossyScale.x;
 
@@ -19,7 +20,7 @@ public class FoodBehavior : MonoBehaviour
 
         transform.position = new Vector3(
             (_food.position.x*2)/100* _dataManager.UI.Cage.gameObject.transform.lossyScale.x, 
-            _dataManager.UI.Cage.gameObject.transform.lossyScale.y / 4, 
+            _dataManager.UI.Cage.gameObject.transform.lossyScale.y / cageYDivFactor, 
             (_food.position.y*2)/100* _dataManager.UI.Cage.gameObject.transform.lossyScale.z);
     }
 

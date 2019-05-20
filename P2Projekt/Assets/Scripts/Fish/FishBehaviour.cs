@@ -327,7 +327,14 @@ public class FishBehaviour : MonoBehaviour
 
     #region Hunger factors
     private void CalculateHungerFactorsAlone() {
-        hungerFactorsAlone.FindFood = _aloneScale / (_fish.Hunger / Fish.maxHunger * 100f);
+        if (_fish.Hunger == 0)
+        {
+            hungerFactorsAlone.FindFood = 2;
+        }
+        else
+        {
+            hungerFactorsAlone.FindFood = _aloneScale / (_fish.Hunger / Fish.maxHunger * 100f);
+        }
 
         if (hungerFactorsAlone.FindFood > 2f)
             hungerFactorsAlone.FindFood = 2f;
