@@ -9,10 +9,18 @@ public class FoodBehavior : MonoBehaviour
     private float _scalingFactor;
     private void Start()
     {
-        _scalingFactor = transform.lossyScale.x;
-        transform.localScale = new Vector3(_scalingFactor *_food.Health, _scalingFactor *_food.Health, _scalingFactor *_food.Health);
         DataManager = FindObjectOfType<DataManager>();
-        transform.position = new Vector3((_food.position.x*2)/100* _dataManager.UI.Cage.gameObject.transform.lossyScale.x, _dataManager.UI.Cage.gameObject.transform.lossyScale.y / 4, (_food.position.y*2)/100* _dataManager.UI.Cage.gameObject.transform.lossyScale.z);
+        _scalingFactor = transform.lossyScale.x;
+
+        transform.localScale = new Vector3(
+            _scalingFactor *_food.Health, 
+            _scalingFactor *_food.Health, 
+            _scalingFactor *_food.Health);
+
+        transform.position = new Vector3(
+            (_food.position.x*2)/100* _dataManager.UI.Cage.gameObject.transform.lossyScale.x, 
+            _dataManager.UI.Cage.gameObject.transform.lossyScale.y / 4, 
+            (_food.position.y*2)/100* _dataManager.UI.Cage.gameObject.transform.lossyScale.z);
     }
 
     private void Update()
