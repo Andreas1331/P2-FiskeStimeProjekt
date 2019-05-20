@@ -64,7 +64,6 @@ public class FishBehaviour : MonoBehaviour
 
     private void Start()
     {
-        return;
         // Set the references to the DataManager and cage found in the scene
         DataManager = FindObjectOfType<DataManager>();
         Cage = GameObject.FindGameObjectWithTag("Cage");
