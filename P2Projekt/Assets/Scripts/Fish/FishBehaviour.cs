@@ -579,7 +579,7 @@ public class FishBehaviour : MonoBehaviour
     private Vector3 SwimWithFriends() {
         Vector3 followClosest = new Vector3();
         if (_nearbyFish.Count > 0)
-            followClosest = _nearbyFish[0].transform.position;
+            followClosest = _nearbyFish[0]._fish.DesiredPoint;
 
         foreach (FishBehaviour fish in _nearbyFish) {
             if (MathTools.GetDistanceBetweenVectors(transform.position, fish.transform.position) <
