@@ -238,7 +238,7 @@ public class UIHandler : MonoBehaviour
     {
         float amountFromInput = float.Parse(inputText.text);
 
-        if (amountFromInput >= 0)
+        if (amountFromInput >= 1)
         {
             if (SizeOfCageSlider.minValue <= amountFromInput && amountFromInput <= SizeOfCageSlider.maxValue)
             {
@@ -269,7 +269,7 @@ public class UIHandler : MonoBehaviour
     {
         float amountFromInput = float.Parse(inputText.text);
 
-        if (amountFromInput >= 0)
+        if (amountFromInput >= 1)
         {
             
             if (DepthOfCageSlider.minValue <= amountFromInput && amountFromInput <= DepthOfCageSlider.maxValue)
@@ -293,6 +293,6 @@ public class UIHandler : MonoBehaviour
 
     public void ApplySizeOfCage()
     {
-        Cage.transform.localScale = new Vector3(_radiusOfCage, 2.5f * _depthOfCage, _radiusOfCage);
+        Cage.transform.localScale = new Vector3(_radiusOfCage, 3.75f * _depthOfCage, _radiusOfCage);
     }
 }
