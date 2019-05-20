@@ -359,7 +359,13 @@ public class FishBehaviour : MonoBehaviour
     }
     private void CalculateHungerFactorsSchool()
     {
-        hungerFactorsSchool.Factors.FindFood = _schoolScale / (_fish.Hunger / Fish.maxHunger * 100);
+        if (_fish.Hunger <= 0)
+        {
+            hungerFactorsSchool.Factors.FindFood = 2.5f;
+        } else
+        {
+            hungerFactorsSchool.Factors.FindFood = _schoolScale / (_fish.Hunger / Fish.maxHunger * 100);
+        }
 
         if (hungerFactorsSchool.Factors.FindFood > 2.5f)
             hungerFactorsSchool.Factors.FindFood = 2.5f;
@@ -388,7 +394,13 @@ public class FishBehaviour : MonoBehaviour
 
     #region stress Factors
     private void CalculateStressFactorsAlone() {
-        stressFactorsAlone.FindFood = _aloneScale / (_fish.Hunger / Fish.maxHunger * 100f);
+        if(_fish.Hunger <= 0)
+        {
+            stressFactorsAlone.FindFood = 2;
+        } else
+        {
+            stressFactorsAlone.FindFood = _aloneScale / (_fish.Hunger / Fish.maxHunger * 100f);
+        }
 
 
         if (stressFactorsAlone.FindFood > 2f)
@@ -415,7 +427,13 @@ public class FishBehaviour : MonoBehaviour
 
     private void CalculateStressFactorsSchool()
     {
-        stressFactorsSchool.Factors.FindFood = _schoolScale / (_fish.Hunger / Fish.maxHunger * 100);
+        if(_fish.Hunger <= 0)
+        {
+            stressFactorsSchool.Factors.FindFood = 2.5f;
+        } else
+        {
+            stressFactorsSchool.Factors.FindFood = _schoolScale / (_fish.Hunger / Fish.maxHunger * 100);
+        }
 
         if (stressFactorsSchool.Factors.FindFood > 2.5f)
             stressFactorsSchool.Factors.FindFood = 2.5f;
