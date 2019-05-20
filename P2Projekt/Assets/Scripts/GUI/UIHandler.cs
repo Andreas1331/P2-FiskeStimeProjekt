@@ -57,6 +57,7 @@ public class UIHandler : MonoBehaviour
         if (SceneManager.GetActiveScene().buildIndex == 1)
         {
             DM = FindObjectOfType<DataManager>();
+            InitializeButtonValues();
             GuiPanel = GameObject.Find("OverlayMenu");
             //Find sliders and textfields when Main-scene is loaded
             AmountOfFishSlider       = GameObject.Find("AmountOfFishSlider").GetComponent<Slider>();

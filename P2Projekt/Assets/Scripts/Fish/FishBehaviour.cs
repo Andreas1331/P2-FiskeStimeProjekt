@@ -64,6 +64,7 @@ public class FishBehaviour : MonoBehaviour
 
     private void Start()
     {
+        return;
         // Set the references to the DataManager and cage found in the scene
         DataManager = FindObjectOfType<DataManager>();
         Cage = GameObject.FindGameObjectWithTag("Cage");
@@ -327,15 +328,14 @@ public class FishBehaviour : MonoBehaviour
 
     #region Hunger factors
     private void CalculateHungerFactorsAlone() {
-        if (_fish.Hunger == 0)
-        {
+        if (_fish.Hunger <= 0)
+        { 
             hungerFactorsAlone.FindFood = 2;
         }
         else
-        {
+        { 
             hungerFactorsAlone.FindFood = _aloneScale / (_fish.Hunger / Fish.maxHunger * 100f);
         }
-
         if (hungerFactorsAlone.FindFood > 2f)
             hungerFactorsAlone.FindFood = 2f;
         float leftOfHungerFactor = 2f - hungerFactorsAlone.FindFood;

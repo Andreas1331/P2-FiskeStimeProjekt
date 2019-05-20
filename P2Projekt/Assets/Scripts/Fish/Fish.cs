@@ -47,8 +47,6 @@ public abstract class Fish
     public Fish(int id, float weight, float movementSpeed, float maxSpeed, float width, FishType typeOfFish, GameObject preFab)
     {
         //Set variables and generate random hunger level. 
-        maxHunger = 1000;
-        maxStress = 1000;
         Id = id;
         IsDead = false;
         Weight = weight;
@@ -56,15 +54,10 @@ public abstract class Fish
         MaxSpeed = maxSpeed;
         Width = width;
         Stress = 0;
-        TypeOfFish = typeOfFish;    
-        do
-        {
-            Hunger = Random.value * maxHunger;
-        }
-        while (Hunger <= (maxHunger / 2f));
-
+        TypeOfFish = typeOfFish;
+        SetRandomHunger();
         // Instantiate the physical GameObject in the world and find the needed components.
-        FishObject = GameObject.Instantiate(preFab, new Vector3(Random.value*10,Random.value*2,Random.value*5), Quaternion.identity, GameObject.FindGameObjectWithTag("FishContainer").transform);
+        FishObject = GameObject.Instantiate(preFab, new Vector3(Random.value*10,Random.value*2,Random.value*5), Quaternion.identity/*, GameObject.FindGameObjectWithTag("FishContainer").transform*/);
         FishObject.GetComponent<FishBehaviour>().Fish = this;
         _rb = FishObject.GetComponent<Rigidbody>();
     }
@@ -87,5 +80,12 @@ public abstract class Fish
     {
         Vector3 newRotDir = Vector3.RotateTowards(FishObject.transform.forward, direction, Time.deltaTime * 5, 2.5f);
         FishObject.transform.rotation = Quaternion.LookRotation(newRotDir);
+    }
+    public void SetRandomHunger() {
+        do
+        {
+            Hunger = Random.value * maxHunger;
+        }
+        while (Hunger <= (maxHunger / 2f));
     }
 }

@@ -100,9 +100,11 @@ public class DataManager : MonoBehaviour
     {
         for (int i = 0; i < amountToActivate; i++)
         {
+            fishPool[0].FishObject.GetComponent<FishBehaviour>().SetPositionOnSpawn();
             fishPool[0].FishObject.SetActive(true);
             fishPool[0].IsDead = false;
-            fishPool[0].FishObject.GetComponent<FishBehaviour>().SetPositionOnSpawn();
+            fishPool[0].SetRandomHunger();
+            fishPool[0].Stress= 0;
             fishList.Add(fishPool[0]);
             fishPool.Remove(fishPool[0]);
         }
@@ -112,7 +114,7 @@ public class DataManager : MonoBehaviour
         int maxAmountOfFishInList = fishList.Count;
         for (int i = maxAmountOfFishInList-1; i >= maxAmountOfFishInList - amountToRemove; i--)
         {
-            fishList[i].FishObject.transform.position = new Vector3(0, 10000, 0);
+            fishList[i].FishObject.transform.position = new Vector3(0, 0, 0);
             fishList[i].FishObject.SetActive(false);
 
             fishPool.Add(fishList[i]);

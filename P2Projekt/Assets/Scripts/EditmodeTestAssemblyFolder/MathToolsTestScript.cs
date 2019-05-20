@@ -18,15 +18,14 @@ namespace Tests
             Assert.AreEqual(0, MathTools.GetDistanceBetweenVectors(vector1,vector2));
 
             //Test with big numbers
-            Vector3 bigNumberVector1 = new Vector3(33333333333333330, 22222222222222222, 5555555550);
-            Vector3 bigNumberVector2 = new Vector3(55555555555555550, 111111111111111110, 10000000000);
-            Assert.AreEqual(9.162457 * Mathf.Pow(10, 16), MathTools.GetDistanceBetweenVectors(bigNumberVector1, bigNumberVector2),Mathf.Pow(10,10));
-
-
+            Vector3 bigNumberVector1 = new Vector3(0, 0, 0);
+            Vector3 bigNumberVector2 = new Vector3(long.MaxValue, long.MaxValue, long.MaxValue);
+            Assert.AreEqual(1.59753486f * Mathf.Pow(10, 19), MathTools.GetDistanceBetweenVectors(bigNumberVector1, bigNumberVector2),Mathf.Pow(10,15));
+            
             //Test with small numbers
-            Vector3 smallNumberVector1 = new Vector3(-33333333333333330, -22222222222222222, -5555555550);
-            Vector3 smallNumberVector2 = new Vector3(-55555555555555550, -111111111111111110, -10000000000);
-            Assert.AreEqual(9.162457 * Mathf.Pow(10, 16), MathTools.GetDistanceBetweenVectors(smallNumberVector1, smallNumberVector2), Mathf.Pow(10, 10));
+            Vector3 smallNumberVector1 = new Vector3(0, 0, 0);
+            Vector3 smallNumberVector2 = new Vector3(long.MinValue, long.MinValue, long.MinValue);
+            Assert.AreEqual(1.59753486f * Mathf.Pow(10, 19), MathTools.GetDistanceBetweenVectors(smallNumberVector1, smallNumberVector2), Mathf.Pow(10, 15));
 
 
             // Use the Assert class to test conditions
@@ -34,10 +33,15 @@ namespace Tests
 
         [Test]
         public void TestOfGetAngleBetweenVectors() {
+            //test with 90 degree angle
             Vector3 xVector = new Vector3(1, 0, 0);
             Vector3 yVector = new Vector3(0, 1, 0);
-
             Assert.AreEqual(90, MathTools.GetAngleBetweenVectors(xVector, yVector));
+
+            //test with 0 degree angle
+            Vector3 xVectorzero = new Vector3(1, 0, 0);
+            Vector3 yVectorzero = new Vector3(1, 0, 0);
+            Assert.AreEqual(0, MathTools.GetAngleBetweenVectors(xVectorzero, yVectorzero));
         }
 
         [Test]
@@ -58,15 +62,6 @@ namespace Tests
             float length = 20;
             
             Assert.AreEqual(12.85575, MathTools.GetOpposingCatheter(angle, length), 0.1);
-        }
-        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-        // `yield return null;` to skip a frame.
-        [UnityTest]
-        public IEnumerator MathToolsTestScriptWithEnumeratorPasses()
-        {
-            // Use the Assert class to test conditions.
-            // Use yield to skip a frame.
-            yield return null;
         }
     }
 }
