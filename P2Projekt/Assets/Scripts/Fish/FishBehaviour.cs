@@ -394,13 +394,9 @@ public class FishBehaviour : MonoBehaviour
     #region stress Factors
     private void CalculateStressFactorsAlone() {
         if(_fish.Hunger <= 0)
-        {
             stressFactorsAlone.FindFood = 2;
-        } else
-        {
+        else
             stressFactorsAlone.FindFood = _aloneScale / (_fish.Hunger / Fish.maxHunger * 100f);
-        }
-
 
         if (stressFactorsAlone.FindFood > 2f)
             stressFactorsAlone.FindFood = 2f;
@@ -427,12 +423,9 @@ public class FishBehaviour : MonoBehaviour
     private void CalculateStressFactorsSchool()
     {
         if(_fish.Hunger <= 0)
-        {
             stressFactorsSchool.Factors.FindFood = 2.5f;
-        } else
-        {
+        else
             stressFactorsSchool.Factors.FindFood = _schoolScale / (_fish.Hunger / Fish.maxHunger * 100);
-        }
 
         if (stressFactorsSchool.Factors.FindFood > 2.5f)
             stressFactorsSchool.Factors.FindFood = 2.5f;
@@ -665,7 +658,7 @@ public class FishBehaviour : MonoBehaviour
     private Vector3 GetNewPosition()
     {
         if (_fish.IsDead)
-            return new Vector3(0,0,0);
+            return new Vector3();
 
         bool isSchooling = IsSchooling();
         bool isThereNearbyFood = _nearbyFood.Count > 0;
