@@ -537,7 +537,7 @@ public class FishBehaviour : MonoBehaviour
         return closestFood;
     }
 
-    private Vector3 cantSeeFood()
+    private Vector3 CantSeeFood()
     {
         Vector3 D2 = transform.position;
         if (lastKnownFoodSpotsVec2.Count <= 0)
@@ -588,7 +588,7 @@ public class FishBehaviour : MonoBehaviour
 
     #region Swim towards other fish
     private Vector3 SwimTowardsOtherFish() {
-        Vector3 D_3 = new Vector3(0, 0, 0);
+        Vector3 D_3 = new Vector3();
         float distanceBetweenFish;
         foreach (FishBehaviour fish in _nearbyFish)
         {
@@ -686,7 +686,7 @@ public class FishBehaviour : MonoBehaviour
                     + directions.DodgeCollisionDirection * lambdaSchool.Factors.CollisionDodge + directions.OptimalDepthDirection * lambdaSchool.Factors.OptimalDepth + directions.HoldDistanceToFishDirection * lambdaSchool.HoldDistanceToFish;
             }
             else {
-                directions.FindFoodDirection = cantSeeFood();
+                directions.FindFoodDirection = CantSeeFood();
 
                 returnVector = directions.PreviousPoint * lambdaSchool.Factors.PrevDirection + directions.FindFoodDirection * lambdaSchool.Factors.FindFood + directions.SwimWithOrToFish * lambdaSchool.Factors.SwimWithOrToFish
                     + directions.DodgeCollisionDirection * lambdaSchool.Factors.CollisionDodge + directions.OptimalDepthDirection * lambdaSchool.Factors.OptimalDepth + directions.HoldDistanceToFishDirection * lambdaSchool.HoldDistanceToFish;
@@ -703,7 +703,7 @@ public class FishBehaviour : MonoBehaviour
             }
             else 
             {
-                directions.FindFoodDirection = cantSeeFood();
+                directions.FindFoodDirection = CantSeeFood();
                 returnVector = directions.PreviousPoint * lambdaAlone.PrevDirection + directions.FindFoodDirection * lambdaAlone.FindFood
                     + directions.SwimWithOrToFish * lambdaAlone.SwimWithOrToFish + directions.DodgeCollisionDirection * lambdaAlone.CollisionDodge + directions.OptimalDepthDirection * lambdaAlone.OptimalDepth;
             }
