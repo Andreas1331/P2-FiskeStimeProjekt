@@ -60,13 +60,9 @@ public class DataManager : MonoBehaviour
         double differenceAmountOfFish = totalAmountOfFish - currentAmountOfFish;
 
         if (differenceAmountOfFish > 0)
-        {
             AddFishToCage(differenceAmountOfFish);
-        }
         else
-        {
             RemoveFishFromCage(-1 * differenceAmountOfFish);
-        }
     }
 
     public void AddFishToCage(double howManyToAdd)
