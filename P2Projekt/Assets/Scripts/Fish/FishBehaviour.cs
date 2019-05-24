@@ -244,7 +244,7 @@ public class FishBehaviour : MonoBehaviour
             KillFish();
         }
         else if (_fish.Hunger < 0.2f * Fish.maxHunger)
-            _fish.MovementSpeed = _fish.Hunger / 200f;
+            _fish.MovementSpeed = _fish.Hunger / (Fish.maxHunger/5);
     }
 
     private void UpdateStress()
