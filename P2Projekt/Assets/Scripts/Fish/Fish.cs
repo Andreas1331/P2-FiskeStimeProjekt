@@ -14,13 +14,8 @@ public abstract class Fish
     public float Stress
     {
         get { return _stress; }
-        set
-        {
+        set {
             _stress = value;
-            if (_stress > 1000)
-                _stress = 1000;
-            else if (_stress < 0)
-                _stress = 0;
         }
     }
     public static float maxHunger;
@@ -30,13 +25,8 @@ public abstract class Fish
     public float Hunger
     {
         get { return _hunger; }
-        set
-        {
+        set {
             _hunger = value;
-            if (_hunger > 1000)
-                _hunger = 1000;
-            else if (_hunger < 0)
-                _hunger = 0;
         }
     }
     public Vector3 DesiredPoint { get; set; }
