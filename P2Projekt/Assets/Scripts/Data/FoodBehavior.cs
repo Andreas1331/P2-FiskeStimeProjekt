@@ -7,6 +7,7 @@ public class FoodBehavior : MonoBehaviour
     private DataManager _dataManager;
     private DataManager DataManager { set { if (value != null) _dataManager = value; } }
     private float _scalingFactor;
+
     private void Start()
     {
         float cageYDivFactor = 4;

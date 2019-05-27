@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -108,7 +106,6 @@ public class UIHandler : MonoBehaviour
     public void ApplicationQuit()
     {
         #if UNITY_EDITOR
-                //Sættes sådan at vi kan teste i Unity editoren.
                 UnityEditor.EditorApplication.isPlaying = false;
         #else
             Application.Quit();
@@ -170,7 +167,6 @@ public class UIHandler : MonoBehaviour
             DDOLV.defaultStressLimit = float.Parse(FishStresstxt.text);
         }
         
-        //Da disse værdier kun kan ændres i hovedmenuen, tjekkes der om vi er der. 
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             if (FishAmounttxt.text != "")
@@ -192,7 +188,7 @@ public class UIHandler : MonoBehaviour
         }
     }
     
-    public void InitializeButtonValues() //Bliver kun kaldt hvis main scene er aktiv. 
+    public void InitializeButtonValues() 
     {
         DM.ChangeHungerLimit(DDOLV.defaultHungerLimit);
         DM.ChangeStressLimit(DDOLV.defaultStressLimit);
@@ -212,14 +208,12 @@ public class UIHandler : MonoBehaviour
         {
             if (AmountOfFishSlider.minValue <= amountFromInput && amountFromInput <= AmountOfFishSlider.maxValue)
             {
-                //AmountOfFishSlider.enabled = true;
                 AmountOfFishSlider.value = amountFromInput;
             }
             else
             {
                 AmountOfFishtxt.text = "Amount of fish: " + amountFromInput;
                 DM.GetAmountOfFishToAddOrRemove(amountFromInput);
-                //AmountOfFishSlider.enabled = false;
             }
         } else
         {
@@ -242,14 +236,12 @@ public class UIHandler : MonoBehaviour
         {
             if (SizeOfCageSlider.minValue <= amountFromInput && amountFromInput <= SizeOfCageSlider.maxValue)
             {
-                //SizeOfCageSlider.enabled = true;
                 SizeOfCageSlider.value = amountFromInput;
             }
             else
             {
                 CageRadiustxt.text = "CAGE RADIUS: " + amountFromInput;
                 _radiusOfCage = amountFromInput;
-                //SizeOfCageSlider.enabled = false;
             }
             ApplySizeOfCage();
         }
@@ -265,6 +257,7 @@ public class UIHandler : MonoBehaviour
         CageDepthtxt.text = "CAGE DEPTH: " + DepthOfCageSlider.value;
         ApplySizeOfCage();
     }
+
     public void ChangeCageDepthFromInput(Text inputText)
     {
         float amountFromInput = float.Parse(inputText.text);
@@ -274,14 +267,12 @@ public class UIHandler : MonoBehaviour
             
             if (DepthOfCageSlider.minValue <= amountFromInput && amountFromInput <= DepthOfCageSlider.maxValue)
             {
-                //DepthOfCageSlider.enabled = true;
                 DepthOfCageSlider.value = amountFromInput;
             }
             else
             {
                 CageDepthtxt.text = "CAGE DEPTH: " + amountFromInput;
                 _depthOfCage = amountFromInput;
-                //DepthOfCageSlider.enabled = false;
             }
             ApplySizeOfCage();
         }

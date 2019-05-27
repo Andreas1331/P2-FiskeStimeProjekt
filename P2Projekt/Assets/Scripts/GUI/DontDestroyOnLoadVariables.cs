@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DontDestroyOnLoadVariables : MonoBehaviour
 {
@@ -12,8 +10,7 @@ public class DontDestroyOnLoadVariables : MonoBehaviour
     public float defaultRadiusOfCage = 3;
     public float defaultSimSpeed = 1;
 
-    // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         DontDestroyOnLoad(this);
     }

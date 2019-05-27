@@ -1,21 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraZoom : MonoBehaviour
 {
     private GameObject _cage;
     public GameObject Cage { set { if (value != null) _cage = value; } }
-    float scale = 0.2f;
+    private float scale = 0.2f;
     private bool _inMenu = false;
     public bool InMenu { set { _inMenu = value; } }
-    // Start is called before the first frame update
+
     private void Awake()
     {
         Cage = GameObject.FindGameObjectWithTag("Cage");
     }
 
-    // Update is called once per frame
     private void Update()
     {
         if (!_inMenu)
@@ -46,9 +43,4 @@ public class CameraZoom : MonoBehaviour
             }
         }
     }
-
-    void mouseScrolls() {
-        
-    }
-    
 }

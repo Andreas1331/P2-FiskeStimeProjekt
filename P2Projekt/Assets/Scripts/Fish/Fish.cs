@@ -81,6 +81,7 @@ public abstract class Fish
         Vector3 newRotDir = Vector3.RotateTowards(FishObject.transform.forward, direction, Time.deltaTime * 5, 2.5f);
         FishObject.transform.rotation = Quaternion.LookRotation(newRotDir);
     }
+
     public void SetRandomHunger() {
         do
         {

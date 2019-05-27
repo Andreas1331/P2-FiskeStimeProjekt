@@ -1,19 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class FPSCounter : MonoBehaviour
 {
-    float deltaTime = 0.0f;
-    float time = 0.0f;
+    private float deltaTime = 0.0f;
+    private float time = 0.0f;
 
-    void Update()
+    private void Update()
     {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
         time += Time.deltaTime;
     }
 
-    void OnGUI()
+    private void OnGUI()
     {
         int w = Screen.width, h = Screen.height;
 
@@ -27,6 +25,5 @@ public class FPSCounter : MonoBehaviour
         float fps = 1.0f / deltaTime;
         float sec = time;
         string text = string.Format("{0:0.0} ms ({1:0.} fps) {2:0.0} sec", msec, fps, sec);
-        //GUI.Label(rect, text, style);
     }
 }

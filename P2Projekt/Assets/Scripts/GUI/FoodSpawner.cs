@@ -20,5 +20,4 @@ public class FoodSpawner : MonoBehaviour
     public void SpawnFoodAtPoint(Vector2 point) {
         _DM.AddFoodToCage(1,5, point);
     }
-
 }

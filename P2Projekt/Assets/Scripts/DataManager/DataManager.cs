@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;
@@ -25,7 +24,6 @@ public class DataManager : MonoBehaviour
     private float _stressSum;
     public float StressSum { get { return _stressSum; } }
 
-    // Start is called before the first frame update
     public void Start()
     {
         UI = FindObjectOfType<UIHandler>();
@@ -192,7 +190,6 @@ public class DataManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.X))
         {
             SpawnNewFish(10);
-            Debug.LogWarning("Amount: " + fishList.Count);
         }
 
         SaveHungerAndStress();

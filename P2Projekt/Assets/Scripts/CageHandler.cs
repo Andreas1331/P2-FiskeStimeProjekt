@@ -33,7 +33,7 @@ public class CageHandler : MonoBehaviour
         for(int i = 0; i < 20; i++)
         {
             GameObject obj = Instantiate(prefabCollider, coords[i], Quaternion.identity, transform);
-            obj.transform.localScale = new Vector3(0.3f, 0.5f, 0.15f); //new Vector3(0.275f, 0.5f, 0.15f);
+            obj.transform.localScale = new Vector3(0.3f, 0.5f, 0.15f);
             obj.transform.LookAt(this.transform);
             obj.transform.tag = "Cage";
         }

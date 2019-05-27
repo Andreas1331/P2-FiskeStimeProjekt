@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(SphereCollider))]
@@ -68,6 +67,7 @@ public class FishBehaviour : MonoBehaviour
         DataManager = FindObjectOfType<DataManager>();
         Cage = GameObject.FindGameObjectWithTag("Cage");
         SetPositionOnSpawn();
+
         // Find both the colliders attached to the GameObject
         _outerCollider = GetComponents<SphereCollider>()[0];
         _outerCollider.radius = 5f;
@@ -95,7 +95,6 @@ public class FishBehaviour : MonoBehaviour
 
     private float _interval = 0.05f;
     private float _counter = 0;
-    // Update is called once per frame
     private void Update()
     {
         // Only calculate a new position every 0.05 second
