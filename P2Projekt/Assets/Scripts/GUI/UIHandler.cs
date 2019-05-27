@@ -6,7 +6,7 @@ public class UIHandler : MonoBehaviour
 {
     //The total PauseMenu Panel in Unity
     [SerializeField] private GameObject PauseMenuUI;
- 
+
     //General objects
     private DataManager DM;
     private DontDestroyOnLoadVariables DDOLV;
@@ -48,8 +48,8 @@ public class UIHandler : MonoBehaviour
         }
 
         //Start-menu and Main Scene objects
-        FishHealthtxt   = GameObject.Find("FishHungerTxt").GetComponent<Text>();
-        FishStresstxt   = GameObject.Find("FishStresstxt").GetComponent<Text>();
+        FishHealthtxt = GameObject.Find("FishHungerTxt").GetComponent<Text>();
+        FishStresstxt = GameObject.Find("FishStresstxt").GetComponent<Text>();
 
         //General objects
         if (SceneManager.GetActiveScene().buildIndex == 1)
@@ -58,13 +58,13 @@ public class UIHandler : MonoBehaviour
             InitializeButtonValues();
             GuiPanel = GameObject.Find("OverlayMenu");
             //Find sliders and textfields when Main-scene is loaded
-            AmountOfFishSlider       = GameObject.Find("AmountOfFishSlider").GetComponent<Slider>();
-            SizeOfCageSlider         = GameObject.Find("SizeOfCageSlider").GetComponent<Slider>();
-            CageRadiustxt            = GameObject.Find("SizeOfCageText").GetComponent<Text>();
-            CageDepthtxt             = GameObject.Find("DepthOfCageText").GetComponent<Text>();
-            DepthOfCageSlider        = GameObject.Find("DepthOfCageSlider").GetComponent<Slider>();
+            AmountOfFishSlider = GameObject.Find("AmountOfFishSlider").GetComponent<Slider>();
+            SizeOfCageSlider = GameObject.Find("SizeOfCageSlider").GetComponent<Slider>();
+            CageRadiustxt = GameObject.Find("SizeOfCageText").GetComponent<Text>();
+            CageDepthtxt = GameObject.Find("DepthOfCageText").GetComponent<Text>();
+            DepthOfCageSlider = GameObject.Find("DepthOfCageSlider").GetComponent<Slider>();
             AmountOfFishFromInputtxt = GameObject.Find("AmountOfFishFromInputtxt").GetComponent<Text>();
-            AmountOfFishtxt          = GameObject.Find("AmountOfFishText").GetComponent<Text>();
+            AmountOfFishtxt = GameObject.Find("AmountOfFishText").GetComponent<Text>();
             //Panels has to be active in Unity, then disabled on game-start
             GameObject.Find("AdvancedSettings").SetActive(false);
             GameObject.Find("PauseSettingPanel").SetActive(false);
@@ -105,24 +105,25 @@ public class UIHandler : MonoBehaviour
 
     public void ApplicationQuit()
     {
-        #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-        #else
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
-        #endif
+#endif
     }
 
     public void TogglePauseMenuInGame()
-    {   
-        if(PauseMenuUI.activeSelf == true)
+    {
+        if (PauseMenuUI.activeSelf == true)
         {
             DeactivatePauseMenu();
-        } else if (PauseMenuUI.activeSelf == false)
+        }
+        else if (PauseMenuUI.activeSelf == false)
         {
             ActivatePauseMenu();
         }
     }
-    
+
     public void ActivatePauseMenu()
     {
         PauseMenuUI.SetActive(true);
@@ -166,7 +167,7 @@ public class UIHandler : MonoBehaviour
         {
             DDOLV.defaultStressLimit = float.Parse(FishStresstxt.text);
         }
-        
+
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             if (FishAmounttxt.text != "")
@@ -176,19 +177,20 @@ public class UIHandler : MonoBehaviour
             if (FishDepthtxt.text != "")
             {
                 DDOLV.defaultDepthOfCage = float.Parse(FishDepthtxt.text);
-            } 
+            }
             if (SimSpeedtxt.text != "")
             {
                 DDOLV.defaultSimSpeed = float.Parse(SimSpeedtxt.text);
                 SetSimSpeed(DDOLV.defaultSimSpeed);
             }
-        } else
+        }
+        else
         {
             InitializeButtonValues();
         }
     }
-    
-    public void InitializeButtonValues() 
+
+    public void InitializeButtonValues()
     {
         DM.ChangeHungerLimit(DDOLV.defaultHungerLimit);
         DM.ChangeStressLimit(DDOLV.defaultStressLimit);
@@ -200,10 +202,14 @@ public class UIHandler : MonoBehaviour
         DM.GetAmountOfFishToAddOrRemove(amountFromSlider);
         AmountOfFishtxt.text = "Amount of fish: " + AmountOfFishSlider.value;
     }
+
     public void SetAmountOfFishInSimulationFromInput(Text inputText)
     {
+        if (inputText.text.Length <= 0)
+            return;
+
         float amountFromInput = float.Parse(inputText.text);
-        
+
         if (amountFromInput >= 0)
         {
             if (AmountOfFishSlider.minValue <= amountFromInput && amountFromInput <= AmountOfFishSlider.maxValue)
@@ -215,12 +221,13 @@ public class UIHandler : MonoBehaviour
                 AmountOfFishtxt.text = "Amount of fish: " + amountFromInput;
                 DM.GetAmountOfFishToAddOrRemove(amountFromInput);
             }
-        } else
+        }
+        else
         {
             AmountOfFishtxt.text = "Incorrect amount";
         }
     }
-    
+
     public void ChangeCageSize()
     {
         _radiusOfCage = SizeOfCageSlider.value;
@@ -230,6 +237,9 @@ public class UIHandler : MonoBehaviour
 
     public void ChangeCageSizeFromInput(Text inputText)
     {
+        if (inputText.text.Length <= 0)
+            return;
+
         float amountFromInput = float.Parse(inputText.text);
 
         if (amountFromInput >= 1)
@@ -260,11 +270,14 @@ public class UIHandler : MonoBehaviour
 
     public void ChangeCageDepthFromInput(Text inputText)
     {
+        if (inputText.text.Length <= 0)
+            return;
+
         float amountFromInput = float.Parse(inputText.text);
 
         if (amountFromInput >= 1)
         {
-            
+
             if (DepthOfCageSlider.minValue <= amountFromInput && amountFromInput <= DepthOfCageSlider.maxValue)
             {
                 DepthOfCageSlider.value = amountFromInput;
