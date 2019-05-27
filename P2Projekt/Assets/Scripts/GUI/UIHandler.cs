@@ -135,6 +135,7 @@ public class UIHandler : MonoBehaviour
         PauseMenuUI.SetActive(false);
         SetSimSpeed(DDOLV.defaultSimSpeed);
     }
+
     public void SetSimSpeed(float timeFactor)
     {
         Time.timeScale = timeFactor;
@@ -160,12 +161,16 @@ public class UIHandler : MonoBehaviour
     {
         if (FishHealthtxt.text != "")
         {
-            DDOLV.defaultHungerLimit = float.Parse(FishHealthtxt.text);
+            float value = float.Parse(FishHealthtxt.text);
+            if (value > 0)
+                DDOLV.defaultHungerLimit = value;
         }
 
         if (FishStresstxt.text != "")
         {
-            DDOLV.defaultStressLimit = float.Parse(FishStresstxt.text);
+            float value = float.Parse(FishStresstxt.text);
+            if (value > 0)
+                DDOLV.defaultStressLimit = value;
         }
 
         if (SceneManager.GetActiveScene().buildIndex == 0)
@@ -180,8 +185,12 @@ public class UIHandler : MonoBehaviour
             }
             if (SimSpeedtxt.text != "")
             {
-                DDOLV.defaultSimSpeed = float.Parse(SimSpeedtxt.text);
-                SetSimSpeed(DDOLV.defaultSimSpeed);
+                float value = float.Parse(SimSpeedtxt.text);
+                if(value > 0)
+                {
+                    DDOLV.defaultSimSpeed = value;
+                    SetSimSpeed(DDOLV.defaultSimSpeed);
+                }
             }
         }
         else
