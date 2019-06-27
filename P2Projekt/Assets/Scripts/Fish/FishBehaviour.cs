@@ -564,6 +564,7 @@ public class FishBehaviour : MonoBehaviour
     {
         Vector3 closestPoint = arrayOfPoints[0];
         Vector3 placeholderpoint = new Vector3();
+
         foreach (Vector2 point in arrayOfPoints)
         {
             placeholderpoint = new Vector3(point.x, transform.position.y, point.y);
