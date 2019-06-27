@@ -8,7 +8,7 @@ public class DataManager : MonoBehaviour
     public List<Fish> fishList = new List<Fish>();
     public List<Fish> fishPool = new List<Fish>();
     public List<Food> foodList = new List<Food>();
-    public List<Food> foodPool = new List<Food>();
+    public List<Food> foodPool = new List<Food>(); //Total useless
     public GameObject RainbowPreFab;
     public GameObject FoodPreFab;
     public int deathCounter = 0;
@@ -39,7 +39,7 @@ public class DataManager : MonoBehaviour
         string path = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
         if (System.IO.Directory.Exists(path))
         {
-            string data = JsonUtility.ToJson(stats);
+            string data = JsonUtility.ToJson(stats, true);
 
             // Generate the file name based on the current date and amount of files
             string date =  DateTime.Now.ToString("d", culture);
@@ -181,7 +181,6 @@ public class DataManager : MonoBehaviour
                 _stressSum /= fishList.Count;
             }
             _timer = 0;
-
         }
     }
     
