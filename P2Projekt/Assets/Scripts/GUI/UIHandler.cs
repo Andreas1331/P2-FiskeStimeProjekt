@@ -87,7 +87,7 @@ public class UIHandler : MonoBehaviour
         }
     }
 
-    public void SetCageSizeAfterCageLoad() //Gets called after CageManager
+    public void SetCageSizeAfterCageLoad() //Gets called from CageManager
     {
         SizeOfCageSlider.value = DDOLV.defaultRadiusOfCage;
         DepthOfCageSlider.value = DDOLV.defaultDepthOfCage;

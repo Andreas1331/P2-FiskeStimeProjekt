@@ -562,7 +562,7 @@ public class FishBehaviour : MonoBehaviour
 
     private Vector3 GetClosestPointVec2(List<Vector2> arrayOfPoints)
     {
-        Vector3 closestPoint = arrayOfPoints[0];
+        Vector3 closestPoint = new Vector3(arrayOfPoints[0].x, transform.position.y, arrayOfPoints[0].y); //Old: arrayOfPoints[0];
         Vector3 placeholderpoint = new Vector3();
 
         foreach (Vector2 point in arrayOfPoints)
